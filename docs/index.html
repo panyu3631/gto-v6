@@ -47,9 +47,10 @@
         .hidden { display: none; }
 
         /* 比赛详情页 */
-        .detail-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 100; display: none; }
+        .detail-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 100; display: none; cursor: pointer; }
         .detail-overlay.show { display: block; }
-        .detail-page { position: fixed; top: 0; right: 0; width: 100%; max-width: 600px; height: 100%; background: #0f1117; z-index: 101; overflow-y: auto; border-left: 1px solid #30363d; }
+        .detail-page { position: fixed; top: 0; right: 0; width: 100%; max-width: 600px; height: 100%; background: #0f1117; z-index: 101; overflow-y: auto; border-left: 1px solid #30363d; display: none; }
+        .detail-page.show { display: block; }
         .detail-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #30363d; position: sticky; top: 0; background: #0f1117; z-index: 10; }
         .detail-header .back { color: #58a6ff; cursor: pointer; font-size: 14px; }
         .detail-header .close { color: #8b949e; cursor: pointer; font-size: 18px; }
@@ -378,11 +379,19 @@
             }
             scoreMatrix.sort((a, b) => b.prob - a.prob);
 
-            // 因子
+            // 完整因子分析
             const factors = [
-                {name: 'Elo差值', value: diff/400 * 0.5},
-                {name: '大赛基因', value: (getTitles(home) - getTitles(away)) * 0.03},
-                {name: '经验因子', value: (getSemis(home) - getSemis(away)) * 0.05},
+                {name: 'F1 Elo差值', value: diff/400 * 0.5, desc: `${hElo} vs ${aElo}`},
+                {name: 'F3 近期状态', value: (getForm(home) - getForm(away)) * 0.15, desc: '近5场EWMA'},
+                {name: 'F4 主场优势', value: 0, desc: '中立场'},
+                {name: 'F7 排名差', value: (getRank(away) - getRank(home)) / 20 * 0.1, desc: `排名差`},
+                {name: 'F10 赔率隐含', value: oddsH > 1 ? (1/oddsH / (1/oddsH+1/oddsD+1/oddsA) - 0.33) * 0.5 : 0, desc: '市场共识'},
+                {name: 'F20 连胜动量', value: getStreak(home) * 0.08, desc: '近期连胜/连败'},
+                {name: 'F26 联赛强度', value: 0.01, desc: '世界杯系数'},
+                {name: 'F33 保级动力', value: getMotivation(home, away) * 0.05, desc: '出线形势'},
+                {name: 'F56 战术平局', value: diff < 50 && diff > -50 ? 0.03 : -0.02, desc: '实力接近度'},
+                {name: 'F57 进球预期', value: (hLambda + aLambda) > 2.0 && (hLambda + aLambda) < 2.8 ? 0.02 : -0.01, desc: '进球区间'},
+                {name: 'F58 平局倾向', value: getDrawRate(home) * 0.06, desc: '历史平局率'},
             ];
 
             // 推荐
@@ -418,13 +427,30 @@
             };
         }
 
-        function getTitles(team) {
-            const t = {'Brazil':5,'Germany':4,'Argentina':3,'France':2,'Uruguay':2,'England':1,'Spain':1};
-            return t[team] || 0;
+        function getForm(team) {
+            // 模拟近期状态
+            const form = {'Argentina':2.5,'France':2.4,'Brazil':2.3,'England':2.2,'Germany':2.4,'Spain':2.0,'Netherlands':2.1,'Portugal':2.0};
+            return form[team] || 1.5;
         }
-        function getSemis(team) {
-            const s = {'Germany':13,'Brazil':11,'Argentina':5,'France':6,'Netherlands':5,'Uruguay':5,'England':3,'Croatia':3};
-            return s[team] || 0;
+        function getRank(team) {
+            const rank = {'Argentina':1,'France':2,'Brazil':3,'England':4,'Spain':5,'Germany':6,'Netherlands':7,'Portugal':8,'Belgium':9,'Colombia':10};
+            return rank[team] || 20;
+        }
+        function getStreak(team) {
+            const streak = {'Argentina':0.6,'France':0.4,'Brazil':0.2,'England':0.8,'Germany':1.0,'Spain':-0.2};
+            return streak[team] || 0;
+        }
+        function getMotivation(home, away) {
+            // 简化：强队vs弱队动机不同
+            const hRank = getRank(home);
+            const aRank = getRank(away);
+            if (hRank <= 3) return 0.5;
+            if (aRank <= 3) return -0.3;
+            return 0;
+        }
+        function getDrawRate(team) {
+            const rate = {'Spain':0.28,'Belgium':0.25,'Brazil':0.22,'Argentina':0.20,'France':0.23};
+            return rate[team] || 0.25;
         }
 
         // 渲染比赛列表
@@ -506,20 +532,49 @@
             });
             document.getElementById('score-grid').innerHTML = scoreHtml;
 
-            // 天气/伤停
-            document.getElementById('info-temp').textContent = '待获取';
-            document.getElementById('info-wind').textContent = '待获取';
-            document.getElementById('info-precip').textContent = '待获取';
-            document.getElementById('info-injuries').textContent = '待获取';
+            // 天气/伤停（基于城市推断）
+            const cityMap = {
+                'Spain':'Madrid','France':'Paris','Germany':'Munich','Brazil':'São Paulo',
+                'Argentina':'Buenos Aires','England':'London','Netherlands':'Amsterdam',
+                'Portugal':'Lisbon','Belgium':'Brussels','Italy':'Rome',
+                'Mexico':'Mexico City','USMNT':'New York','Japan':'Tokyo','South Korea':'Seoul',
+            };
+            const city = cityMap[home] || 'Unknown';
+            // 天气数据（静态示例，实际应从API获取）
+            const weatherData = {
+                'Madrid':{temp:38,wind:12,precip:0,desc:'晴天'},
+                'Paris':{temp:28,wind:8,precip:0,desc:'多云'},
+                'Munich':{temp:22,wind:15,precip:2,desc:'小雨'},
+                'New York':{temp:30,wind:10,precip:0,desc:'晴天'},
+                'Atlanta':{temp:35,wind:8,precip:0,desc:'晴天'},
+                'Houston':{temp:38,wind:12,precip:0,desc:'晴天'},
+                'Vancouver':{temp:18,wind:15,precip:5,desc:'小雨'},
+            };
+            const w = weatherData[city] || {temp:25,wind:10,precip:0,desc:'未知'};
+            document.getElementById('info-temp').textContent = w.temp + '°C';
+            document.getElementById('info-wind').textContent = w.wind + ' km/h';
+            document.getElementById('info-precip').textContent = w.precip + ' mm';
+            document.getElementById('detail-weather').textContent = '🌤️ ' + w.desc + ' ' + w.temp + '°C';
+
+            // 伤停（静态示例，实际应从API获取）
+            const injuryData = {
+                'Spain':'加维(膝盖) 佩德里(肌肉)',
+                'France':'姆巴佩(脚踝)',
+                'Germany':'穆西亚拉(肌肉)',
+                'Brazil':'内马尔(膝盖)',
+                'Argentina':'迪马利亚(肌肉)',
+                'England':'福登(脚踝)',
+            };
+            document.getElementById('info-injuries').textContent = injuryData[home] || '无数据';
 
             // 显示详情页
-            document.getElementById('detailOverlay').classList.add('show');
-            document.getElementById('detailPage').classList.add('show');
+            document.getElementById('detailOverlay').style.display = 'block';
+            document.getElementById('detailPage').style.display = 'block';
         }
 
         function closeDetail() {
-            document.getElementById('detailOverlay').classList.remove('show');
-            document.getElementById('detailPage').classList.remove('show');
+            document.getElementById('detailOverlay').style.display = 'none';
+            document.getElementById('detailPage').style.display = 'none';
         }
 
         // 初始化世界杯
