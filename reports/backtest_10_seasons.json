@@ -1,0 +1,2542 @@
+{
+  "seasons": [
+    {
+      "season": "2014-15",
+      "matches": 1826,
+      "total_bets": 4197,
+      "total_wins": 2846,
+      "total_staked": 343619917.87,
+      "total_returned": 434517102.31,
+      "profit": 90897184.43,
+      "roi": 0.2645,
+      "strategies": {
+        "1x2": {
+          "bets": 495,
+          "wins": 219,
+          "staked": 35284221.929468304,
+          "returned": 30586100.409442224
+        },
+        "ou": {
+          "bets": 3702,
+          "wins": 2627,
+          "staked": 308335695.94383055,
+          "returned": 403931001.89766103
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2015-16",
+      "matches": 1826,
+      "total_bets": 4218,
+      "total_wins": 2816,
+      "total_staked": 249036570.24,
+      "total_returned": 316191982.79,
+      "profit": 67155412.56,
+      "roi": 0.2697,
+      "strategies": {
+        "1x2": {
+          "bets": 518,
+          "wins": 210,
+          "staked": 33739341.16453366,
+          "returned": 31719734.35537361
+        },
+        "ou": {
+          "bets": 3700,
+          "wins": 2606,
+          "staked": 215297229.07183737,
+          "returned": 284472248.43786883
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2016-17",
+      "matches": 1826,
+      "total_bets": 4250,
+      "total_wins": 2874,
+      "total_staked": 362188333.83,
+      "total_returned": 466052229.2,
+      "profit": 103863895.37,
+      "roi": 0.2868,
+      "strategies": {
+        "1x2": {
+          "bets": 548,
+          "wins": 274,
+          "staked": 44131382.40515294,
+          "returned": 42776091.6212594
+        },
+        "ou": {
+          "bets": 3702,
+          "wins": 2600,
+          "staked": 318056951.42636853,
+          "returned": 423276137.5753374
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2017-18",
+      "matches": 1826,
+      "total_bets": 4161,
+      "total_wins": 2807,
+      "total_staked": 256191708.58,
+      "total_returned": 328030212.0,
+      "profit": 71838503.42,
+      "roi": 0.2804,
+      "strategies": {
+        "1x2": {
+          "bets": 459,
+          "wins": 187,
+          "staked": 24254512.399656758,
+          "returned": 18913347.73674148
+        },
+        "ou": {
+          "bets": 3702,
+          "wins": 2620,
+          "staked": 231937196.18046325,
+          "returned": 309116864.26510507
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2018-19",
+      "matches": 1826,
+      "total_bets": 4179,
+      "total_wins": 2836,
+      "total_staked": 308648856.22,
+      "total_returned": 396077448.36,
+      "profit": 87428592.14,
+      "roi": 0.2833,
+      "strategies": {
+        "1x2": {
+          "bets": 477,
+          "wins": 192,
+          "staked": 35192393.74335843,
+          "returned": 30648388.840009846
+        },
+        "ou": {
+          "bets": 3702,
+          "wins": 2644,
+          "staked": 273456462.4721009,
+          "returned": 365429059.5199961
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2019-20",
+      "matches": 1725,
+      "total_bets": 4855,
+      "total_wins": 3133,
+      "total_staked": 320957220.19,
+      "total_returned": 394527643.86,
+      "profit": 73570423.68,
+      "roi": 0.2292,
+      "strategies": {
+        "1x2": {
+          "bets": 479,
+          "wins": 207,
+          "staked": 30892281.10511669,
+          "returned": 28787152.851998966
+        },
+        "ou": {
+          "bets": 3500,
+          "wins": 2524,
+          "staked": 236164564.16614473,
+          "returned": 319075801.52541256
+        },
+        "ah": {
+          "bets": 876,
+          "wins": 402,
+          "staked": 53900374.91476738,
+          "returned": 46664689.484669626
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2020-21",
+      "matches": 1826,
+      "total_bets": 5060,
+      "total_wins": 3265,
+      "total_staked": 278384412.5,
+      "total_returned": 331891847.88,
+      "profit": 53507435.38,
+      "roi": 0.1922,
+      "strategies": {
+        "1x2": {
+          "bets": 489,
+          "wins": 195,
+          "staked": 22537705.01958108,
+          "returned": 21167142.734584738
+        },
+        "ou": {
+          "bets": 3702,
+          "wins": 2671,
+          "staked": 208505541.9198998,
+          "returned": 270026568.05326617
+        },
+        "ah": {
+          "bets": 869,
+          "wins": 399,
+          "staked": 47341165.56179497,
+          "returned": 40698137.09702427
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2021-22",
+      "matches": 1826,
+      "total_bets": 5094,
+      "total_wins": 3231,
+      "total_staked": 142190643.31,
+      "total_returned": 171663147.49,
+      "profit": 29472504.18,
+      "roi": 0.2073,
+      "strategies": {
+        "1x2": {
+          "bets": 485,
+          "wins": 200,
+          "staked": 12311694.785292355,
+          "returned": 10770064.774031779
+        },
+        "ou": {
+          "bets": 3700,
+          "wins": 2617,
+          "staked": 104916761.68193871,
+          "returned": 140142331.38712132
+        },
+        "ah": {
+          "bets": 909,
+          "wins": 414,
+          "staked": 24962186.842021693,
+          "returned": 20750751.331380382
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2022-23",
+      "matches": 1826,
+      "total_bets": 5175,
+      "total_wins": 3377,
+      "total_staked": 411601664.07,
+      "total_returned": 508017124.6,
+      "profit": 96415460.52,
+      "roi": 0.2342,
+      "strategies": {
+        "1x2": {
+          "bets": 550,
+          "wins": 268,
+          "staked": 41713591.97381637,
+          "returned": 48255811.11250356
+        },
+        "ou": {
+          "bets": 3702,
+          "wins": 2670,
+          "staked": 296258567.9797546,
+          "returned": 395357049.1375983
+        },
+        "ah": {
+          "bets": 923,
+          "wins": 439,
+          "staked": 73629504.12085734,
+          "returned": 64404264.34930205
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2023-24",
+      "matches": 1752,
+      "total_bets": 4965,
+      "total_wins": 3163,
+      "total_staked": 180857012.13,
+      "total_returned": 213132571.74,
+      "profit": 32275559.61,
+      "roi": 0.1785,
+      "strategies": {
+        "1x2": {
+          "bets": 514,
+          "wins": 232,
+          "staked": 16223749.099742614,
+          "returned": 13869648.08758394
+        },
+        "ou": {
+          "bets": 3554,
+          "wins": 2510,
+          "staked": 132673033.5878919,
+          "returned": 173817794.6148391
+        },
+        "ah": {
+          "bets": 897,
+          "wins": 421,
+          "staked": 31960229.439594053,
+          "returned": 25445129.032887228
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    }
+  ],
+  "grand_total": {
+    "1x2": {
+      "bets": 5014,
+      "wins": 2184,
+      "staked": 296280873.6257192,
+      "returned": 277493482.5235295
+    },
+    "ou": {
+      "bets": 36666,
+      "wins": 26089,
+      "staked": 2325602004.4302306,
+      "returned": 3084644856.414206
+    },
+    "ah": {
+      "bets": 4474,
+      "wins": 2075,
+      "staked": 231793460.87903544,
+      "returned": 197962971.29526353
+    },
+    "parlay": {
+      "bets": 0,
+      "wins": 0,
+      "staked": 0,
+      "returned": 0
+    }
+  },
+  "per_match": [
+    {
+      "season": "2014-15",
+      "league": "premier_league",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 18643549.64,
+      "profit": 18633549.64,
+      "mdd": 0.0873,
+      "stats": {
+        "1x2": {
+          "bets": 98,
+          "wins": 39,
+          "staked": 8550802.793890031,
+          "returned": 6604282.54244537,
+          "selections": {
+            "home": 82,
+            "draw": 0,
+            "away": 16,
+            "home_w": 33,
+            "draw_w": 0,
+            "away_w": 6
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 512,
+          "staked": 62732501.41623772,
+          "returned": 83312571.30843303
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2014-15",
+      "league": "la_liga",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 14617562.16,
+      "profit": 14607562.16,
+      "mdd": 0.1749,
+      "stats": {
+        "1x2": {
+          "bets": 82,
+          "wins": 35,
+          "staked": 5010133.756231056,
+          "returned": 3369259.4717649287,
+          "selections": {
+            "home": 64,
+            "draw": 0,
+            "away": 18,
+            "home_w": 30,
+            "draw_w": 0,
+            "away_w": 5
+          }
+        },
+        "ou": {
+          "bets": 1050,
+          "wins": 692,
+          "staked": 72001228.94071451,
+          "returned": 88249665.38941653
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2014-15",
+      "league": "bundesliga",
+      "matches": 306,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 4491290.04,
+      "profit": 4481290.04,
+      "mdd": 0.1012,
+      "stats": {
+        "1x2": {
+          "bets": 98,
+          "wins": 50,
+          "staked": 1448314.4270428326,
+          "returned": 1618768.4726157256,
+          "selections": {
+            "home": 87,
+            "draw": 0,
+            "away": 11,
+            "home_w": 45,
+            "draw_w": 0,
+            "away_w": 5
+          }
+        },
+        "ou": {
+          "bets": 552,
+          "wins": 394,
+          "staked": 8959258.193193063,
+          "returned": 13270094.183082452
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2014-15",
+      "league": "serie_a",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 22020857.78,
+      "profit": 22010857.78,
+      "mdd": 0.09,
+      "stats": {
+        "1x2": {
+          "bets": 94,
+          "wins": 35,
+          "staked": 8310536.447593469,
+          "returned": 8863797.267319918,
+          "selections": {
+            "home": 73,
+            "draw": 0,
+            "away": 21,
+            "home_w": 28,
+            "draw_w": 0,
+            "away_w": 7
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 516,
+          "staked": 71406432.54532029,
+          "returned": 92864029.50754918
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2014-15",
+      "league": "ligue_1",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 31173924.81,
+      "profit": 31163924.81,
+      "mdd": 0.0769,
+      "stats": {
+        "1x2": {
+          "bets": 123,
+          "wins": 60,
+          "staked": 11964434.504710916,
+          "returned": 10129992.655296281,
+          "selections": {
+            "home": 103,
+            "draw": 0,
+            "away": 20,
+            "home_w": 53,
+            "draw_w": 0,
+            "away_w": 7
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 513,
+          "staked": 93236274.84836501,
+          "returned": 126234641.50917983
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2015-16",
+      "league": "premier_league",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 10979746.59,
+      "profit": 10969746.59,
+      "mdd": 0.1348,
+      "stats": {
+        "1x2": {
+          "bets": 109,
+          "wins": 44,
+          "staked": 5894529.814578565,
+          "returned": 4738507.15130473,
+          "selections": {
+            "home": 68,
+            "draw": 0,
+            "away": 41,
+            "home_w": 29,
+            "draw_w": 0,
+            "away_w": 15
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 500,
+          "staked": 36103054.77256985,
+          "returned": 48228824.02931854
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2015-16",
+      "league": "la_liga",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 8489851.9,
+      "profit": 8479851.9,
+      "mdd": 0.2053,
+      "stats": {
+        "1x2": {
+          "bets": 105,
+          "wins": 39,
+          "staked": 3339637.395593947,
+          "returned": 3801217.603106414,
+          "selections": {
+            "home": 91,
+            "draw": 0,
+            "away": 14,
+            "home_w": 37,
+            "draw_w": 0,
+            "away_w": 2
+          }
+        },
+        "ou": {
+          "bets": 1050,
+          "wins": 689,
+          "staked": 33791273.01654747,
+          "returned": 41809544.70721999
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2015-16",
+      "league": "bundesliga",
+      "matches": 306,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 3003169.53,
+      "profit": 2993169.53,
+      "mdd": 0.1084,
+      "stats": {
+        "1x2": {
+          "bets": 77,
+          "wins": 35,
+          "staked": 1554478.520252059,
+          "returned": 1718199.9388556303,
+          "selections": {
+            "home": 64,
+            "draw": 0,
+            "away": 13,
+            "home_w": 29,
+            "draw_w": 0,
+            "away_w": 6
+          }
+        },
+        "ou": {
+          "bets": 552,
+          "wins": 393,
+          "staked": 8400852.540207976,
+          "returned": 11230300.653348573
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2015-16",
+      "league": "serie_a",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 13026503.39,
+      "profit": 13016503.39,
+      "mdd": 0.0734,
+      "stats": {
+        "1x2": {
+          "bets": 94,
+          "wins": 34,
+          "staked": 6528258.7987042125,
+          "returned": 3590449.979199537,
+          "selections": {
+            "home": 73,
+            "draw": 0,
+            "away": 21,
+            "home_w": 26,
+            "draw_w": 0,
+            "away_w": 8
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 510,
+          "staked": 45527758.644009866,
+          "returned": 61482070.85240777
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2015-16",
+      "league": "ligue_1",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 31706141.14,
+      "profit": 31696141.14,
+      "mdd": 0.0758,
+      "stats": {
+        "1x2": {
+          "bets": 133,
+          "wins": 58,
+          "staked": 16422436.635404877,
+          "returned": 17871359.6829073,
+          "selections": {
+            "home": 103,
+            "draw": 0,
+            "away": 30,
+            "home_w": 43,
+            "draw_w": 0,
+            "away_w": 15
+          }
+        },
+        "ou": {
+          "bets": 698,
+          "wins": 514,
+          "staked": 91474290.09850217,
+          "returned": 121721508.19557399
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2016-17",
+      "league": "premier_league",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 35615361.67,
+      "profit": 35605361.67,
+      "mdd": 0.0734,
+      "stats": {
+        "1x2": {
+          "bets": 101,
+          "wins": 59,
+          "staked": 10897510.7371452,
+          "returned": 14899360.981340198,
+          "selections": {
+            "home": 84,
+            "draw": 0,
+            "away": 17,
+            "home_w": 54,
+            "draw_w": 0,
+            "away_w": 5
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 504,
+          "staked": 93366652.86680579,
+          "returned": 124970164.29248534
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2016-17",
+      "league": "la_liga",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 2637440.93,
+      "profit": 2627440.93,
+      "mdd": 0.2109,
+      "stats": {
+        "1x2": {
+          "bets": 106,
+          "wins": 49,
+          "staked": 1747868.5938410233,
+          "returned": 1360111.2482263674,
+          "selections": {
+            "home": 81,
+            "draw": 0,
+            "away": 25,
+            "home_w": 42,
+            "draw_w": 0,
+            "away_w": 7
+          }
+        },
+        "ou": {
+          "bets": 1050,
+          "wins": 656,
+          "staked": 21126621.82371277,
+          "returned": 24141820.100746807
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2016-17",
+      "league": "bundesliga",
+      "matches": 306,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 13156676.67,
+      "profit": 13146676.67,
+      "mdd": 0.1607,
+      "stats": {
+        "1x2": {
+          "bets": 104,
+          "wins": 54,
+          "staked": 5524202.127266127,
+          "returned": 5864253.238266864,
+          "selections": {
+            "home": 86,
+            "draw": 0,
+            "away": 18,
+            "home_w": 47,
+            "draw_w": 0,
+            "away_w": 7
+          }
+        },
+        "ou": {
+          "bets": 552,
+          "wins": 413,
+          "staked": 36063477.06084325,
+          "returned": 48870102.62065383
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2016-17",
+      "league": "serie_a",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 26437762.35,
+      "profit": 26427762.35,
+      "mdd": 0.0487,
+      "stats": {
+        "1x2": {
+          "bets": 85,
+          "wins": 43,
+          "staked": 10697176.243792614,
+          "returned": 6506501.9822979905,
+          "selections": {
+            "home": 62,
+            "draw": 0,
+            "away": 23,
+            "home_w": 31,
+            "draw_w": 0,
+            "away_w": 12
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 510,
+          "staked": 97278185.20064545,
+          "returned": 127896621.80907904
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2016-17",
+      "league": "ligue_1",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 26066653.75,
+      "profit": 26056653.75,
+      "mdd": 0.0909,
+      "stats": {
+        "1x2": {
+          "bets": 152,
+          "wins": 69,
+          "staked": 15264624.703107977,
+          "returned": 14145864.171127979,
+          "selections": {
+            "home": 130,
+            "draw": 0,
+            "away": 22,
+            "home_w": 59,
+            "draw_w": 0,
+            "away_w": 10
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 517,
+          "staked": 70222014.47436126,
+          "returned": 97397428.75237237
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2017-18",
+      "league": "premier_league",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 12904825.46,
+      "profit": 12894825.46,
+      "mdd": 0.0691,
+      "stats": {
+        "1x2": {
+          "bets": 90,
+          "wins": 33,
+          "staked": 5841801.740893297,
+          "returned": 4791028.759652679,
+          "selections": {
+            "home": 75,
+            "draw": 0,
+            "away": 15,
+            "home_w": 28,
+            "draw_w": 0,
+            "away_w": 5
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 506,
+          "staked": 40287337.09008574,
+          "returned": 54232935.53267094
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2017-18",
+      "league": "la_liga",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 5256857.15,
+      "profit": 5246857.15,
+      "mdd": 0.2608,
+      "stats": {
+        "1x2": {
+          "bets": 113,
+          "wins": 50,
+          "staked": 3726061.007072577,
+          "returned": 3723366.671000069,
+          "selections": {
+            "home": 80,
+            "draw": 0,
+            "away": 33,
+            "home_w": 37,
+            "draw_w": 0,
+            "away_w": 13
+          }
+        },
+        "ou": {
+          "bets": 1050,
+          "wins": 674,
+          "staked": 34816168.775221884,
+          "returned": 40065720.26211533
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2017-18",
+      "league": "bundesliga",
+      "matches": 306,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 4625024.95,
+      "profit": 4615024.95,
+      "mdd": 0.0692,
+      "stats": {
+        "1x2": {
+          "bets": 93,
+          "wins": 35,
+          "staked": 2335813.018575461,
+          "returned": 2020103.6759428175,
+          "selections": {
+            "home": 74,
+            "draw": 0,
+            "away": 19,
+            "home_w": 29,
+            "draw_w": 0,
+            "away_w": 6
+          }
+        },
+        "ou": {
+          "bets": 552,
+          "wins": 411,
+          "staked": 13331808.29572084,
+          "returned": 18262542.585215867
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2017-18",
+      "league": "serie_a",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 17691985.12,
+      "profit": 17681985.12,
+      "mdd": 0.0556,
+      "stats": {
+        "1x2": {
+          "bets": 63,
+          "wins": 24,
+          "staked": 4692247.824317154,
+          "returned": 2710665.1800714303,
+          "selections": {
+            "home": 42,
+            "draw": 0,
+            "away": 21,
+            "home_w": 14,
+            "draw_w": 0,
+            "away_w": 10
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 511,
+          "staked": 62776252.4610967,
+          "returned": 82439820.23014955
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2017-18",
+      "league": "ligue_1",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 31409810.74,
+      "profit": 31399810.74,
+      "mdd": 0.071,
+      "stats": {
+        "1x2": {
+          "bets": 100,
+          "wins": 45,
+          "staked": 7658588.808798268,
+          "returned": 5668183.450074483,
+          "selections": {
+            "home": 83,
+            "draw": 0,
+            "away": 17,
+            "home_w": 40,
+            "draw_w": 0,
+            "away_w": 5
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 518,
+          "staked": 80725629.55833808,
+          "returned": 114115845.65495335
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2018-19",
+      "league": "premier_league",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 28118873.01,
+      "profit": 28108873.01,
+      "mdd": 0.0746,
+      "stats": {
+        "1x2": {
+          "bets": 86,
+          "wins": 37,
+          "staked": 13875809.873605398,
+          "returned": 11101632.445719164,
+          "selections": {
+            "home": 58,
+            "draw": 0,
+            "away": 28,
+            "home_w": 25,
+            "draw_w": 0,
+            "away_w": 12
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 517,
+          "staked": 87293717.83500855,
+          "returned": 118176768.2701499
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2018-19",
+      "league": "la_liga",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 15467419.74,
+      "profit": 15457419.74,
+      "mdd": 0.1744,
+      "stats": {
+        "1x2": {
+          "bets": 104,
+          "wins": 32,
+          "staked": 5470636.828850641,
+          "returned": 4505453.811154087,
+          "selections": {
+            "home": 81,
+            "draw": 0,
+            "away": 23,
+            "home_w": 30,
+            "draw_w": 0,
+            "away_w": 2
+          }
+        },
+        "ou": {
+          "bets": 1050,
+          "wins": 708,
+          "staked": 60632119.37248159,
+          "returned": 77054722.13246338
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2018-19",
+      "league": "bundesliga",
+      "matches": 306,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 3814316.79,
+      "profit": 3804316.79,
+      "mdd": 0.0769,
+      "stats": {
+        "1x2": {
+          "bets": 75,
+          "wins": 38,
+          "staked": 1362407.2072369712,
+          "returned": 1623931.5049999792,
+          "selections": {
+            "home": 50,
+            "draw": 0,
+            "away": 25,
+            "home_w": 26,
+            "draw_w": 0,
+            "away_w": 12
+          }
+        },
+        "ou": {
+          "bets": 552,
+          "wins": 398,
+          "staked": 12197925.203201292,
+          "returned": 15740717.696791073
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2018-19",
+      "league": "serie_a",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 29262182.63,
+      "profit": 29252182.63,
+      "mdd": 0.0839,
+      "stats": {
+        "1x2": {
+          "bets": 91,
+          "wins": 38,
+          "staked": 8610677.181324461,
+          "returned": 8435156.262675455,
+          "selections": {
+            "home": 65,
+            "draw": 0,
+            "away": 26,
+            "home_w": 26,
+            "draw_w": 0,
+            "away_w": 12
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 518,
+          "staked": 76700806.75386205,
+          "returned": 106128510.30555618
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2018-19",
+      "league": "ligue_1",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 10815799.97,
+      "profit": 10805799.97,
+      "mdd": 0.0777,
+      "stats": {
+        "1x2": {
+          "bets": 121,
+          "wins": 47,
+          "staked": 5872862.652340966,
+          "returned": 4982214.815461159,
+          "selections": {
+            "home": 94,
+            "draw": 0,
+            "away": 27,
+            "home_w": 37,
+            "draw_w": 0,
+            "away_w": 10
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 503,
+          "staked": 36631893.3075474,
+          "returned": 48328341.11503558
+        },
+        "ah": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2019-20",
+      "league": "premier_league",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 31485557.64,
+      "profit": 31475557.64,
+      "mdd": 0.1784,
+      "stats": {
+        "1x2": {
+          "bets": 98,
+          "wins": 43,
+          "staked": 13319471.132208543,
+          "returned": 14084112.52278629,
+          "selections": {
+            "home": 73,
+            "draw": 0,
+            "away": 25,
+            "home_w": 30,
+            "draw_w": 0,
+            "away_w": 13
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 533,
+          "staked": 73459902.22569972,
+          "returned": 104475597.00559886
+        },
+        "ah": {
+          "bets": 188,
+          "wins": 86,
+          "staked": 19402484.486691933,
+          "returned": 19097705.95991607
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2019-20",
+      "league": "la_liga",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 22773886.84,
+      "profit": 22763886.84,
+      "mdd": 0.1604,
+      "stats": {
+        "1x2": {
+          "bets": 126,
+          "wins": 51,
+          "staked": 13327751.199287612,
+          "returned": 10256114.323049238,
+          "selections": {
+            "home": 108,
+            "draw": 0,
+            "away": 18,
+            "home_w": 44,
+            "draw_w": 0,
+            "away_w": 7
+          }
+        },
+        "ou": {
+          "bets": 1050,
+          "wins": 716,
+          "staked": 117660855.34688464,
+          "returned": 149545439.0994522
+        },
+        "ah": {
+          "bets": 201,
+          "wins": 92,
+          "staked": 21930119.428713772,
+          "returned": 15881059.392094309
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2019-20",
+      "league": "bundesliga",
+      "matches": 306,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 1075367.85,
+      "profit": 1065367.85,
+      "mdd": 0.2687,
+      "stats": {
+        "1x2": {
+          "bets": 72,
+          "wins": 28,
+          "staked": 568419.8448233341,
+          "returned": 500225.9499901049,
+          "selections": {
+            "home": 52,
+            "draw": 0,
+            "away": 20,
+            "home_w": 22,
+            "draw_w": 0,
+            "away_w": 6
+          }
+        },
+        "ou": {
+          "bets": 552,
+          "wins": 399,
+          "staked": 4735329.031692526,
+          "returned": 6269978.522572058
+        },
+        "ah": {
+          "bets": 147,
+          "wins": 60,
+          "staked": 1274615.2577402021,
+          "returned": 873527.5118715414
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2019-20",
+      "league": "serie_a",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 16461713.15,
+      "profit": 16451713.15,
+      "mdd": 0.1259,
+      "stats": {
+        "1x2": {
+          "bets": 94,
+          "wins": 42,
+          "staked": 2880826.5987030705,
+          "returned": 2965636.3675763877,
+          "selections": {
+            "home": 62,
+            "draw": 0,
+            "away": 32,
+            "home_w": 30,
+            "draw_w": 0,
+            "away_w": 12
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 522,
+          "staked": 36214932.48130838,
+          "returned": 53143549.65811481
+        },
+        "ah": {
+          "bets": 190,
+          "wins": 84,
+          "staked": 10076452.662644051,
+          "returned": 9514738.866328368
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2019-20",
+      "league": "ligue_1",
+      "matches": 279,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 1823898.19,
+      "profit": 1813898.19,
+      "mdd": 0.1589,
+      "stats": {
+        "1x2": {
+          "bets": 89,
+          "wins": 43,
+          "staked": 795812.3300941306,
+          "returned": 981063.6885969443,
+          "selections": {
+            "home": 77,
+            "draw": 0,
+            "away": 12,
+            "home_w": 37,
+            "draw_w": 0,
+            "away_w": 6
+          }
+        },
+        "ou": {
+          "bets": 498,
+          "wins": 354,
+          "staked": 4093545.080559457,
+          "returned": 5641237.239674626
+        },
+        "ah": {
+          "bets": 150,
+          "wins": 80,
+          "staked": 1216703.078977424,
+          "returned": 1297657.7544593476
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2020-21",
+      "league": "premier_league",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 12366371.53,
+      "profit": 12356371.53,
+      "mdd": 0.1891,
+      "stats": {
+        "1x2": {
+          "bets": 79,
+          "wins": 34,
+          "staked": 2530844.957203508,
+          "returned": 3697520.4067422315,
+          "selections": {
+            "home": 44,
+            "draw": 0,
+            "away": 35,
+            "home_w": 19,
+            "draw_w": 0,
+            "away_w": 15
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 517,
+          "staked": 27316910.763806704,
+          "returned": 38681473.80829508
+        },
+        "ah": {
+          "bets": 179,
+          "wins": 77,
+          "staked": 7103671.327224033,
+          "returned": 6928804.361976879
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2020-21",
+      "league": "la_liga",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 18222065.66,
+      "profit": 18212065.66,
+      "mdd": 0.1584,
+      "stats": {
+        "1x2": {
+          "bets": 106,
+          "wins": 43,
+          "staked": 8995934.598325243,
+          "returned": 8785944.40784786,
+          "selections": {
+            "home": 88,
+            "draw": 0,
+            "away": 18,
+            "home_w": 35,
+            "draw_w": 0,
+            "away_w": 8
+          }
+        },
+        "ou": {
+          "bets": 1050,
+          "wins": 715,
+          "staked": 103688014.58051857,
+          "returned": 125046981.22775745
+        },
+        "ah": {
+          "bets": 187,
+          "wins": 85,
+          "staked": 20275790.042757817,
+          "returned": 17338879.247709915
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2020-21",
+      "league": "bundesliga",
+      "matches": 306,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 2234441.4,
+      "profit": 2224441.4,
+      "mdd": 0.1494,
+      "stats": {
+        "1x2": {
+          "bets": 97,
+          "wins": 39,
+          "staked": 1154763.4956037495,
+          "returned": 955270.8198530226,
+          "selections": {
+            "home": 68,
+            "draw": 0,
+            "away": 29,
+            "home_w": 28,
+            "draw_w": 0,
+            "away_w": 11
+          }
+        },
+        "ou": {
+          "bets": 552,
+          "wins": 404,
+          "staked": 6813176.661310016,
+          "returned": 9223328.89108957
+        },
+        "ah": {
+          "bets": 138,
+          "wins": 68,
+          "staked": 1845435.7515437163,
+          "returned": 1859217.5986674246
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2020-21",
+      "league": "serie_a",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 11447593.08,
+      "profit": 11437593.08,
+      "mdd": 0.1562,
+      "stats": {
+        "1x2": {
+          "bets": 99,
+          "wins": 38,
+          "staked": 5976544.097882136,
+          "returned": 5248818.822540265,
+          "selections": {
+            "home": 69,
+            "draw": 0,
+            "away": 30,
+            "home_w": 30,
+            "draw_w": 0,
+            "away_w": 8
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 516,
+          "staked": 41711863.264881596,
+          "returned": 56009235.410255834
+        },
+        "ah": {
+          "bets": 173,
+          "wins": 83,
+          "staked": 10073073.196768235,
+          "returned": 7941019.410300847
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2020-21",
+      "league": "ligue_1",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 9286963.71,
+      "profit": 9276963.71,
+      "mdd": 0.1266,
+      "stats": {
+        "1x2": {
+          "bets": 108,
+          "wins": 41,
+          "staked": 3879617.8705664417,
+          "returned": 2479588.2776013566,
+          "selections": {
+            "home": 70,
+            "draw": 0,
+            "away": 38,
+            "home_w": 25,
+            "draw_w": 0,
+            "away_w": 16
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 519,
+          "staked": 28975576.649382915,
+          "returned": 41065548.71586821
+        },
+        "ah": {
+          "bets": 192,
+          "wins": 86,
+          "staked": 8043195.243501174,
+          "returned": 6630216.478369208
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2021-22",
+      "league": "premier_league",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 8513262.04,
+      "profit": 8503262.04,
+      "mdd": 0.1155,
+      "stats": {
+        "1x2": {
+          "bets": 87,
+          "wins": 40,
+          "staked": 2476167.720776392,
+          "returned": 3088000.2006269163,
+          "selections": {
+            "home": 60,
+            "draw": 0,
+            "away": 27,
+            "home_w": 26,
+            "draw_w": 0,
+            "away_w": 14
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 505,
+          "staked": 23008035.56100145,
+          "returned": 31744343.255540248
+        },
+        "ah": {
+          "bets": 179,
+          "wins": 83,
+          "staked": 6003230.225022482,
+          "returned": 5158352.085640081
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2021-22",
+      "league": "la_liga",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 8926072.17,
+      "profit": 8916072.17,
+      "mdd": 0.2067,
+      "stats": {
+        "1x2": {
+          "bets": 119,
+          "wins": 50,
+          "staked": 4971305.95888059,
+          "returned": 3457229.3066432136,
+          "selections": {
+            "home": 94,
+            "draw": 0,
+            "away": 25,
+            "home_w": 42,
+            "draw_w": 0,
+            "away_w": 8
+          }
+        },
+        "ou": {
+          "bets": 1050,
+          "wins": 696,
+          "staked": 39600305.27352419,
+          "returned": 51470161.01825204
+        },
+        "ah": {
+          "bets": 201,
+          "wins": 98,
+          "staked": 7293591.936489202,
+          "returned": 5853885.0115591325
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2021-22",
+      "league": "bundesliga",
+      "matches": 306,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 1802418.69,
+      "profit": 1792418.69,
+      "mdd": 0.0999,
+      "stats": {
+        "1x2": {
+          "bets": 87,
+          "wins": 38,
+          "staked": 950106.4870015418,
+          "returned": 916563.7486595479,
+          "selections": {
+            "home": 72,
+            "draw": 0,
+            "away": 15,
+            "home_w": 32,
+            "draw_w": 0,
+            "away_w": 6
+          }
+        },
+        "ou": {
+          "bets": 552,
+          "wins": 398,
+          "staked": 6531110.1641703155,
+          "returned": 8816778.162019128
+        },
+        "ah": {
+          "bets": 147,
+          "wins": 67,
+          "staked": 1808479.9039974422,
+          "returned": 1348773.3335159805
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2021-22",
+      "league": "serie_a",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 3892768.78,
+      "profit": 3882768.78,
+      "mdd": 0.1298,
+      "stats": {
+        "1x2": {
+          "bets": 76,
+          "wins": 27,
+          "staked": 1603333.4423884652,
+          "returned": 1082011.4118540948,
+          "selections": {
+            "home": 44,
+            "draw": 0,
+            "away": 32,
+            "home_w": 17,
+            "draw_w": 0,
+            "away_w": 10
+          }
+        },
+        "ou": {
+          "bets": 698,
+          "wins": 512,
+          "staked": 14764685.778631104,
+          "returned": 20404318.65965398
+        },
+        "ah": {
+          "bets": 181,
+          "wins": 71,
+          "staked": 3936283.471756769,
+          "returned": 2700741.3963869032
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2021-22",
+      "league": "ligue_1",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 6387982.52,
+      "profit": 6377982.52,
+      "mdd": 0.1714,
+      "stats": {
+        "1x2": {
+          "bets": 116,
+          "wins": 45,
+          "staked": 2310781.1762453658,
+          "returned": 2226260.1062480076,
+          "selections": {
+            "home": 87,
+            "draw": 0,
+            "away": 29,
+            "home_w": 35,
+            "draw_w": 0,
+            "away_w": 10
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 506,
+          "staked": 21012624.904611655,
+          "returned": 27706730.29165593
+        },
+        "ah": {
+          "bets": 201,
+          "wins": 95,
+          "staked": 5920601.3047558,
+          "returned": 5688999.504278286
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2022-23",
+      "league": "premier_league",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 12098268.98,
+      "profit": 12088268.98,
+      "mdd": 0.1281,
+      "stats": {
+        "1x2": {
+          "bets": 110,
+          "wins": 58,
+          "staked": 5112802.559245923,
+          "returned": 6597422.54704469,
+          "selections": {
+            "home": 88,
+            "draw": 0,
+            "away": 22,
+            "home_w": 45,
+            "draw_w": 0,
+            "away_w": 13
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 502,
+          "staked": 35916307.84352641,
+          "returned": 47581095.69889201
+        },
+        "ah": {
+          "bets": 185,
+          "wins": 89,
+          "staked": 10292534.924675852,
+          "returned": 9231396.064632265
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2022-23",
+      "league": "la_liga",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 23984966.76,
+      "profit": 23974966.76,
+      "mdd": 0.1414,
+      "stats": {
+        "1x2": {
+          "bets": 111,
+          "wins": 54,
+          "staked": 15900582.685008906,
+          "returned": 13111692.74053059,
+          "selections": {
+            "home": 86,
+            "draw": 0,
+            "away": 25,
+            "home_w": 43,
+            "draw_w": 0,
+            "away_w": 11
+          }
+        },
+        "ou": {
+          "bets": 1050,
+          "wins": 703,
+          "staked": 113541179.07715252,
+          "returned": 143389048.13411856
+        },
+        "ah": {
+          "bets": 203,
+          "wins": 98,
+          "staked": 23708312.142870653,
+          "returned": 20624299.786852237
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2022-23",
+      "league": "bundesliga",
+      "matches": 306,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 4920375.52,
+      "profit": 4910375.52,
+      "mdd": 0.1575,
+      "stats": {
+        "1x2": {
+          "bets": 111,
+          "wins": 52,
+          "staked": 2374866.090873105,
+          "returned": 2096045.1056940723,
+          "selections": {
+            "home": 93,
+            "draw": 0,
+            "away": 18,
+            "home_w": 47,
+            "draw_w": 0,
+            "away_w": 5
+          }
+        },
+        "ou": {
+          "bets": 552,
+          "wins": 410,
+          "staked": 13159526.449292935,
+          "returned": 18830704.159845524
+        },
+        "ah": {
+          "bets": 155,
+          "wins": 81,
+          "staked": 3861979.3626539856,
+          "returned": 3379998.161565353
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2022-23",
+      "league": "serie_a",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 32563653.2,
+      "profit": 32553653.2,
+      "mdd": 0.1575,
+      "stats": {
+        "1x2": {
+          "bets": 116,
+          "wins": 54,
+          "staked": 13279782.264117438,
+          "returned": 18406919.67601316,
+          "selections": {
+            "home": 82,
+            "draw": 0,
+            "away": 34,
+            "home_w": 34,
+            "draw_w": 0,
+            "away_w": 20
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 531,
+          "staked": 82222796.56238735,
+          "returned": 110784557.70073345
+        },
+        "ah": {
+          "bets": 194,
+          "wins": 87,
+          "staked": 21997344.381277137,
+          "returned": 20862099.03236708
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2022-23",
+      "league": "ligue_1",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 22898196.06,
+      "profit": 22888196.06,
+      "mdd": 0.1798,
+      "stats": {
+        "1x2": {
+          "bets": 102,
+          "wins": 50,
+          "staked": 5045558.374571005,
+          "returned": 8043731.043221045,
+          "selections": {
+            "home": 67,
+            "draw": 0,
+            "away": 35,
+            "home_w": 33,
+            "draw_w": 0,
+            "away_w": 17
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 524,
+          "staked": 51418758.047395416,
+          "returned": 74771643.44400874
+        },
+        "ah": {
+          "bets": 186,
+          "wins": 84,
+          "staked": 13769333.30937972,
+          "returned": 10306471.303885113
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2023-24",
+      "league": "premier_league",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 6297487.94,
+      "profit": 6287487.94,
+      "mdd": 0.2063,
+      "stats": {
+        "1x2": {
+          "bets": 101,
+          "wins": 46,
+          "staked": 2249590.8766249493,
+          "returned": 2189424.4331182432,
+          "selections": {
+            "home": 75,
+            "draw": 0,
+            "away": 26,
+            "home_w": 38,
+            "draw_w": 0,
+            "away_w": 8
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 498,
+          "staked": 19770417.001172803,
+          "returned": 26384455.089351386
+        },
+        "ah": {
+          "bets": 184,
+          "wins": 90,
+          "staked": 4685981.494093372,
+          "returned": 4419597.78756901
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2023-24",
+      "league": "la_liga",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 11223694.81,
+      "profit": 11213694.81,
+      "mdd": 0.1727,
+      "stats": {
+        "1x2": {
+          "bets": 105,
+          "wins": 54,
+          "staked": 4741986.53950269,
+          "returned": 4023407.112746672,
+          "selections": {
+            "home": 79,
+            "draw": 0,
+            "away": 26,
+            "home_w": 41,
+            "draw_w": 0,
+            "away_w": 13
+          }
+        },
+        "ou": {
+          "bets": 1050,
+          "wins": 691,
+          "staked": 59600298.04516864,
+          "returned": 72731300.17897168
+        },
+        "ah": {
+          "bets": 212,
+          "wins": 103,
+          "staked": 11800624.840751097,
+          "returned": 10601896.946114527
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2023-24",
+      "league": "bundesliga",
+      "matches": 306,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 2097220.44,
+      "profit": 2087220.44,
+      "mdd": 0.1347,
+      "stats": {
+        "1x2": {
+          "bets": 103,
+          "wins": 44,
+          "staked": 1403365.1765315228,
+          "returned": 1217330.0344020647,
+          "selections": {
+            "home": 80,
+            "draw": 0,
+            "away": 23,
+            "home_w": 33,
+            "draw_w": 0,
+            "away_w": 11
+          }
+        },
+        "ou": {
+          "bets": 552,
+          "wins": 402,
+          "staked": 6789269.351968445,
+          "returned": 9189390.252322314
+        },
+        "ah": {
+          "bets": 149,
+          "wins": 72,
+          "staked": 1879454.262349277,
+          "returned": 1752588.94776536
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2023-24",
+      "league": "serie_a",
+      "matches": 380,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 11546560.48,
+      "profit": 11536560.48,
+      "mdd": 0.1987,
+      "stats": {
+        "1x2": {
+          "bets": 127,
+          "wins": 57,
+          "staked": 7354449.372591362,
+          "returned": 6059015.560536276,
+          "selections": {
+            "home": 102,
+            "draw": 0,
+            "away": 25,
+            "home_w": 46,
+            "draw_w": 0,
+            "away_w": 11
+          }
+        },
+        "ou": {
+          "bets": 700,
+          "wins": 515,
+          "staked": 42282469.16638451,
+          "returned": 59663728.2977145
+        },
+        "ah": {
+          "bets": 197,
+          "wins": 92,
+          "staked": 12473792.935301151,
+          "returned": 7924528.0949102985
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    },
+    {
+      "season": "2023-24",
+      "league": "ligue_1",
+      "matches": 306,
+      "bankroll_start": 10000.0,
+      "bankroll_end": 1160595.93,
+      "profit": 1150595.93,
+      "mdd": 0.2513,
+      "stats": {
+        "1x2": {
+          "bets": 78,
+          "wins": 31,
+          "staked": 474357.13449208764,
+          "returned": 380470.9467806848,
+          "selections": {
+            "home": 56,
+            "draw": 0,
+            "away": 22,
+            "home_w": 20,
+            "draw_w": 0,
+            "away_w": 11
+          }
+        },
+        "ou": {
+          "bets": 552,
+          "wins": 404,
+          "staked": 4230580.023197507,
+          "returned": 5848920.796479224
+        },
+        "ah": {
+          "bets": 155,
+          "wins": 64,
+          "staked": 1120375.9070991569,
+          "returned": 746517.2565280296
+        },
+        "parlay": {
+          "bets": 0,
+          "wins": 0,
+          "staked": 0,
+          "returned": 0
+        }
+      }
+    }
+  ]
+}

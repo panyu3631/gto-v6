@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTO v6.0 足球预测系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1117; color: #e1e4e8; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1a1f36 0%, #0d1117 100%); padding: 16px 24px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 20px; color: #58a6ff; }
+        .header .status { display: flex; align-items: center; gap: 8px; }
+        .header .dot { width: 8px; height: 8px; border-radius: 50%; background: #3fb950; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        .tabs { display: flex; gap: 0; border-bottom: 1px solid #30363d; margin-bottom: 24px; overflow-x: auto; }
+        .tab { padding: 12px 24px; font-size: 14px; color: #8b949e; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+        .tab.active { color: #58a6ff; border-bottom-color: #58a6ff; }
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; }
+        .stat-card .label { font-size: 12px; color: #8b949e; margin-bottom: 8px; }
+        .stat-card .value { font-size: 28px; font-weight: 700; }
+        .green { color: #3fb950; }
+        .blue { color: #58a6ff; }
+        .yellow { color: #d29922; }
+        .section { background: #161b22; border: 1px solid #30363d; border-radius: 12px; margin-bottom: 24px; }
+        .section-header { padding: 16px 20px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+        .section-header h2 { font-size: 16px; }
+        .badge { background: #1f6feb33; color: #58a6ff; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+        .match-item { padding: 16px 20px; border-bottom: 1px solid #21262d; display: grid; grid-template-columns: 80px 1fr 150px 100px; align-items: center; gap: 16px; }
+        .match-item:last-child { border-bottom: none; }
+        .match-time { font-size: 12px; color: #8b949e; }
+        .match-league { font-size: 10px; color: #58a6ff; background: #1f6feb22; padding: 2px 8px; border-radius: 4px; }
+        .match-teams { font-size: 14px; }
+        .match-teams .vs { color: #484f58; margin: 0 8px; }
+        .prob-bar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; }
+        .prob-bar div { height: 100%; }
+        .prob-bar .h { background: #3fb950; }
+        .prob-bar .d { background: #d29922; }
+        .prob-bar .a { background: #f85149; }
+        .rec { font-size: 12px; padding: 6px 12px; border-radius: 6px; text-align: center; }
+        .rec.bet { background: #238636; color: #fff; }
+        .rec.skip { background: #30363d; color: #8b949e; }
+        .factor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; padding: 20px; }
+        .factor-item { background: #0d1117; border: 1px solid #21262d; border-radius: 8px; padding: 12px; }
+        .factor-item .name { font-size: 11px; color: #8b949e; }
+        .factor-item .st { font-size: 12px; }
+        .factor-item .st.on { color: #3fb950; }
+        .factor-item .st.off { color: #484f58; }
+        .btn { padding: 10px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; border: none; }
+        .btn-primary { background: #238636; color: #fff; }
+        .btn-secondary { background: #21262d; color: #e1e4e8; border: 1px solid #30363d; }
+        .config-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #21262d; }
+        .config-item input { background: #0d1117; border: 1px solid #30363d; padding: 8px 12px; border-radius: 6px; color: #e1e4e8; width: 300px; }
+        .hidden { display: none; }
+        .hero { text-align: center; padding: 60px 20px; }
+        .hero h2 { font-size: 36px; margin-bottom: 16px; }
+        .hero p { color: #8b949e; font-size: 18px; margin-bottom: 32px; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 40px; }
+        .feature { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 24px; }
+        .feature h3 { color: #58a6ff; margin-bottom: 8px; }
+        .feature p { color: #8b949e; font-size: 14px; }
+        footer { text-align: center; padding: 40px; color: #484f58; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚽ GTO v6.0 足球预测系统</h1>
+        <div class="status">
+            <div class="dot"></div>
+            <span>v6.0 | 5联赛 | 58因子</span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('home')">🏠 首页</div>
+            <div class="tab" onclick="showTab('matches')">📋 比赛</div>
+            <div class="tab" onclick="showTab('factors')">🔧 因子</div>
+            <div class="tab" onclick="showTab('worldcup')">🏆 世界杯</div>
+            <div class="tab" onclick="showTab('config')">⚙️ 配置</div>
+        </div>
+        
+        <!-- 首页 -->
+        <div id="tab-home">
+            <div class="hero">
+                <h2>基于58因子的足球预测系统</h2>
+                <p>多模型集成 | 实时赔率 | 五大联赛 + 世界杯</p>
+                <button class="btn btn-primary" onclick="showTab('matches')">查看今日比赛 →</button>
+            </div>
+            
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="label">系统版本</div>
+                    <div class="value blue">v6.0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">因子数量</div>
+                    <div class="value green">58</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">覆盖联赛</div>
+                    <div class="value yellow">5</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">策略数量</div>
+                    <div class="value green">4</div>
+                </div>
+            </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <h3>📊 多模型集成</h3>
+                    <p>Elo + Dixon-Coles + XGBoost + 市场赔率，多模型投票决策</p>
+                </div>
+                <div class="feature">
+                    <h3>⚡ 实时预测</h3>
+                    <p>赛前自动获取数据，实时计算预测，支持热更新</p>
+                </div>
+                <div class="feature">
+                    <h3>🎯 全策略覆盖</h3>
+                    <p>胜平负、大小球、亚盘、串关，四大策略独立优化</p>
+                </div>
+                <div class="feature">
+                    <h3>🏆 世界杯支持</h3>
+                    <p>32队预测，小组赛到决赛全程覆盖</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 比赛 -->
+        <div id="tab-matches" class="hidden">
+            <div class="section">
+                <div class="section-header">
+                    <h2>📋 即将开始的比赛</h2>
+                    <span class="badge">赛季未开始</span>
+                </div>
+                <div class="match-item" style="color:#484f58;justify-content:center;text-align:center;grid-column:1/-1;padding:40px;">
+                    五大联赛尚未开始，赛季开始后将自动显示比赛数据
+                </div>
+            </div>
+        </div>
+        
+        <!-- 因子 -->
+        <div id="tab-factors" class="hidden">
+            <div class="section">
+                <div class="section-header">
+                    <h2>🔧 因子系统</h2>
+                    <span class="badge">58个因子</span>
+                </div>
+                <div class="factor-grid">
+                    <div class="factor-item"><div class="name">F1 Elo评分</div><div class="st on">● 激活</div></div>
+                    <div class="factor-item"><div class="name">F2 伤病数据</div><div class="st off">○ 待接入</div></div>
+                    <div class="factor-item"><div class="name">F3 近期状态</div><div class="st on">● 激活</div></div>
+                    <div class="factor-item"><div class="name">F4 主场优势</div><div class="st on">● 激活</div></div>
+                    <div class="factor-item"><div class="name">F5 历史交锋</div><div class="st on">● 激活</div></div>
+                    <div class="factor-item"><div class="name">F9 xG差值</div><div class="st on">● 激活</div></div>
+                    <div class="factor-item"><div class="name">F12 天气影响</div><div class="st on">● 激活</div></div>
+                    <div class="factor-item"><div class="name">F46 赔率漂移</div><div class="st on">● 激活</div></div>
+                    <div class="factor-item"><div class="name">F50 连胜动量</div><div class="st on">● 激活</div></div>
+                    <div class="factor-item"><div class="name">F52 角球优势</div><div class="st on">● 激活</div></div>
+                    <div class="factor-item"><div class="name">F53 射正率差</div><div class="st on">● 激活</div></div>
+                    <div class="factor-item"><div class="name">F56 战术平局</div><div class="st on">● 激活</div></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 世界杯 -->
+        <div id="tab-worldcup" class="hidden">
+            <div class="section">
+                <div class="section-header">
+                    <h2>🏆 2026世界杯预测</h2>
+                    <span class="badge">32队</span>
+                </div>
+                <div style="padding:20px;">
+                    <h3 style="margin-bottom:16px;">焦点比赛预测</h3>
+                    <div class="match-item">
+                        <div><div class="match-time">决赛</div></div>
+                        <div class="match-teams">阿根廷 <span class="vs">VS</span> 法国</div>
+                        <div class="prob-bar"><div class="h" style="width:42%"></div><div class="d" style="width:16%"></div><div class="a" style="width:42%"></div></div>
+                        <div class="rec bet">阿根廷</div>
+                    </div>
+                    <div class="match-item">
+                        <div><div class="match-time">半决赛</div></div>
+                        <div class="match-teams">巴西 <span class="vs">VS</span> 英格兰</div>
+                        <div class="prob-bar"><div class="h" style="width:48%"></div><div class="d" style="width:16%"></div><div class="a" style="width:36%"></div></div>
+                        <div class="rec bet">巴西</div>
+                    </div>
+                    <div class="match-item">
+                        <div><div class="match-time">半决赛</div></div>
+                        <div class="match-teams">法国 <span class="vs">VS</span> 英格兰</div>
+                        <div class="prob-bar"><div class="h" style="width:47%"></div><div class="d" style="width:16%"></div><div class="a" style="width:37%"></div></div>
+                        <div class="rec bet">法国</div>
+                    </div>
+                    
+                    <h3 style="margin:24px 0 16px;">🏆 冠军预测</h3>
+                    <div style="text-align:center;padding:20px;background:#0d1117;border-radius:12px;">
+                        <div style="font-size:48px;margin-bottom:8px;">🇧🇷</div>
+                        <div style="font-size:24px;font-weight:700;color:#3fb950;">巴西</div>
+                        <div style="color:#8b949e;">预测夺冠概率: 42.8%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 配置 -->
+        <div id="tab-config" class="hidden">
+            <div class="section">
+                <div class="section-header">
+                    <h2>⚙️ 系统配置</h2>
+                </div>
+                <div style="padding:20px;">
+                    <div class="config-item">
+                        <span>价值阈值</span>
+                        <input type="text" value="0.05" disabled>
+                    </div>
+                    <div class="config-item">
+                        <span>Kelly系数</span>
+                        <input type="text" value="0.25" disabled>
+                    </div>
+                    <div class="config-item">
+                        <span>最大仓位</span>
+                        <input type="text" value="3%" disabled>
+                    </div>
+                    <div class="config-item">
+                        <span>覆盖联赛</span>
+                        <input type="text" value="英超、西甲、德甲、意甲、法甲" disabled>
+                    </div>
+                    <div class="config-item">
+                        <span>API地址</span>
+                        <input type="text" id="apiUrl" value="http://localhost:8080" placeholder="输入API服务器地址">
+                    </div>
+                    <div style="margin-top:20px;">
+                        <button class="btn btn-primary" onclick="testApi()">测试连接</button>
+                        <button class="btn btn-secondary" style="margin-left:12px;" onclick="alert('配置已保存')">保存配置</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        GTO v6.0 足球预测系统 | 58因子 | 5联赛 | 世界杯
+    </footer>
+    
+    <script>
+        function showTab(name) {
+            document.querySelectorAll('[id^="tab-"]').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + name).classList.remove('hidden');
+            event.target.classList.add('active');
+        }
+        
+        async function testApi() {
+            const url = document.getElementById('apiUrl').value;
+            try {
+                const resp = await fetch(url + '/api/status');
+                const data = await resp.json();
+                alert('连接成功: ' + data.status);
+            } catch(e) {
+                alert('连接失败: ' + e.message);
+            }
+        }
+    </script>
+</body>
+</html>

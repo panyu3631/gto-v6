@@ -1,0 +1,1 @@
+# Pipeline module — 9-stage orchestration

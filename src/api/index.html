@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTO v6.0 足球预测系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1117; color: #e1e4e8; min-height: 100vh; }
+        
+        .header { background: linear-gradient(135deg, #1a1f36 0%, #0d1117 100%); padding: 16px 24px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 20px; color: #58a6ff; }
+        .header .status { display: flex; align-items: center; gap: 8px; }
+        .header .dot { width: 8px; height: 8px; border-radius: 50%; background: #3fb950; }
+        .header .dot.error { background: #f85149; }
+        .header span { font-size: 14px; color: #8b949e; }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        
+        .tabs { display: flex; gap: 0; border-bottom: 1px solid #30363d; margin-bottom: 24px; }
+        .tab { padding: 12px 24px; font-size: 14px; color: #8b949e; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+        .tab.active { color: #58a6ff; border-bottom-color: #58a6ff; }
+        .tab:hover { color: #e1e4e8; }
+        
+        .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; }
+        .stat-card .label { font-size: 12px; color: #8b949e; text-transform: uppercase; margin-bottom: 8px; }
+        .stat-card .value { font-size: 28px; font-weight: 700; }
+        .stat-card .value.green { color: #3fb950; }
+        .stat-card .value.blue { color: #58a6ff; }
+        .stat-card .value.yellow { color: #d29922; }
+        
+        .section { background: #161b22; border: 1px solid #30363d; border-radius: 12px; margin-bottom: 24px; overflow: hidden; }
+        .section-header { padding: 16px 20px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+        .section-header h2 { font-size: 16px; color: #e1e4e8; }
+        .badge { background: #1f6feb33; color: #58a6ff; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+        
+        .match-list { padding: 0; }
+        .match-item { padding: 16px 20px; border-bottom: 1px solid #21262d; display: grid; grid-template-columns: 100px 1fr 200px 120px 100px; align-items: center; gap: 16px; transition: background 0.2s; }
+        .match-item:hover { background: #1c2128; }
+        .match-item:last-child { border-bottom: none; }
+        
+        .match-time { font-size: 12px; color: #8b949e; }
+        .match-league { font-size: 10px; color: #58a6ff; background: #1f6feb22; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 4px; }
+        
+        .match-teams { display: flex; align-items: center; gap: 12px; }
+        .match-teams .team { font-size: 14px; font-weight: 500; }
+        .match-teams .vs { color: #484f58; font-size: 12px; }
+        
+        .prob-container { display: flex; flex-direction: column; gap: 4px; }
+        .prob-bar-container { display: flex; gap: 4px; height: 6px; }
+        .prob-segment { height: 100%; border-radius: 3px; transition: width 0.3s; }
+        .prob-segment.home { background: #3fb950; }
+        .prob-segment.draw { background: #d29922; }
+        .prob-segment.away { background: #f85149; }
+        .prob-labels { display: flex; justify-content: space-between; font-size: 10px; color: #8b949e; }
+        
+        .recommendation { font-size: 12px; padding: 6px 12px; border-radius: 6px; font-weight: 500; text-align: center; }
+        .recommendation.bet { background: #238636; color: #fff; }
+        .recommendation.skip { background: #30363d; color: #8b949e; }
+        
+        .value { font-size: 14px; font-weight: 600; text-align: right; }
+        .value.positive { color: #3fb950; }
+        .value.negative { color: #f85149; }
+        
+        .factor-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 20px; }
+        .factor-item { background: #0d1117; border: 1px solid #21262d; border-radius: 8px; padding: 12px; }
+        .factor-item .name { font-size: 11px; color: #8b949e; margin-bottom: 4px; }
+        .factor-item .status { font-size: 12px; font-weight: 500; }
+        .factor-item .status.active { color: #3fb950; }
+        .factor-item .status.inactive { color: #484f58; }
+        .factor-item .val { font-size: 16px; font-weight: 600; color: #e1e4e8; margin-top: 4px; }
+        
+        .btn { padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; transition: all 0.2s; }
+        .btn-primary { background: #238636; color: #fff; }
+        .btn-primary:hover { background: #2ea043; }
+        .btn-secondary { background: #21262d; color: #e1e4e8; border: 1px solid #30363d; }
+        .btn-secondary:hover { background: #30363d; }
+        .btn-sm { padding: 6px 12px; font-size: 12px; }
+        
+        .action-bar { display: flex; gap: 12px; padding: 20px 0; }
+        
+        .loading { text-align: center; padding: 40px; color: #8b949e; }
+        .loading::after { content: '...'; animation: dots 1.5s steps(3, end) infinite; }
+        @keyframes dots { 0%, 20% { content: '.'; } 40% { content: '..'; } 60%, 100% { content: '...'; } }
+        
+        .empty { text-align: center; padding: 40px; color: #484f58; }
+        
+        .toast { position: fixed; bottom: 20px; right: 20px; background: #238636; color: #fff; padding: 12px 24px; border-radius: 8px; font-size: 14px; transform: translateY(100px); opacity: 0; transition: all 0.3s; }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        
+        @media (max-width: 768px) {
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .factor-grid { grid-template-columns: repeat(2, 1fr); }
+            .match-item { grid-template-columns: 1fr; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚽ GTO v6.0 足球预测系统</h1>
+        <div class="status">
+            <div class="dot" id="statusDot"></div>
+            <span id="statusText">连接中...</span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" data-tab="dashboard">📊 仪表盘</div>
+            <div class="tab" data-tab="matches">📋 比赛</div>
+            <div class="tab" data-tab="bets">💰 投注</div>
+            <div class="tab" data-tab="factors">🔧 因子</div>
+            <div class="tab" data-tab="config">⚙️ 配置</div>
+        </div>
+        
+        <!-- 仪表盘 -->
+        <div id="tab-dashboard" class="tab-content">
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="label">今日预测</div>
+                    <div class="value blue" id="stat-predictions">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">本周ROI</div>
+                    <div class="value green" id="stat-roi">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">胜率</div>
+                    <div class="value yellow" id="stat-winrate">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">累计收益</div>
+                    <div class="value green" id="stat-profit">-</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-header">
+                    <h2>📋 即将开始的比赛</h2>
+                    <button class="btn btn-sm btn-primary" onclick="loadMatches()">刷新</button>
+                </div>
+                <div class="match-list" id="matchList">
+                    <div class="loading">加载中</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 比赛 -->
+        <div id="tab-matches" class="tab-content" style="display:none">
+            <div class="section">
+                <div class="section-header">
+                    <h2>📋 所有比赛</h2>
+                    <div>
+                        <select id="leagueFilter" onchange="loadMatches()">
+                            <option value="">全部联赛</option>
+                            <option value="premier_league">英超</option>
+                            <option value="la_liga">西甲</option>
+                            <option value="bundesliga">德甲</option>
+                            <option value="serie_a">意甲</option>
+                            <option value="ligue_1">法甲</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="match-list" id="allMatchList">
+                    <div class="loading">加载中</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 投注 -->
+        <div id="tab-bets" class="tab-content" style="display:none">
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="label">总投注</div>
+                    <div class="value blue" id="bet-total">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">胜率</div>
+                    <div class="value yellow" id="bet-winrate">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">总收益</div>
+                    <div class="value green" id="bet-profit">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">ROI</div>
+                    <div class="value green" id="bet-roi">-</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-header">
+                    <h2>💰 投注记录</h2>
+                </div>
+                <div class="match-list" id="betList">
+                    <div class="loading">加载中</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 因子 -->
+        <div id="tab-factors" class="tab-content" style="display:none">
+            <div class="section">
+                <div class="section-header">
+                    <h2>🔧 因子状态</h2>
+                    <span class="badge" id="factorCount">-</span>
+                </div>
+                <div class="factor-grid" id="factorGrid">
+                    <div class="loading">加载中</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 配置 -->
+        <div id="tab-config" class="tab-content" style="display:none">
+            <div class="section">
+                <div class="section-header">
+                    <h2>⚙️ 系统配置</h2>
+                </div>
+                <div style="padding: 20px;">
+                    <div class="config-item">
+                        <span>API地址</span>
+                        <input type="text" id="apiUrl" value="http://localhost:8080" style="background:#0d1117;border:1px solid #30363d;padding:8px;border-radius:6px;color:#e1e4e8;">
+                    </div>
+                    <div class="action-bar">
+                        <button class="btn btn-primary" onclick="testConnection()">测试连接</button>
+                        <button class="btn btn-secondary" onclick="saveConfig()">保存配置</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        // API配置
+        let API_URL = localStorage.getItem('gto_api_url') || 'http://localhost:8080';
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('apiUrl').value = API_URL;
+            initTabs();
+            testConnection();
+        });
+        
+        // Tab切换
+        function initTabs() {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+                    tab.classList.add('active');
+                    document.getElementById('tab-' + tab.dataset.tab).style.display = 'block';
+                    
+                    if (tab.dataset.tab === 'matches') loadMatches();
+                    if (tab.dataset.tab === 'bets') loadBets();
+                    if (tab.dataset.tab === 'factors') loadFactors();
+                });
+            });
+        }
+        
+        // API调用
+        async function api(path, method = 'GET', body = null) {
+            try {
+                const opts = { method, headers: { 'Content-Type': 'application/json' } };
+                if (body) opts.body = JSON.stringify(body);
+                const resp = await fetch(API_URL + path, opts);
+                return await resp.json();
+            } catch (e) {
+                console.error('API错误:', e);
+                return null;
+            }
+        }
+        
+        // 测试连接
+        async function testConnection() {
+            const status = await api('/api/status');
+            const dot = document.getElementById('statusDot');
+            const text = document.getElementById('statusText');
+            
+            if (status && status.status === 'running') {
+                dot.className = 'dot';
+                text.textContent = `运行中 | ${status.leagues.length}联赛 | v${status.version}`;
+                showToast('连接成功');
+                loadMatches();
+            } else {
+                dot.className = 'dot error';
+                text.textContent = '连接失败';
+                showToast('无法连接到API服务器', 'error');
+            }
+        }
+        
+        // 加载比赛
+        async function loadMatches() {
+            const league = document.getElementById('leagueFilter')?.value || '';
+            const url = league ? `/api/matches?league_id=${league}` : '/api/matches';
+            const data = await api(url);
+            
+            const list = document.getElementById('matchList');
+            const allList = document.getElementById('allMatchList');
+            
+            if (!data || !data.matches) {
+                list.innerHTML = '<div class="empty">暂无比赛数据</div>';
+                return;
+            }
+            
+            const html = data.matches.map(m => `
+                <div class="match-item">
+                    <div>
+                        <div class="match-time">${formatTime(m.kickoff_time)}</div>
+                        <div class="match-league">${m.league_cn || m.league_id}</div>
+                    </div>
+                    <div class="match-teams">
+                        <span class="team">${m.home_team_cn || m.home_team}</span>
+                        <span class="vs">VS</span>
+                        <span class="team">${m.away_team_cn || m.away_team}</span>
+                    </div>
+                    <div class="prob-container">
+                        <div class="prob-bar-container">
+                            <div class="prob-segment home" style="width:45%"></div>
+                            <div class="prob-segment draw" style="width:25%"></div>
+                            <div class="prob-segment away" style="width:30%"></div>
+                        </div>
+                        <div class="prob-labels">
+                            <span>45%</span><span>25%</span><span>30%</span>
+                        </div>
+                    </div>
+                    <div class="recommendation bet">待预测</div>
+                    <div class="value">-</div>
+                </div>
+            `).join('');
+            
+            list.innerHTML = html;
+            if (allList) allList.innerHTML = html;
+        }
+        
+        // 加载投注
+        async function loadBets() {
+            const data = await api('/api/bets');
+            if (!data) return;
+            
+            const list = document.getElementById('betList');
+            if (data.bets.length === 0) {
+                list.innerHTML = '<div class="empty">暂无投注记录</div>';
+                return;
+            }
+            
+            const html = data.bets.map(b => `
+                <div class="match-item">
+                    <div>
+                        <div class="match-time">${formatTime(b.created_at)}</div>
+                        <div class="match-league">${b.strategy_cn || b.strategy}</div>
+                    </div>
+                    <div class="match-teams">
+                        <span class="team">${b.home_team_cn || b.home_team}</span>
+                        <span class="vs">VS</span>
+                        <span class="team">${b.away_team_cn || b.away_team}</span>
+                    </div>
+                    <div>${b.direction} @ ${b.odds?.toFixed(2)}</div>
+                    <div class="recommendation ${b.won ? 'bet' : 'skip'}">${b.won ? '胜' : '负'}</div>
+                    <div class="value ${b.profit >= 0 ? 'positive' : 'negative'}">${b.profit >= 0 ? '+' : ''}${b.profit?.toFixed(2)}</div>
+                </div>
+            `).join('');
+            
+            list.innerHTML = html;
+        }
+        
+        // 加载因子
+        async function loadFactors() {
+            const data = await api('/api/factors');
+            if (!data) return;
+            
+            const grid = document.getElementById('factorGrid');
+            document.getElementById('factorCount').textContent = `${data.factors.filter(f => f.enabled).length}/${data.factors.length} 激活`;
+            
+            const html = data.factors.slice(0, 20).map(f => `
+                <div class="factor-item">
+                    <div class="name">${f.id}: ${f.name}</div>
+                    <div class="status ${f.enabled ? 'active' : 'inactive'}">${f.enabled ? '● 激活' : '○ 禁用'}</div>
+                    <div class="val">${f.weight?.toFixed(2) || '-'}</div>
+                </div>
+            `).join('');
+            
+            grid.innerHTML = html;
+        }
+        
+        // 工具函数
+        function formatTime(t) {
+            if (!t) return '-';
+            const d = new Date(t);
+            return d.toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+        }
+        
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.style.background = type === 'error' ? '#f85149' : '#238636';
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+        
+        function saveConfig() {
+            API_URL = document.getElementById('apiUrl').value;
+            localStorage.setItem('gto_api_url', API_URL);
+            showToast('配置已保存');
+        }
+    </script>
+</body>
+</html>

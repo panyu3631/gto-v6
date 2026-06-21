@@ -1,0 +1,38 @@
+{
+  "football_data": {
+    "enabled": true,
+    "api_key": "4b9f0ba0a7ca47be8901858ac06373a0",
+    "base_url": "https://api.football-data.org/v4",
+    "rate_limit": 10
+  },
+  "api_football": {
+    "enabled": false,
+    "api_key": "",
+    "base_url": "https://v3.football.api-sports.io",
+    "rate_limit": 100
+  },
+  "odds_api": {
+    "enabled": false,
+    "api_key": "",
+    "base_url": "https://api.the-odds-api.com/v4",
+    "rate_limit": 500
+  },
+  "espn": {
+    "enabled": true,
+    "api_key": "",
+    "base_url": "https://site.api.espn.com/apis/site/v2",
+    "rate_limit": 100
+  },
+  "sofascore": {
+    "enabled": true,
+    "api_key": "",
+    "base_url": "https://api.sofascore.com/api/v1",
+    "rate_limit": 100
+  },
+  "open_meteo": {
+    "enabled": true,
+    "api_key": "",
+    "base_url": "https://api.open-meteo.com/v1",
+    "rate_limit": 10000
+  }
+}

@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.env
+*.db
+data/realtime/
+data/scraped/*.json
+.openclaw/
+*.tar.gz

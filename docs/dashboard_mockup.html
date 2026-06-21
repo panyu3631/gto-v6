@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTO v6.0 足球预测系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1117; color: #e1e4e8; }
+        
+        .header { background: linear-gradient(135deg, #1a1f36 0%, #0d1117 100%); padding: 16px 24px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 20px; color: #58a6ff; }
+        .header .status { display: flex; align-items: center; gap: 8px; }
+        .header .status .dot { width: 8px; height: 8px; border-radius: 50%; background: #3fb950; }
+        .header .status span { font-size: 14px; color: #8b949e; }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        
+        .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; }
+        .stat-card .label { font-size: 12px; color: #8b949e; text-transform: uppercase; margin-bottom: 8px; }
+        .stat-card .value { font-size: 28px; font-weight: 700; }
+        .stat-card .value.green { color: #3fb950; }
+        .stat-card .value.blue { color: #58a6ff; }
+        .stat-card .value.yellow { color: #d29922; }
+        .stat-card .value.red { color: #f85149; }
+        .stat-card .change { font-size: 12px; margin-top: 4px; }
+        .stat-card .change.up { color: #3fb950; }
+        .stat-card .change.down { color: #f85149; }
+        
+        .section { background: #161b22; border: 1px solid #30363d; border-radius: 12px; margin-bottom: 24px; overflow: hidden; }
+        .section-header { padding: 16px 20px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+        .section-header h2 { font-size: 16px; color: #e1e4e8; }
+        .section-header .badge { background: #1f6feb33; color: #58a6ff; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+        
+        .match-list { padding: 0; }
+        .match-item { padding: 16px 20px; border-bottom: 1px solid #21262d; display: grid; grid-template-columns: 1fr 2fr 1fr 1fr 1fr; align-items: center; gap: 16px; }
+        .match-item:last-child { border-bottom: none; }
+        .match-item:hover { background: #1c2128; }
+        
+        .match-time { font-size: 12px; color: #8b949e; }
+        .match-league { font-size: 10px; color: #58a6ff; background: #1f6feb22; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 4px; }
+        
+        .match-teams { display: flex; align-items: center; gap: 12px; }
+        .match-teams .team { font-size: 14px; font-weight: 500; }
+        .match-teams .vs { color: #484f58; font-size: 12px; }
+        
+        .match-probs { display: flex; gap: 8px; }
+        .prob-bar { height: 6px; border-radius: 3px; flex: 1; position: relative; }
+        .prob-bar.home { background: #3fb950; }
+        .prob-bar.draw { background: #d29922; }
+        .prob-bar.away { background: #f85149; }
+        .prob-label { font-size: 10px; color: #8b949e; text-align: center; margin-top: 4px; }
+        
+        .match-recommendation { font-size: 12px; padding: 6px 12px; border-radius: 6px; font-weight: 500; }
+        .match-recommendation.bet { background: #238636; color: #fff; }
+        .match-recommendation.skip { background: #30363d; color: #8b949e; }
+        
+        .match-value { font-size: 14px; font-weight: 600; }
+        .match-value.positive { color: #3fb950; }
+        .match-value.negative { color: #f85149; }
+        
+        .factor-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 20px; }
+        .factor-item { background: #0d1117; border: 1px solid #21262d; border-radius: 8px; padding: 12px; }
+        .factor-item .name { font-size: 11px; color: #8b949e; margin-bottom: 4px; }
+        .factor-item .status { font-size: 12px; font-weight: 500; }
+        .factor-item .status.active { color: #3fb950; }
+        .factor-item .status.inactive { color: #484f58; }
+        .factor-item .value { font-size: 16px; font-weight: 600; color: #e1e4e8; margin-top: 4px; }
+        
+        .tabs { display: flex; gap: 0; border-bottom: 1px solid #30363d; }
+        .tab { padding: 12px 24px; font-size: 14px; color: #8b949e; cursor: pointer; border-bottom: 2px solid transparent; }
+        .tab.active { color: #58a6ff; border-bottom-color: #58a6ff; }
+        .tab:hover { color: #e1e4e8; }
+        
+        .config-panel { padding: 20px; }
+        .config-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #21262d; }
+        .config-item .label { font-size: 14px; color: #8b949e; }
+        .config-item .value { font-size: 14px; color: #e1e4e8; font-weight: 500; }
+        .config-item .value.editable { background: #0d1117; border: 1px solid #30363d; padding: 4px 12px; border-radius: 6px; cursor: pointer; }
+        .config-item .value.editable:hover { border-color: #58a6ff; }
+        
+        .performance-chart { padding: 20px; height: 300px; display: flex; align-items: flex-end; gap: 4px; }
+        .chart-bar { flex: 1; background: linear-gradient(to top, #238636, #3fb950); border-radius: 4px 4px 0 0; min-height: 4px; position: relative; }
+        .chart-bar.negative { background: linear-gradient(to top, #da3633, #f85149); }
+        .chart-bar .tooltip { position: absolute; top: -24px; left: 50%; transform: translateX(-50%); background: #21262d; padding: 2px 8px; border-radius: 4px; font-size: 10px; white-space: nowrap; display: none; }
+        .chart-bar:hover .tooltip { display: block; }
+        
+        .action-buttons { display: flex; gap: 12px; padding: 20px; }
+        .btn { padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; }
+        .btn-primary { background: #238636; color: #fff; }
+        .btn-primary:hover { background: #2ea043; }
+        .btn-secondary { background: #21262d; color: #e1e4e8; border: 1px solid #30363d; }
+        .btn-secondary:hover { background: #30363d; }
+        
+        .alert { padding: 12px 20px; background: #1f6feb22; border-left: 3px solid #58a6ff; margin: 16px 20px; border-radius: 0 8px 8px 0; font-size: 13px; color: #58a6ff; }
+        
+        @media (max-width: 768px) {
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .factor-grid { grid-template-columns: repeat(2, 1fr); }
+            .match-item { grid-template-columns: 1fr; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚽ GTO v6.0 足球预测系统</h1>
+        <div class="status">
+            <div class="dot"></div>
+            <span>运行中 | 5联赛 | 53因子激活</span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- 统计卡片 -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="label">今日预测</div>
+                <div class="value blue">12</div>
+                <div class="change up">↑ 3 vs 昨日</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">本周ROI</div>
+                <div class="value green">+4.3%</div>
+                <div class="change up">↑ 1.2% vs 上周</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">胜率</div>
+                <div class="value yellow">57.8%</div>
+                <div class="change up">↑ 2.1% vs 上周</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">累计收益</div>
+                <div class="value green">¥12,450</div>
+                <div class="change up">↑ ¥2,100 本周</div>
+            </div>
+        </div>
+        
+        <!-- 今日比赛预测 -->
+        <div class="section">
+            <div class="section-header">
+                <h2>📋 今日比赛预测</h2>
+                <span class="badge">12场比赛</span>
+            </div>
+            <div class="alert">
+                💡 系统提示：今日英超有3场高价值投注机会，建议关注曼城vs阿森纳（价值+8.2%）
+            </div>
+            <div class="match-list">
+                <div class="match-item">
+                    <div>
+                        <div class="match-time">21:00</div>
+                        <div class="match-league">英超</div>
+                    </div>
+                    <div class="match-teams">
+                        <span class="team">曼城</span>
+                        <span class="vs">VS</span>
+                        <span class="team">阿森纳</span>
+                    </div>
+                    <div>
+                        <div class="match-probs">
+                            <div>
+                                <div class="prob-bar home" style="width: 45%"></div>
+                                <div class="prob-label">45%</div>
+                            </div>
+                            <div>
+                                <div class="prob-bar draw" style="width: 25%"></div>
+                                <div class="prob-label">25%</div>
+                            </div>
+                            <div>
+                                <div class="prob-bar away" style="width: 30%"></div>
+                                <div class="prob-label">30%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="match-recommendation bet">推荐: 主胜</div>
+                    <div class="match-value positive">+8.2%</div>
+                </div>
+                
+                <div class="match-item">
+                    <div>
+                        <div class="match-time">21:00</div>
+                        <div class="match-league">英超</div>
+                    </div>
+                    <div class="match-teams">
+                        <span class="team">利物浦</span>
+                        <span class="vs">VS</span>
+                        <span class="team">切尔西</span>
+                    </div>
+                    <div>
+                        <div class="match-probs">
+                            <div>
+                                <div class="prob-bar home" style="width: 50%"></div>
+                                <div class="prob-label">50%</div>
+                            </div>
+                            <div>
+                                <div class="prob-bar draw" style="width: 25%"></div>
+                                <div class="prob-label">25%</div>
+                            </div>
+                            <div>
+                                <div class="prob-bar away" style="width: 25%"></div>
+                                <div class="prob-label">25%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="match-recommendation bet">推荐: 主胜</div>
+                    <div class="match-value positive">+5.1%</div>
+                </div>
+                
+                <div class="match-item">
+                    <div>
+                        <div class="match-time">23:00</div>
+                        <div class="match-league">西甲</div>
+                    </div>
+                    <div class="match-teams">
+                        <span class="team">皇家马德里</span>
+                        <span class="vs">VS</span>
+                        <span class="team">巴塞罗那</span>
+                    </div>
+                    <div>
+                        <div class="match-probs">
+                            <div>
+                                <div class="prob-bar home" style="width: 40%"></div>
+                                <div class="prob-label">40%</div>
+                            </div>
+                            <div>
+                                <div class="prob-bar draw" style="width: 28%"></div>
+                                <div class="prob-label">28%</div>
+                            </div>
+                            <div>
+                                <div class="prob-bar away" style="width: 32%"></div>
+                                <div class="prob-label">32%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="match-recommendation skip">观望</div>
+                    <div class="match-value negative">-1.2%</div>
+                </div>
+                
+                <div class="match-item">
+                    <div>
+                        <div class="match-time">21:30</div>
+                        <div class="match-league">德甲</div>
+                    </div>
+                    <div class="match-teams">
+                        <span class="team">拜仁慕尼黑</span>
+                        <span class="vs">VS</span>
+                        <span class="team">多特蒙德</span>
+                    </div>
+                    <div>
+                        <div class="match-probs">
+                            <div>
+                                <div class="prob-bar home" style="width: 55%"></div>
+                                <div class="prob-label">55%</div>
+                            </div>
+                            <div>
+                                <div class="prob-bar draw" style="width: 22%"></div>
+                                <div class="prob-label">22%</div>
+                            </div>
+                            <div>
+                                <div class="prob-bar away" style="width: 23%"></div>
+                                <div class="prob-label">23%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="match-recommendation bet">推荐: 主胜</div>
+                    <div class="match-value positive">+6.8%</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 因子状态 -->
+        <div class="section">
+            <div class="section-header">
+                <h2>🔧 因子状态监控</h2>
+                <span class="badge">31/53 激活</span>
+            </div>
+            <div class="factor-grid">
+                <div class="factor-item">
+                    <div class="name">F1 Elo评分</div>
+                    <div class="status active">● 激活</div>
+                    <div class="value">+0.15</div>
+                </div>
+                <div class="factor-item">
+                    <div class="name">F3 近期状态</div>
+                    <div class="status active">● 激活</div>
+                    <div class="value">+0.08</div>
+                </div>
+                <div class="factor-item">
+                    <div class="name">F4 主场优势</div>
+                    <div class="status active">● 激活</div>
+                    <div class="value">+0.07</div>
+                </div>
+                <div class="factor-item">
+                    <div class="name">F9 xG差值</div>
+                    <div class="status active">● 激活</div>
+                    <div class="value">+0.12</div>
+                </div>
+                <div class="factor-item">
+                    <div class="name">F46 赔率漂移</div>
+                    <div class="status active">● 激活</div>
+                    <div class="value">+0.05</div>
+                </div>
+                <div class="factor-item">
+                    <div class="name">F2 伤病数据</div>
+                    <div class="status inactive">○ 未激活</div>
+                    <div class="value">-</div>
+                </div>
+                <div class="factor-item">
+                    <div class="name">F22 新闻NLP</div>
+                    <div class="status inactive">○ 未激活</div>
+                    <div class="value">-</div>
+                </div>
+                <div class="factor-item">
+                    <div class="name">F5 历史交锋</div>
+                    <div class="status active">● 激活</div>
+                    <div class="value">-0.03</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 配置面板 -->
+        <div class="section">
+            <div class="section-header">
+                <h2>⚙️ 模型配置</h2>
+                <span class="badge">可热更新</span>
+            </div>
+            <div class="config-panel">
+                <div class="config-item">
+                    <span class="label">价值阈值</span>
+                    <span class="value editable">0.05</span>
+                </div>
+                <div class="config-item">
+                    <span class="label">Kelly系数</span>
+                    <span class="value editable">0.25</span>
+                </div>
+                <div class="config-item">
+                    <span class="label">最大仓位</span>
+                    <span class="value editable">3%</span>
+                </div>
+                <div class="config-item">
+                    <span class="label">最小赔率</span>
+                    <span class="value editable">1.20</span>
+                </div>
+                <div class="config-item">
+                    <span class="label">最大赔率</span>
+                    <span class="value editable">10.0</span>
+                </div>
+                <div class="config-item">
+                    <span class="label">联赛</span>
+                    <span class="value editable">英超、西甲、德甲、意甲、法甲</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 操作按钮 -->
+        <div class="action-buttons">
+            <button class="btn btn-primary">▶ 立即运行预测</button>
+            <button class="btn btn-secondary">📊 导出报告</button>
+            <button class="btn btn-secondary">🔄 重新加载配置</button>
+            <button class="btn btn-secondary">🧪 运行A/B测试</button>
+        </div>
+    </div>
+</body>
+</html>

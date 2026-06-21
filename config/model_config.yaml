@@ -1,0 +1,197 @@
+# GTO v6.0 主配置文件
+# 所有参数集中管理，修改此文件即可调整模型行为
+
+# 全局显示配置
+display:
+  language: "zh-CN"
+  team_names: "chinese"  # 所有球队名使用中文
+  league_names: "chinese"  # 所有联赛名使用中文
+  strategy_names: "chinese"  # 所有策略名使用中文
+  direction_names: "chinese"  # 所有方向名使用中文
+  odds_format: "decimal"  # 赔率格式
+  percentage_format: "100"  # 百分比格式
+
+# 联赛配置
+leagues:
+  premier_league:
+    name: "英超"
+    avg_goals: 2.98
+    home_advantage: 0.38
+    draw_rate: 0.225
+    sigma: 1.70
+    elo_k: 20
+    elo_home_adv: 65
+    dc_rho: -0.08
+    factor_scale: 0.23
+    fusion_weight: 0.60
+    calibration_discount: 0.15
+    confidence_threshold: 0.36
+
+  la_liga:
+    name: "西甲"
+    avg_goals: 2.55
+    home_advantage: 0.42
+    draw_rate: 0.26
+    sigma: 1.50
+    elo_k: 20
+    elo_home_adv: 70
+    dc_rho: -0.10
+    factor_scale: 0.25
+    fusion_weight: 0.60
+    calibration_discount: 0.15
+    confidence_threshold: 0.35
+
+  bundesliga:
+    name: "德甲"
+    avg_goals: 3.17
+    home_advantage: 0.45
+    draw_rate: 0.249
+    sigma: 1.74
+    elo_k: 25
+    elo_home_adv: 80
+    dc_rho: -0.06
+    factor_scale: 0.22
+    fusion_weight: 0.55
+    calibration_discount: 0.15
+    confidence_threshold: 0.37
+
+  serie_a:
+    name: "意甲"
+    avg_goals: 2.65
+    home_advantage: 0.40
+    draw_rate: 0.28
+    sigma: 1.55
+    elo_k: 20
+    elo_home_adv: 75
+    dc_rho: -0.13
+    factor_scale: 0.20
+    fusion_weight: 0.65
+    calibration_discount: 0.18
+    confidence_threshold: 0.33
+
+  ligue_1:
+    name: "法甲"
+    avg_goals: 2.78
+    home_advantage: 0.42
+    draw_rate: 0.258
+    sigma: 1.68
+    elo_k: 25
+    elo_home_adv: 70
+    dc_rho: -0.12
+    factor_scale: 0.18
+    fusion_weight: 0.60
+    calibration_discount: 0.20
+    confidence_threshold: 0.45
+
+# 因子配置
+factors:
+  # 基础因子
+  F1_elo: { weight: 1.0, enabled: true, category: base }
+  F2_injuries: { weight: 0.9, enabled: false, category: base, reason: "需要外部API" }
+  F3_form: { weight: 0.85, enabled: true, category: base }
+  F4_home: { weight: 0.7, enabled: true, category: base }
+  F5_h2h: { weight: 0.6, enabled: true, category: base }
+  F6_schedule: { weight: 0.7, enabled: true, category: base }
+  F7_rank: { weight: 0.5, enabled: true, category: base }
+  F8_goals: { weight: 0.55, enabled: true, category: base }
+  F9_xg: { weight: 0.8, enabled: true, category: base }
+  F10_odds: { weight: 0.9, enabled: false, category: base, reason: "打破循环论证" }
+  F11_movement: { weight: 0.6, enabled: false, category: base, reason: "打破循环论证" }
+  F12_weather: { weight: 0.3, enabled: true, category: base }
+  F13_referee: { weight: 0.4, enabled: true, category: base }
+  F14_squad: { weight: 0.0, enabled: false, category: base, reason: "已废弃" }
+  F15_coach: { weight: 0.5, enabled: true, category: base }
+  F16_europe: { weight: 0.6, enabled: true, category: base }
+  F17_rotation: { weight: 0.5, enabled: true, category: base }
+  F18_derby: { weight: 0.7, enabled: true, category: base }
+
+  # 增强因子
+  F19_style: { weight: 0.6, enabled: true, category: enhanced }
+  F20_streak: { weight: 0.5, enabled: true, category: enhanced }
+  F21_player: { weight: 0.7, enabled: false, category: enhanced, reason: "需要外部API" }
+  F22_sentiment: { weight: 0.4, enabled: false, category: enhanced, reason: "需要NLP" }
+  F23_odds_std: { weight: 0.5, enabled: true, category: enhanced }
+  F24_news: { weight: 0.3, enabled: false, category: enhanced, reason: "需要NLP" }
+  F25_decay: { weight: 0.5, enabled: true, category: enhanced }
+  F26_league: { weight: 0.4, enabled: true, category: enhanced }
+  F27_poisson: { weight: 0.6, enabled: true, category: enhanced }
+  F28_handicap: { weight: 0.5, enabled: true, category: enhanced }
+  F29_totals: { weight: 0.5, enabled: true, category: enhanced }
+  F30_value: { weight: 0.7, enabled: true, category: enhanced }
+  F31_contrarian: { weight: 0.4, enabled: true, category: enhanced }
+  F32_efficiency: { weight: 0.3, enabled: true, category: enhanced }
+
+  # 联赛特定因子
+  F33_motivation: { weight: 0.6, enabled: true, category: league }
+  F34_financial: { weight: 0.4, enabled: false, category: league, reason: "需要外部数据" }
+  F35_winter: { weight: 0.8, enabled: true, category: league }
+  F36_christmas: { weight: 0.7, enabled: true, category: league }
+  F37_complacency: { weight: 0.5, enabled: true, category: league }
+  F38_streak_league: { weight: 0.5, enabled: true, category: league }
+  F39_position: { weight: 0.6, enabled: true, category: league }
+  F40_promoted: { weight: 0.5, enabled: true, category: league }
+  F41_schedule: { weight: 0.4, enabled: true, category: league }
+
+  # 比赛统计因子
+  F42_ht_momentum: { weight: 0.35, enabled: true, category: stats }
+  F43_shot_eff: { weight: 0.40, enabled: true, category: stats }
+  F44_territorial: { weight: 0.35, enabled: true, category: stats }
+  F45_discipline: { weight: 0.25, enabled: true, category: stats }
+  F46_odds_drift: { weight: 0.45, enabled: true, category: stats }
+  F47_disagreement: { weight: 0.30, enabled: true, category: stats }
+  F48_ref_bias: { weight: 0.30, enabled: true, category: stats }
+  F49_comeback: { weight: 0.25, enabled: true, category: stats }
+  F50_streak_enriched: { weight: 0.40, enabled: true, category: stats }
+  F51_goal_vol: { weight: 0.20, enabled: true, category: stats }
+  F52_corner: { weight: 0.20, enabled: true, category: stats }
+  F53_sot: { weight: 0.30, enabled: true, category: stats }
+  F54_ah_drift: { weight: 0.35, enabled: true, category: stats }
+  F55_totals_drift: { weight: 0.25, enabled: true, category: stats }
+  F56_draw_tactical: { weight: 0.50, enabled: true, category: stats }
+  F57_draw_goals: { weight: 0.50, enabled: true, category: stats }
+  F58_draw_tendency: { weight: 0.50, enabled: true, category: stats }
+
+# 策略配置
+strategies:
+  1x2:
+    enabled: true
+    threshold: 0.05
+    min_odds: 1.20
+    max_odds: 10.0
+    kelly_fraction: 0.25
+    max_stake_pct: 0.03
+
+  over_under:
+    enabled: true
+    threshold: 0.08
+    lines: [1.5, 2.0, 2.5, 3.0, 3.5]
+    kelly_fraction: 0.25
+    max_stake_pct: 0.03
+
+  asian_handicap:
+    enabled: true
+    threshold: 0.08
+    kelly_fraction: 0.25
+    max_stake_pct: 0.03
+
+  parlay:
+    enabled: true
+    min_legs: 2
+    max_legs: 3
+    min_single_value: 0.02
+    min_single_prob: 0.20
+    min_combined_odds: 2.0
+    kelly_discount: 0.15
+    max_single_exposure: 0.003
+
+# 集成配置
+ensemble:
+  min_agreement: 3
+  confidence_threshold: 0.55
+  value_threshold: 0.05
+
+# 回测配置
+backtest:
+  bankroll: 10000
+  seasons: ["2021-22", "2022-23", "2023-24"]
+  leagues: ["premier_league", "la_liga", "bundesliga", "serie_a", "ligue_1"]

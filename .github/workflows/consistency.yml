@@ -1,0 +1,181 @@
+name: GTO-GameFlow v5.0 Consistency & Test Suite
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - '.github/workflows/consistency.yml'
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 8 * * 1'  # 每周一 08:00 UTC
+
+jobs:
+  # ================================================================
+  # L5: 一致性检查 (快速, 先运行)
+  # ================================================================
+  consistency:
+    name: L5 Consistency Checks
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install --break-system-packages numpy scipy
+
+      - name: Check #1 - Factor Count
+        run: python tests/consistency/check_factor_count.py
+
+      - name: Check #2 - Computation Chain
+        run: python tests/consistency/check_computation_chain.py
+
+      - name: Check #3 - Cross References
+        run: python tests/consistency/check_cross_references.py
+
+      - name: Check #4 - Division Guards
+        run: python tests/consistency/check_division_guards.py
+
+      - name: Check #5 - Parameter Sync
+        run: python tests/consistency/check_parameter_sync.py
+
+      - name: Check #6 - Formula Format
+        run: python tests/consistency/check_formula_format.py
+
+      - name: Check #7 - Callout Classes
+        run: python tests/consistency/check_callout_classes.py
+
+      - name: Check #8 - TOC Completeness
+        run: python tests/consistency/check_toc_completeness.py
+
+  # ================================================================
+  # L1: 单元测试
+  # ================================================================
+  unit-tests:
+    name: L1 Unit Tests
+    runs-on: ubuntu-latest
+    needs: consistency
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install --break-system-packages pytest numpy scipy
+
+      - name: Run Registry Tests
+        run: python -m pytest tests/test_registry.py -v --tb=short
+
+      - name: Run Factor Tests
+        run: python -m pytest tests/test_factors.py -v --tb=short
+
+  # ================================================================
+  # L2: 模块测试
+  # ================================================================
+  module-tests:
+    name: L2 Module Tests
+    runs-on: ubuntu-latest
+    needs: consistency
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install --break-system-packages pytest numpy scipy
+
+      - name: Run Probability Tests
+        run: python -m pytest tests/test_probability.py -v --tb=short
+
+      - name: Run Bankroll Tests
+        run: python -m pytest tests/test_bankroll.py -v --tb=short
+
+      - name: Run Risk Control Tests
+        run: python -m pytest tests/test_risk_control.py -v --tb=short
+
+  # ================================================================
+  # L3: 集成测试
+  # ================================================================
+  integration-tests:
+    name: L3 Integration Tests
+    runs-on: ubuntu-latest
+    needs: [unit-tests, module-tests]
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install --break-system-packages pytest numpy scipy
+
+      - name: Run Integration Tests
+        run: python -m pytest tests/test_integration.py -v --tb=short
+
+  # ================================================================
+  # L4: 回归测试
+  # ================================================================
+  regression-tests:
+    name: L4 Regression Tests
+    runs-on: ubuntu-latest
+    needs: [unit-tests, module-tests]
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install --break-system-packages pytest numpy scipy
+
+      - name: Run Regression Tests
+        run: python -m pytest tests/test_regression.py -v --tb=short
+
+  # ================================================================
+  # 汇总
+  # ================================================================
+  summary:
+    name: Test Suite Summary
+    runs-on: ubuntu-latest
+    needs: [consistency, unit-tests, module-tests, integration-tests, regression-tests]
+    if: always()
+    steps:
+      - name: Summary
+        run: |
+          echo "GTO-GameFlow v5.0 Test Suite Complete"
+          echo "L1 Unit Tests: ${{ needs.unit-tests.result }}"
+          echo "L2 Module Tests: ${{ needs.module-tests.result }}"
+          echo "L3 Integration Tests: ${{ needs.integration-tests.result }}"
+          echo "L4 Regression Tests: ${{ needs.regression-tests.result }}"
+          echo "L5 Consistency Checks: ${{ needs.consistency.result }}"

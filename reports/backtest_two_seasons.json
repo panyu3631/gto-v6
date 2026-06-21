@@ -1,0 +1,432 @@
+{
+  "version": "5.9",
+  "seasons": [
+    "2023/24",
+    "2024/25"
+  ],
+  "strategies": [
+    "1x2",
+    "asian_handicap",
+    "over_under",
+    "parlay"
+  ],
+  "bankroll_mode": "fixed_base",
+  "initial_bankroll_per_league": 10000.0,
+  "total_initial": 50000.0,
+  "results": {
+    "premier_league": {
+      "2023/24": {
+        "total_matches": 380,
+        "total_bets": 5,
+        "total_wins": 0,
+        "win_rate": 0.0,
+        "roi": -1.0,
+        "max_drawdown": 0.1956,
+        "sharpe_ratio": -4.0094,
+        "profit_factor": 0.0,
+        "final_balance": 8044.1,
+        "avg_elo": 1629.0,
+        "errors": 0,
+        "strategy_stats": {
+          "1x2": {
+            "bets": 5,
+            "wins": 0,
+            "staked": 1955.9,
+            "returned": 0.0
+          },
+          "asian_handicap": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "over_under": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "parlay": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          }
+        }
+      },
+      "2024/25": {
+        "total_matches": 380,
+        "total_bets": 5,
+        "total_wins": 0,
+        "win_rate": 0.0,
+        "roi": -1.0,
+        "max_drawdown": 0.1962,
+        "sharpe_ratio": -4.6951,
+        "profit_factor": 0.0,
+        "final_balance": 8038.31,
+        "avg_elo": 1604.0,
+        "errors": 0,
+        "strategy_stats": {
+          "1x2": {
+            "bets": 5,
+            "wins": 0,
+            "staked": 1961.69,
+            "returned": 0.0
+          },
+          "asian_handicap": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "over_under": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "parlay": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          }
+        }
+      }
+    },
+    "la_liga": {
+      "2023/24": {
+        "total_matches": 380,
+        "total_bets": 5,
+        "total_wins": 0,
+        "win_rate": 0.0,
+        "roi": -1.0,
+        "max_drawdown": 0.1802,
+        "sharpe_ratio": -3.1207,
+        "profit_factor": 0.0,
+        "final_balance": 8198.2,
+        "avg_elo": 1604.0,
+        "errors": 0,
+        "strategy_stats": {
+          "1x2": {
+            "bets": 5,
+            "wins": 0,
+            "staked": 1801.8,
+            "returned": 0.0
+          },
+          "asian_handicap": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "over_under": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "parlay": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          }
+        }
+      },
+      "2024/25": {
+        "total_matches": 380,
+        "total_bets": 6,
+        "total_wins": 1,
+        "win_rate": 0.1667,
+        "roi": -0.391,
+        "max_drawdown": 0.2096,
+        "sharpe_ratio": -0.2475,
+        "profit_factor": 0.5724,
+        "final_balance": 8981.83,
+        "avg_elo": 1582.0,
+        "errors": 0,
+        "strategy_stats": {
+          "1x2": {
+            "bets": 6,
+            "wins": 1,
+            "staked": 2603.98,
+            "returned": 1585.81
+          },
+          "asian_handicap": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "over_under": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "parlay": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          }
+        }
+      }
+    },
+    "bundesliga": {
+      "2023/24": {
+        "total_matches": 306,
+        "total_bets": 5,
+        "total_wins": 0,
+        "win_rate": 0.0,
+        "roi": -1.0,
+        "max_drawdown": 0.1973,
+        "sharpe_ratio": -3.9604,
+        "profit_factor": 0.0,
+        "final_balance": 8026.74,
+        "avg_elo": 1621.0,
+        "errors": 0,
+        "strategy_stats": {
+          "1x2": {
+            "bets": 5,
+            "wins": 0,
+            "staked": 1973.26,
+            "returned": 0.0
+          },
+          "asian_handicap": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "over_under": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "parlay": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          }
+        }
+      },
+      "2024/25": {
+        "total_matches": 306,
+        "total_bets": 6,
+        "total_wins": 1,
+        "win_rate": 0.1667,
+        "roi": -0.5684,
+        "max_drawdown": 0.2153,
+        "sharpe_ratio": -0.4548,
+        "profit_factor": 0.3949,
+        "final_balance": 8576.11,
+        "avg_elo": 1604.0,
+        "errors": 0,
+        "strategy_stats": {
+          "1x2": {
+            "bets": 6,
+            "wins": 1,
+            "staked": 2504.98,
+            "returned": 1081.1
+          },
+          "asian_handicap": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "over_under": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "parlay": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          }
+        }
+      }
+    },
+    "serie_a": {
+      "2023/24": {
+        "total_matches": 380,
+        "total_bets": 5,
+        "total_wins": 0,
+        "win_rate": 0.0,
+        "roi": -1.0,
+        "max_drawdown": 0.1935,
+        "sharpe_ratio": -3.7725,
+        "profit_factor": 0.0,
+        "final_balance": 8064.58,
+        "avg_elo": 1594.0,
+        "errors": 0,
+        "strategy_stats": {
+          "1x2": {
+            "bets": 5,
+            "wins": 0,
+            "staked": 1935.42,
+            "returned": 0.0
+          },
+          "asian_handicap": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "over_under": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "parlay": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          }
+        }
+      },
+      "2024/25": {
+        "total_matches": 380,
+        "total_bets": 9,
+        "total_wins": 2,
+        "win_rate": 0.2222,
+        "roi": 0.3605,
+        "max_drawdown": 0.1756,
+        "sharpe_ratio": 0.1366,
+        "profit_factor": 1.4456,
+        "final_balance": 11332.13,
+        "avg_elo": 1574.0,
+        "errors": 0,
+        "strategy_stats": {
+          "1x2": {
+            "bets": 9,
+            "wins": 2,
+            "staked": 3695.52,
+            "returned": 5027.65
+          },
+          "asian_handicap": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "over_under": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "parlay": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          }
+        }
+      }
+    },
+    "ligue_1": {
+      "2023/24": {
+        "total_matches": 306,
+        "total_bets": 5,
+        "total_wins": 0,
+        "win_rate": 0.0,
+        "roi": -1.0,
+        "max_drawdown": 0.199,
+        "sharpe_ratio": -26.0386,
+        "profit_factor": 0.0,
+        "final_balance": 8010.14,
+        "avg_elo": 1598.0,
+        "errors": 0,
+        "strategy_stats": {
+          "1x2": {
+            "bets": 5,
+            "wins": 0,
+            "staked": 1989.86,
+            "returned": 0.0
+          },
+          "asian_handicap": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "over_under": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "parlay": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          }
+        }
+      },
+      "2024/25": {
+        "total_matches": 306,
+        "total_bets": 5,
+        "total_wins": 0,
+        "win_rate": 0.0,
+        "roi": -1.0,
+        "max_drawdown": 0.1925,
+        "sharpe_ratio": -12.2768,
+        "profit_factor": 0.0,
+        "final_balance": 8074.8,
+        "avg_elo": 1579.0,
+        "errors": 0,
+        "strategy_stats": {
+          "1x2": {
+            "bets": 5,
+            "wins": 0,
+            "staked": 1925.2,
+            "returned": 0.0
+          },
+          "asian_handicap": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "over_under": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          },
+          "parlay": {
+            "bets": 0,
+            "wins": 0,
+            "staked": 0.0,
+            "returned": 0.0
+          }
+        }
+      }
+    }
+  },
+  "v57_features": {
+    "multi_seed_stability": true,
+    "walk_forward": true,
+    "probability_calibration": "platt_scaling"
+  },
+  "summary": {
+    "total_bets": 56,
+    "total_wins": 4,
+    "win_rate": 0.0714,
+    "roi": -0.6557,
+    "final_balance_2324": 40343.75,
+    "final_balance_2425": 45003.18,
+    "total_profit": -14653.07
+  }
+}
