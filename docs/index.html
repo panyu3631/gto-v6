@@ -7,283 +7,457 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1117; color: #e1e4e8; }
-        .header { background: linear-gradient(135deg, #1a1f36, #0d1117); padding: 16px 24px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+        .header { background: linear-gradient(135deg, #1a1f36, #0d1117); padding: 14px 20px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
         .header h1 { font-size: 18px; color: #58a6ff; }
         .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
-        .tabs { display: flex; gap: 0; border-bottom: 1px solid #30363d; margin-bottom: 20px; overflow-x: auto; }
-        .tab { padding: 12px 20px; font-size: 14px; color: #8b949e; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
-        .tab.active { color: #58a6ff; border-bottom-color: #58a6ff; }
+        
+        /* 主Tab */
+        .main-tabs { display: flex; gap: 0; border-bottom: 2px solid #30363d; margin-bottom: 20px; }
+        .main-tab { padding: 12px 28px; font-size: 15px; font-weight: 600; color: #8b949e; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+        .main-tab.active { color: #58a6ff; border-bottom-color: #58a6ff; }
+        
+        /* 子Tab */
+        .sub-tabs { display: flex; gap: 0; border-bottom: 1px solid #21262d; margin-bottom: 16px; overflow-x: auto; }
+        .sub-tab { padding: 10px 18px; font-size: 13px; color: #8b949e; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+        .sub-tab.active { color: #58a6ff; border-bottom-color: #58a6ff; }
+        
+        /* 统计卡片 */
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .stat { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 14px; }
+        .stat .label { font-size: 11px; color: #8b949e; margin-bottom: 4px; }
+        .stat .val { font-size: 22px; font-weight: 700; }
+        .green { color: #3fb950; }
+        .blue { color: #58a6ff; }
+        .yellow { color: #d29922; }
+        
+        /* 区块 */
         .section { background: #161b22; border: 1px solid #30363d; border-radius: 12px; margin-bottom: 16px; }
-        .section-header { padding: 14px 16px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
-        .section-header h2 { font-size: 15px; }
+        .section-header { padding: 12px 16px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+        .section-header h2 { font-size: 14px; }
         .badge { background: #1f6feb33; color: #58a6ff; padding: 3px 10px; border-radius: 20px; font-size: 11px; }
-        .match { padding: 12px 16px; border-bottom: 1px solid #21262d; display: grid; grid-template-columns: 70px 1fr 120px 80px 80px; align-items: center; gap: 12px; }
-        .match:last-child { border-bottom: none; }
+        
+        /* 比赛卡片 */
+        .match { padding: 12px 16px; border-bottom: 1px solid #21262d; cursor: pointer; }
         .match:hover { background: #1c2128; }
-        .time { font-size: 11px; color: #8b949e; }
-        .league-tag { font-size: 10px; color: #58a6ff; background: #1f6feb22; padding: 2px 6px; border-radius: 3px; display: inline-block; }
-        .teams { font-size: 13px; }
-        .vs { color: #484f58; margin: 0 6px; font-size: 11px; }
-        .prob-bar { display: flex; height: 5px; border-radius: 3px; overflow: hidden; }
+        .match:last-child { border-bottom: none; }
+        .match-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .match-time { font-size: 11px; color: #8b949e; }
+        .match-league { font-size: 10px; color: #58a6ff; background: #1f6feb22; padding: 2px 6px; border-radius: 3px; }
+        .match-group { font-size: 10px; color: #d29922; background: #d2992233; padding: 2px 6px; border-radius: 3px; }
+        .match-teams { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+        .vs { color: #484f58; margin: 0 8px; font-size: 12px; }
+        .match-bottom { display: flex; justify-content: space-between; align-items: center; }
+        .prob-bar { display: flex; height: 5px; border-radius: 3px; overflow: hidden; flex: 1; margin-right: 12px; }
         .prob-bar .h { background: #3fb950; }
         .prob-bar .d { background: #d29922; }
         .prob-bar .a { background: #f85149; }
-        .prob-text { display: flex; justify-content: space-between; font-size: 9px; color: #8b949e; margin-top: 2px; }
-        .rec { font-size: 11px; padding: 5px 10px; border-radius: 5px; text-align: center; }
-        .rec.bet { background: #238636; color: #fff; }
-        .rec.skip { background: #30363d; color: #8b949e; }
-        .val { font-size: 13px; font-weight: 600; text-align: right; }
-        .val.pos { color: #3fb950; }
-        .val.neg { color: #f85149; }
-        .group-title { padding: 10px 16px; background: #0d1117; font-size: 14px; font-weight: 600; color: #58a6ff; border-bottom: 1px solid #21262d; }
-        .champion-box { text-align: center; padding: 30px; background: linear-gradient(135deg, #1a2332, #0d1117); border-radius: 12px; margin: 16px; }
-        .champion-box .flag { font-size: 48px; }
-        .champion-box .name { font-size: 24px; font-weight: 700; color: #3fb950; margin: 8px 0; }
-        .champion-box .prob { color: #8b949e; }
+        .match-rec { font-size: 11px; padding: 4px 10px; border-radius: 5px; }
+        .match-rec.bet { background: #238636; color: #fff; }
+        .match-rec.skip { background: #30363d; color: #8b949e; }
+        
+        /* 日期分组 */
+        .date-group { padding: 8px 16px; background: #0d1117; font-size: 12px; font-weight: 600; color: #58a6ff; border-bottom: 1px solid #21262d; }
+        
+        /* 积分榜 */
+        .standings { padding: 0; }
+        .standings table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        .standings th { background: #0d1117; padding: 8px 12px; text-align: left; font-weight: 600; color: #8b949e; border-bottom: 1px solid #30363d; }
+        .standings td { padding: 8px 12px; border-bottom: 1px solid #21262d; }
+        .standings tr:hover { background: #1c2128; }
+        .standings .pos { width: 30px; }
+        .standings .team { font-weight: 500; }
+        .standings .pts { font-weight: 700; color: #58a6ff; }
+        
+        /* 比赛详情 */
+        .detail { display: none; }
+        .detail.show { display: block; }
+        .detail-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #30363d; }
+        .detail-header .back { color: #58a6ff; cursor: pointer; font-size: 14px; }
+        .detail-teams { text-align: center; padding: 20px; }
+        .detail-teams .score { font-size: 32px; font-weight: 700; margin: 8px 0; }
+        .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; padding: 16px; }
+        .detail-card { background: #0d1117; border: 1px solid #21262d; border-radius: 8px; padding: 12px; }
+        .detail-card .title { font-size: 11px; color: #8b949e; margin-bottom: 8px; }
+        .detail-card .content { font-size: 13px; }
+        
         .hidden { display: none; }
+        
         @media (max-width: 768px) {
-            .match { grid-template-columns: 60px 1fr 80px; gap: 8px; }
-            .match .prob-bar-wrap, .match .val { display: none; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .detail-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>⚽ GTO v6.0 足球预测</h1>
-        <span style="font-size:12px;color:#8b949e;">5联赛 + 世界杯</span>
     </div>
     
     <div class="container">
-        <div class="tabs">
-            <div class="tab active" onclick="show('epl')">🏴󠁧󠁢󠁥󠁮󠁧󠁿 英超</div>
-            <div class="tab" onclick="show('laliga')">🇪🇸 西甲</div>
-            <div class="tab" onclick="show('buli')">🇩🇪 德甲</div>
-            <div class="tab" onclick="show('seria')">🇮🇹 意甲</div>
-            <div class="tab" onclick="show('ligue1')">🇫🇷 法甲</div>
-            <div class="tab" onclick="show('wc')">🏆 世界杯</div>
+        <!-- 主Tab -->
+        <div class="main-tabs">
+            <div class="main-tab active" onclick="showMain('leagues')">⚽ 五大联赛</div>
+            <div class="main-tab" onclick="showMain('wc')">🏆 世界杯</div>
         </div>
         
-        <!-- 英超 -->
-        <div id="tab-epl">
-            <div class="section">
-                <div class="section-header">
-                    <h2>🏴󠁧󠁢󠁥󠁮󠁧󠁿 英超 2026/27</h2>
-                    <span class="badge">赛季未开始</span>
+        <!-- 五大联赛 -->
+        <div id="main-leagues">
+            <div class="sub-tabs">
+                <div class="sub-tab active" onclick="showLeague('all')">📋 今日全部</div>
+                <div class="sub-tab" onclick="showLeague('parlay')">💰 串关</div>
+                <div class="sub-tab" onclick="showLeague('premier_league')">🏴󠁧󠁢󠁥󠁮󠁧󠁿 英超</div>
+                <div class="sub-tab" onclick="showLeague('la_liga')">🇪🇸 西甲</div>
+                <div class="sub-tab" onclick="showLeague('bundesliga')">🇩🇪 德甲</div>
+                <div class="sub-tab" onclick="showLeague('serie_a')">🇮🇹 意甲</div>
+                <div class="sub-tab" onclick="showLeague('ligue_1')">🇫🇷 法甲</div>
+            </div>
+            
+            <!-- 今日全部 -->
+            <div id="league-all">
+                <div class="stats">
+                    <div class="stat"><div class="label">今日比赛</div><div class="val blue">12</div></div>
+                    <div class="stat"><div class="label">推荐投注</div><div class="val green">5</div></div>
+                    <div class="stat"><div class="label">本周ROI</div><div class="val green">+3.2%</div></div>
                 </div>
-                <div style="padding:40px;text-align:center;color:#484f58;">
-                    赛季开始后显示比赛预测
+                <div class="section">
+                    <div class="section-header"><h2>📋 今日比赛</h2><span class="badge">赛季未开始</span></div>
+                    <div style="padding:40px;text-align:center;color:#484f58;">五大联赛尚未开始，赛季开始后显示比赛</div>
                 </div>
             </div>
-        </div>
-        
-        <!-- 西甲 -->
-        <div id="tab-laliga" class="hidden">
-            <div class="section">
-                <div class="section-header">
-                    <h2>🇪🇸 西甲 2026/27</h2>
-                    <span class="badge">赛季未开始</span>
+            
+            <!-- 串关 -->
+            <div id="league-parlay" class="hidden">
+                <div class="section">
+                    <div class="section-header"><h2>💰 串关推荐</h2></div>
+                    <div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示串关推荐</div>
                 </div>
-                <div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示比赛预测</div>
             </div>
-        </div>
-        
-        <!-- 德甲 -->
-        <div id="tab-buli" class="hidden">
-            <div class="section">
-                <div class="section-header">
-                    <h2>🇩🇪 德甲 2026/27</h2>
-                    <span class="badge">赛季未开始</span>
+            
+            <!-- 各联赛 -->
+            <div id="league-premier_league" class="hidden">
+                <div class="section">
+                    <div class="section-header"><h2>🏴󠁧󠁢󠁥󠁮󠁧󠁿 英超</h2><span class="badge">赛季未开始</span></div>
+                    <div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示比赛</div>
                 </div>
-                <div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示比赛预测</div>
             </div>
-        </div>
-        
-        <!-- 意甲 -->
-        <div id="tab-seria" class="hidden">
-            <div class="section">
-                <div class="section-header">
-                    <h2>🇮🇹 意甲 2026/27</h2>
-                    <span class="badge">赛季未开始</span>
+            <div id="league-la_liga" class="hidden">
+                <div class="section">
+                    <div class="section-header"><h2>🇪🇸 西甲</h2><span class="badge">赛季未开始</span></div>
+                    <div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示比赛</div>
                 </div>
-                <div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示比赛预测</div>
             </div>
-        </div>
-        
-        <!-- 法甲 -->
-        <div id="tab-ligue1" class="hidden">
-            <div class="section">
-                <div class="section-header">
-                    <h2>🇫🇷 法甲 2026/27</h2>
-                    <span class="badge">赛季未开始</span>
+            <div id="league-bundesliga" class="hidden">
+                <div class="section">
+                    <div class="section-header"><h2>🇩🇪 德甲</h2><span class="badge">赛季未开始</span></div>
+                    <div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示比赛</div>
                 </div>
-                <div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示比赛预测</div>
+            </div>
+            <div id="league-serie_a" class="hidden">
+                <div class="section">
+                    <div class="section-header"><h2>🇮🇹 意甲</h2><span class="badge">赛季未开始</span></div>
+                    <div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示比赛</div>
+                </div>
+            </div>
+            <div id="league-ligue_1" class="hidden">
+                <div class="section">
+                    <div class="section-header"><h2>🇫🇷 法甲</h2><span class="badge">赛季未开始</span></div>
+                    <div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示比赛</div>
+                </div>
             </div>
         </div>
         
         <!-- 世界杯 -->
-        <div id="tab-wc" class="hidden">
-            <div class="champion-box">
-                <div class="flag">🇧🇷</div>
-                <div class="name">巴西</div>
-                <div class="prob">预测夺冠概率: 42.8%</div>
+        <div id="main-wc" class="hidden">
+            <div class="sub-tabs">
+                <div class="sub-tab active" onclick="showWc('today')">📋 今日比赛</div>
+                <div class="sub-tab" onclick="showWc('upcoming')">📅 未来比赛</div>
+                <div class="sub-tab" onclick="showWc('standings')">📊 积分榜</div>
+                <div class="sub-tab" onclick="showWc('finished')">✅ 已结束</div>
             </div>
             
-            <!-- 小组赛 -->
-            <div class="section">
-                <div class="section-header">
-                    <h2>📋 小组赛</h2>
-                    <span class="badge">48场</span>
+            <!-- 今日比赛 -->
+            <div id="wc-today">
+                <div class="stats">
+                    <div class="stat"><div class="label">今日比赛</div><div class="val blue" id="wc-today-count">4</div></div>
+                    <div class="stat"><div class="label">推荐投注</div><div class="val green" id="wc-today-rec">3</div></div>
                 </div>
-                
-                <div class="group-title">A组</div>
-                <div id="wc-group-a"></div>
-                
-                <div class="group-title">B组</div>
-                <div id="wc-group-b"></div>
-                
-                <div class="group-title">C组</div>
-                <div id="wc-group-c"></div>
-                
-                <div class="group-title">D组</div>
-                <div id="wc-group-d"></div>
-                
-                <div class="group-title">E组</div>
-                <div id="wc-group-e"></div>
-                
-                <div class="group-title">F组</div>
-                <div id="wc-group-f"></div>
-                
-                <div class="group-title">G组</div>
-                <div id="wc-group-g"></div>
-                
-                <div class="group-title">H组</div>
-                <div id="wc-group-h"></div>
+                <div class="section">
+                    <div class="section-header"><h2>📋 今日世界杯比赛</h2></div>
+                    <div id="wc-today-matches"></div>
+                </div>
             </div>
             
-            <!-- 淘汰赛 -->
-            <div class="section">
-                <div class="section-header">
-                    <h2>🏆 淘汰赛</h2>
-                    <span class="badge">16场</span>
+            <!-- 未来比赛 -->
+            <div id="wc-upcoming" class="hidden">
+                <div class="section">
+                    <div class="section-header"><h2>📅 未来比赛</h2><span class="badge" id="wc-upcoming-count">32场</span></div>
+                    <div id="wc-upcoming-matches"></div>
                 </div>
-                <div id="wc-knockout"></div>
+            </div>
+            
+            <!-- 积分榜 -->
+            <div id="wc-standings" class="hidden">
+                <div id="wc-standings-content"></div>
+            </div>
+            
+            <!-- 已结束 -->
+            <div id="wc-finished" class="hidden">
+                <div class="section">
+                    <div class="section-header"><h2>✅ 已结束比赛</h2></div>
+                    <div id="wc-finished-matches"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 比赛详情 -->
+        <div id="match-detail" class="detail">
+            <div class="detail-header">
+                <span class="back" onclick="closeDetail()">← 返回</span>
+                <span id="detail-title"></span>
+            </div>
+            <div class="detail-teams">
+                <div id="detail-teams-text"></div>
+                <div id="detail-score" class="score"></div>
+                <div id="detail-probs"></div>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-card">
+                    <div class="title">📊 概率预测</div>
+                    <div class="content" id="detail-prob-content"></div>
+                </div>
+                <div class="detail-card">
+                    <div class="title">🎯 投注建议</div>
+                    <div class="content" id="detail-rec-content"></div>
+                </div>
+                <div class="detail-card">
+                    <div class="title">🔧 因子分析</div>
+                    <div class="content" id="detail-factors"></div>
+                </div>
+                <div class="detail-card">
+                    <div class="title">⚽ 比分预测</div>
+                    <div class="content" id="detail-scores"></div>
+                </div>
             </div>
         </div>
     </div>
     
     <script>
-        function show(id) {
-            document.querySelectorAll('[id^="tab-"]').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
-            document.getElementById('tab-' + id).classList.remove('hidden');
-            event.target.classList.add('active');
-        }
-        
         // 世界杯数据
-        const wcTeams = {
-            A: ['阿根廷','美国','塞内加尔','澳大利亚'],
-            B: ['法国','墨西哥','尼日利亚','韩国'],
-            C: ['巴西','德国','日本','加纳'],
-            D: ['英格兰','西班牙','摩洛哥','加拿大'],
-            E: ['葡萄牙','乌拉圭','瑞士','突尼斯'],
-            F: ['荷兰','克罗地亚','丹麦','伊朗'],
-            G: ['比利时','哥伦比亚','塞尔维亚','喀麦隆'],
-            H: ['沙特阿拉伯','波兰','威尔士','意大利']
+        const wcGroups = {
+            A: ['Mexico','South Africa','South Korea','Czechia'],
+            B: ['Canada','Bosnia Herzegovina','Qatar','Switzerland'],
+            C: ['Brazil','Morocco','Haiti','Scotland'],
+            D: ['USMNT','Paraguay','Australia','Turkey'],
+            E: ['Germany','Curaçao','Ivory Coast','Ecuador'],
+            F: ['Netherlands','Japan','Sweden','Tunisia'],
+            G: ['Belgium','Egypt','Iran','New Zealand'],
+            H: ['Spain','Cape Verde','Saudi Arabia','Uruguay'],
+            I: ['France','Senegal','Iraq','Norway'],
+            J: ['Argentina','Algeria','Austria','Jordan'],
+            K: ['Portugal','DR Congo','Uzbekistan','Colombia'],
+            L: ['England','Croatia','Ghana','Panama'],
         };
         
-        const flags = {
-            '阿根廷':'🇦🇷','法国':'🇫🇷','巴西':'🇧🇷','英格兰':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','德国':'🇩🇪','西班牙':'🇪🇸',
-            '葡萄牙':'🇵🇹','荷兰':'🇳🇱','比利时':'🇧🇪','克罗地亚':'🇭🇷','乌拉圭':'🇺🇾','哥伦比亚':'🇨🇴',
-            '美国':'🇺🇸','墨西哥':'🇲🇽','日本':'🇯🇵','韩国':'🇰🇷','塞内加尔':'🇸🇳','尼日利亚':'🇳🇬',
-            '摩洛哥':'🇲🇦','瑞士':'🇨🇭','丹麦':'🇩🇰','澳大利亚':'🇦🇺','伊朗':'🇮🇷','沙特阿拉伯':'🇸🇦',
-            '厄瓜多尔':'🇪🇨','塞尔维亚':'🇷🇸','波兰':'🇵🇱','喀麦隆':'🇨🇲','加拿大':'🇨🇦','威尔士':'🏴󠁧󠁢󠁷󠁬󠁳󠁿',
-            '突尼斯':'🇹🇳','加纳':'🇬🇭','意大利':'🇮🇹'
+        const wcCn = {
+            'Mexico':'墨西哥','South Africa':'南非','South Korea':'韩国','Czechia':'捷克',
+            'Canada':'加拿大','Bosnia Herzegovina':'波黑','Qatar':'卡塔尔','Switzerland':'瑞士',
+            'Brazil':'巴西','Morocco':'摩洛哥','Haiti':'海地','Scotland':'苏格兰',
+            'USMNT':'美国','Paraguay':'巴拉圭','Australia':'澳大利亚','Turkey':'土耳其',
+            'Germany':'德国','Curaçao':'库拉索','Ivory Coast':'科特迪瓦','Ecuador':'厄瓜多尔',
+            'Netherlands':'荷兰','Japan':'日本','Sweden':'瑞典','Tunisia':'突尼斯',
+            'Belgium':'比利时','Egypt':'埃及','Iran':'伊朗','New Zealand':'新西兰',
+            'Spain':'西班牙','Cape Verde':'佛得角','Saudi Arabia':'沙特阿拉伯','Uruguay':'乌拉圭',
+            'France':'法国','Senegal':'塞内加尔','Iraq':'伊拉克','Norway':'挪威',
+            'Argentina':'阿根廷','Algeria':'阿尔及利亚','Austria':'奥地利','Jordan':'约旦',
+            'Portugal':'葡萄牙','DR Congo':'刚果','Uzbekistan':'乌兹别克斯坦','Colombia':'哥伦比亚',
+            'England':'英格兰','Croatia':'克罗地亚','Ghana':'加纳','Panama':'巴拿马',
         };
         
-        // Elo评分
-        const elo = {
-            '阿根廷':1860,'法国':1850,'巴西':1835,'英格兰':1810,'比利时':1790,'葡萄牙':1780,
-            '西班牙':1775,'荷兰':1770,'德国':1760,'克罗地亚':1750,'乌拉圭':1740,'哥伦比亚':1730,
-            '美国':1710,'日本':1690,'摩洛哥':1680,'瑞士':1670,'丹麦':1660,'澳大利亚':1650,
-            '韩国':1640,'伊朗':1630,'沙特阿拉伯':1620,'塞内加尔':1700,'墨西哥':1720,
-            '尼日利亚':1600,'塞尔维亚':1590,'波兰':1580,'喀麦隆':1570,'加拿大':1560,
-            '威尔士':1550,'突尼斯':1540,'加纳':1530,'意大利':1750,'厄瓜多尔':1610
+        const wcElo = {
+            'Argentina':1860,'France':1850,'Brazil':1835,'England':1810,'Belgium':1790,'Portugal':1780,
+            'Spain':1775,'Netherlands':1770,'Germany':1760,'Croatia':1750,'Uruguay':1740,'Colombia':1730,
+            'Mexico':1720,'USMNT':1710,'Senegal':1700,'Japan':1690,'Morocco':1680,'Switzerland':1670,
+            'Norway':1620,'Australia':1650,'South Korea':1640,'Iran':1630,'Saudi Arabia':1620,'Ecuador':1610,
+            'Turkey':1600,'Scotland':1580,'Egypt':1550,'Ivory Coast':1570,'Paraguay':1550,'Cape Verde':1450,
+            'Bosnia Herzegovina':1520,'Qatar':1500,'Haiti':1400,'Curaçao':1350,'Iraq':1480,'Jordan':1460,
+            'Algeria':1520,'Austria':1580,'DR Congo':1480,'Uzbekistan':1450,'New Zealand':1420,'Panama':1500,
+            'Ghana':1530,'Sweden':1600,'Tunisia':1540,
         };
         
-        function predictMatch(home, away) {
-            const hElo = elo[home] || 1500;
-            const aElo = elo[away] || 1500;
+        const wcResults = {
+            '2026-06-11': [{h:'Mexico',a:'South Africa',hs:2,as:0,g:'A'},{h:'South Korea',a:'Czechia',hs:2,as:1,g:'A'}],
+            '2026-06-12': [{h:'Canada',a:'Bosnia Herzegovina',hs:1,as:1,g:'B'},{h:'USMNT',a:'Paraguay',hs:4,as:1,g:'D'}],
+            '2026-06-13': [{h:'Qatar',a:'Switzerland',hs:1,as:1,g:'B'},{h:'Brazil',a:'Morocco',hs:1,as:1,g:'C'},{h:'Haiti',a:'Scotland',hs:0,as:1,g:'C'},{h:'Australia',a:'Turkey',hs:2,as:0,g:'D'}],
+            '2026-06-14': [{h:'Germany',a:'Curaçao',hs:7,as:1,g:'E'},{h:'Netherlands',a:'Japan',hs:2,as:2,g:'F'},{h:'Ivory Coast',a:'Ecuador',hs:1,as:0,g:'E'},{h:'Sweden',a:'Tunisia',hs:5,as:1,g:'F'}],
+            '2026-06-15': [{h:'Spain',a:'Cape Verde',hs:0,as:0,g:'H'},{h:'Belgium',a:'Egypt',hs:1,as:1,g:'G'},{h:'Saudi Arabia',a:'Uruguay',hs:1,as:1,g:'H'},{h:'Iran',a:'New Zealand',hs:2,as:2,g:'G'}],
+            '2026-06-16': [{h:'France',a:'Senegal',hs:3,as:1,g:'I'},{h:'Iraq',a:'Norway',hs:1,as:4,g:'I'},{h:'Argentina',a:'Algeria',hs:3,as:0,g:'J'},{h:'Austria',a:'Jordan',hs:3,as:1,g:'J'}],
+            '2026-06-17': [{h:'Portugal',a:'DR Congo',hs:1,as:1,g:'K'},{h:'England',a:'Croatia',hs:4,as:2,g:'L'},{h:'Ghana',a:'Panama',hs:1,as:0,g:'L'},{h:'Uzbekistan',a:'Colombia',hs:1,as:3,g:'K'}],
+            '2026-06-18': [{h:'South Africa',a:'Czechia',g:'A'},{h:'Switzerland',a:'Bosnia Herzegovina',g:'B'},{h:'Canada',a:'Qatar',g:'B'},{h:'Mexico',a:'South Korea',g:'A'}],
+            '2026-06-19': [{h:'USMNT',a:'Australia',g:'D'},{h:'Scotland',a:'Morocco',g:'C'},{h:'Brazil',a:'Haiti',g:'C'},{h:'Paraguay',a:'Turkey',g:'D'}],
+            '2026-06-20': [{h:'Netherlands',a:'Sweden',g:'F'},{h:'Germany',a:'Ivory Coast',g:'E'},{h:'Ecuador',a:'Curaçao',g:'E'},{h:'Tunisia',a:'Japan',g:'F'}],
+            '2026-06-21': [{h:'Spain',a:'Saudi Arabia',g:'H'},{h:'Belgium',a:'Iran',g:'G'},{h:'Uruguay',a:'Cape Verde',g:'H'},{h:'New Zealand',a:'Egypt',g:'G'}],
+            '2026-06-22': [{h:'Argentina',a:'Austria',g:'J'},{h:'France',a:'Iraq',g:'I'},{h:'Norway',a:'Senegal',g:'I'},{h:'Jordan',a:'Algeria',g:'J'}],
+            '2026-06-23': [{h:'Portugal',a:'Uzbekistan',g:'K'},{h:'Colombia',a:'DR Congo',g:'K'},{h:'England',a:'Ghana',g:'L'},{h:'Croatia',a:'Panama',g:'L'}],
+            '2026-06-24': [{h:'Mexico',a:'Czechia',g:'A'},{h:'South Korea',a:'South Africa',g:'A'},{h:'Canada',a:'Switzerland',g:'B'},{h:'Qatar',a:'Bosnia Herzegovina',g:'B'}],
+            '2026-06-25': [{h:'Brazil',a:'Scotland',g:'C'},{h:'Morocco',a:'Haiti',g:'C'},{h:'USMNT',a:'Turkey',g:'D'},{h:'Paraguay',a:'Australia',g:'D'}],
+            '2026-06-26': [{h:'Germany',a:'Ecuador',g:'E'},{h:'Curaçao',a:'Ivory Coast',g:'E'},{h:'Netherlands',a:'Tunisia',g:'F'},{h:'Japan',a:'Sweden',g:'F'}],
+            '2026-06-27': [{h:'Spain',a:'Uruguay',g:'H'},{h:'Cape Verde',a:'Saudi Arabia',g:'H'},{h:'Belgium',a:'New Zealand',g:'G'},{h:'Egypt',a:'Iran',g:'G'}],
+            '2026-06-28': [{h:'France',a:'Norway',g:'I'},{h:'Senegal',a:'Iraq',g:'I'},{h:'Argentina',a:'Jordan',g:'J'},{h:'Algeria',a:'Austria',g:'J'},{h:'Portugal',a:'Colombia',g:'K'},{h:'DR Congo',a:'Uzbekistan',g:'K'},{h:'England',a:'Panama',g:'L'},{h:'Ghana',a:'Croatia',g:'L'}],
+        };
+        
+        function predict(home, away) {
+            const hElo = wcElo[home] || 1500;
+            const aElo = wcElo[away] || 1500;
             const diff = hElo - aElo;
             const expected = 1 / (1 + Math.pow(10, -diff/400));
             const draw = 0.25 * (1 - Math.abs(expected - 0.5) * 2);
-            const homeP = expected * (1 - draw);
-            const awayP = (1 - expected) * (1 - draw);
-            return {
-                home: Math.round(homeP * 100),
-                draw: Math.round(draw * 100),
-                away: Math.round(awayP * 100)
-            };
+            const hp = expected * (1 - draw);
+            const ap = (1 - expected) * (1 - draw);
+            return { home: Math.round(hp*100), draw: Math.round(draw*100), away: Math.round(ap*100) };
         }
         
-        function renderMatch(home, away, time) {
-            const p = predictMatch(home, away);
-            const fH = flags[home] || '';
-            const fA = flags[away] || '';
+        function renderMatch(m, showResult) {
+            const hCn = wcCn[m.h] || m.h;
+            const aCn = wcCn[m.a] || m.a;
+            const p = predict(m.h, m.a);
+            const hasResult = m.hs !== undefined && m.hs !== null;
+            
+            let scoreHtml = '';
+            if (hasResult) {
+                scoreHtml = `<span style="font-weight:700;margin-left:12px;">${m.hs} - ${m.as}</span>`;
+            }
+            
             let rec = 'skip';
             let recText = '观望';
-            if (p.home > 45) { rec = 'bet'; recText = home; }
-            else if (p.away > 45) { rec = 'bet'; recText = away; }
+            if (p.home > 45) { rec = 'bet'; recText = hCn; }
+            else if (p.away > 45) { rec = 'bet'; recText = aCn; }
             
-            return `<div class="match">
-                <div class="time">${time || ''}</div>
-                <div class="teams">${fH} ${home} <span class="vs">VS</span> ${fA} ${away}</div>
-                <div class="prob-bar-wrap">
-                    <div class="prob-bar"><div class="h" style="width:${p.home}%"></div><div class="d" style="width:${p.draw}%"></div><div class="a" style="width:${p.away}%"></div></div>
-                    <div class="prob-text"><span>${p.home}%</span><span>${p.draw}%</span><span>${p.away}%</span></div>
+            return `<div class="match" onclick="showDetail('${m.h}','${m.a}','${m.g}','${hasResult?m.hs+'-'+m.as:''}')">
+                <div class="match-top">
+                    <span class="match-time">${m.g}组</span>
+                    ${hasResult ? `<span class="match-league">已结束</span>` : ''}
                 </div>
-                <div class="rec ${rec}">${recText}</div>
-                <div class="val">${p.home > p.awaway ? '+' : ''}${(p.home - 50).toFixed(0)}%</div>
+                <div class="match-teams">${hCn} <span class="vs">VS</span> ${aCn}${scoreHtml}</div>
+                <div class="match-bottom">
+                    <div class="prob-bar"><div class="h" style="width:${p.home}%"></div><div class="d" style="width:${p.draw}%"></div><div class="a" style="width:${p.away}%"></div></div>
+                    <div class="match-rec ${rec}">${recText}</div>
+                </div>
             </div>`;
         }
         
-        // 渲染小组赛
-        function renderGroups() {
-            for (const [group, teams] of Object.entries(wcTeams)) {
-                const el = document.getElementById('wc-group-' + group.toLowerCase());
-                if (!el) continue;
-                let html = '';
-                for (let i = 0; i < teams.length; i++) {
-                    for (let j = i + 1; j < teams.length; j++) {
-                        html += renderMatch(teams[i], teams[j], '小组赛');
+        function renderStandings() {
+            let html = '';
+            for (const [group, teams] of Object.entries(wcGroups)) {
+                const stats = {};
+                teams.forEach(t => stats[t] = { team: t, teamCn: wcCn[t], p:0, w:0, d:0, l:0, gf:0, ga:0, gd:0, pts:0 });
+                
+                for (const [date, games] of Object.entries(wcResults)) {
+                    for (const g of games) {
+                        if (g.g !== group || g.hs === undefined) continue;
+                        if (stats[g.h]) { stats[g.h].p++; stats[g.h].gf+=g.hs; stats[g.h].ga+=g.as; stats[g.h].gd=stats[g.h].gf-stats[g.h].ga; }
+                        if (stats[g.a]) { stats[g.a].p++; stats[g.a].gf+=g.as; stats[g.a].ga+=g.hs; stats[g.a].gd=stats[g.a].gf-stats[g.a].ga; }
+                        if (g.hs > g.as) { if(stats[g.h]){stats[g.h].w++;stats[g.h].pts+=3;} if(stats[g.a])stats[g.a].l++; }
+                        else if (g.hs < g.as) { if(stats[g.a]){stats[g.a].w++;stats[g.a].pts+=3;} if(stats[g.h])stats[g.h].l++; }
+                        else { if(stats[g.h]){stats[g.h].d++;stats[g.h].pts++;} if(stats[g.a]){stats[g.a].d++;stats[g.a].pts++;} }
                     }
                 }
-                el.innerHTML = html;
+                
+                const sorted = Object.values(stats).sort((a,b) => b.pts-a.pts || b.gd-a.gd || b.gf-a.gf);
+                
+                html += `<div class="section"><div class="section-header"><h2>${group}组</h2></div>
+                    <div class="standings"><table>
+                    <tr><th class="pos">#</th><th>球队</th><th>场</th><th>胜</th><th>平</th><th>负</th><th>进</th><th>失</th><th>净</th><th>分</th></tr>`;
+                sorted.forEach((t,i) => {
+                    html += `<tr><td>${i+1}</td><td class="team">${t.teamCn}</td><td>${t.p}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gd>0?'+':''}${t.gd}</td><td class="pts">${t.pts}</td></tr>`;
+                });
+                html += `</table></div></div>`;
             }
+            document.getElementById('wc-standings-content').innerHTML = html;
         }
         
-        // 渲染淘汰赛
-        function renderKnockout() {
-            const el = document.getElementById('wc-knockout');
-            const knockout = [
-                {stage:'16强', matches:[['阿根廷','墨西哥'],['巴西','西班牙'],['葡萄牙','克罗地亚'],['比利时','波兰'],['法国','美国'],['英格兰','德国'],['荷兰','乌拉圭'],['沙特阿拉伯','哥伦比亚']]},
-                {stage:'8强', matches:[['阿根廷','巴西'],['葡萄牙','比利时'],['法国','德国'],['荷兰','哥伦比亚']]},
-                {stage:'半决赛', matches:[['巴西','比利时'],['法国','荷兰']]},
-                {stage:'决赛', matches:[['巴西','法国']]}
-            ];
-            
+        function renderWcMatches(containerId, matches) {
             let html = '';
-            for (const round of knockout) {
-                html += `<div class="group-title">${round.stage}</div>`;
-                for (const [h, a] of round.matches) {
-                    html += renderMatch(h, a, round.stage);
+            let lastDate = '';
+            for (const m of matches) {
+                if (m.date && m.date !== lastDate) {
+                    html += `<div class="date-group">${m.date}</div>`;
+                    lastDate = m.date;
+                }
+                html += renderMatch(m);
+            }
+            document.getElementById(containerId).innerHTML = html || '<div style="padding:40px;text-align:center;color:#484f58;">暂无比赛</div>';
+        }
+        
+        function initWc() {
+            const today = [];
+            const upcoming = [];
+            const finished = [];
+            
+            for (const [date, games] of Object.entries(wcResults)) {
+                for (const g of games) {
+                    const m = { ...g, date };
+                    const hasResult = m.hs !== undefined && m.hs !== null;
+                    if (date === '2026-06-21') today.push(m);
+                    else if (hasResult) finished.push(m);
+                    else upcoming.push(m);
                 }
             }
-            el.innerHTML = html;
+            
+            renderWcMatches('wc-today-matches', today);
+            renderWcMatches('wc-upcoming-matches', upcoming);
+            renderWcMatches('wc-finished-matches', finished);
+            renderStandings();
+            
+            document.getElementById('wc-today-count').textContent = today.length;
+            const recCount = today.filter(m => { const p = predict(m.h, m.a); return p.home > 45 || p.away > 45; }).length;
+            document.getElementById('wc-today-rec').textContent = recCount;
+            document.getElementById('wc-upcoming-count').textContent = upcoming.length + '场';
+        }
+        
+        // Tab切换
+        function showMain(id) {
+            document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('[id^="main-"]').forEach(el => el.classList.add('hidden'));
+            event.target.classList.add('active');
+            document.getElementById('main-' + id).classList.remove('hidden');
+        }
+        
+        function showLeague(id) {
+            document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('[id^="league-"]').forEach(el => el.classList.add('hidden'));
+            event.target.classList.add('active');
+            document.getElementById('league-' + id).classList.remove('hidden');
+        }
+        
+        function showWc(id) {
+            document.querySelectorAll('#main-wc .sub-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('[id^="wc-"]').forEach(el => { if(el.id.startsWith('wc-') && !el.id.includes('content')) el.classList.add('hidden'); });
+            event.target.classList.add('active');
+            document.getElementById('wc-' + id).classList.remove('hidden');
+        }
+        
+        function showDetail(home, away, group, score) {
+            const hCn = wcCn[home] || home;
+            const aCn = wcCn[away] || away;
+            const p = predict(home, away);
+            
+            document.getElementById('detail-title').textContent = group + '组';
+            document.getElementById('detail-teams-text').textContent = hCn + ' vs ' + aCn;
+            document.getElementById('detail-score').textContent = score || '未开始';
+            document.getElementById('detail-prob-content').innerHTML = `主胜: ${p.home}%<br>平局: ${p.draw}%<br>客胜: ${p.away}%`;
+            document.getElementById('detail-rec-content').innerHTML = p.home > 45 ? `推荐: ${hCn}` : (p.away > 45 ? `推荐: ${aCn}` : '观望');
+            document.getElementById('detail-factors').innerHTML = 'Elo差: ' + ((wcElo[home]||1500) - (wcElo[away]||1500));
+            document.getElementById('detail-scores').innerHTML = '计算中...';
+            
+            document.getElementById('match-detail').classList.add('show');
+        }
+        
+        function closeDetail() {
+            document.getElementById('match-detail').classList.remove('show');
         }
         
         // 初始化
-        renderGroups();
-        renderKnockout();
+        initWc();
     </script>
 </body>
 </html>

@@ -146,21 +146,73 @@ class APIHandler(BaseHTTPRequestHandler):
         self._send_json({"matches": matches, "count": len(matches)})
     
     def _handle_match_detail(self, match_id: str):
-        """获取比赛详情"""
-        db = get_database()
-        match = db.get_match(match_id)
+        """获取比赛详情（完整数据）"""
+        from src.database.extended_db import get_extended_database
+        from src.data.weather_fetcher import get_weather_fetcher
+        from src.data.injury_venue_fetcher import get_injury_fetcher, get_venue_fetcher
         
+        db = get_database()
+        ext_db = get_extended_database()
+        
+        match = db.get_match(match_id)
         if not match:
             self._send_error(404, "Match not found")
             return
         
+        # 基础信息
         match['home_team_cn'] = get_cn_name(match.get('home_team', ''))
         match['away_team_cn'] = get_cn_name(match.get('away_team', ''))
         match['league_cn'] = get_league_cn(match.get('league_id', ''))
         
-        # 获取预测
+        # 多源赔率
+        odds = ext_db.get_odds(match_id)
+        if odds:
+            match['odds_detail'] = odds
+        
+        # 预测
         predictions = db.get_predictions(match_id)
         match['predictions'] = predictions
+        
+        # 预测详情（大小球/亚盘/比分矩阵）
+        pred_details = ext_db.get_prediction_details(match_id)
+        if pred_details:
+            match['prediction_details'] = pred_details
+        
+        # 天气
+        weather = ext_db.get_weather(match_id)
+        if not weather:
+            # 尝试实时获取
+            weather_fetcher = get_weather_fetcher()
+            city = match.get('home_team', '')
+            weather = weather_fetcher.get_weather(city)
+            if weather:
+                ext_db.insert_weather(match_id, weather)
+        match['weather'] = weather
+        
+        # 伤停
+        injuries = ext_db.get_injuries(match_id)
+        if not injuries:
+            # 尝试实时获取
+            injury_fetcher = get_injury_fetcher()
+            home_injuries = injury_fetcher.get_injuries(match.get('home_team', ''))
+            away_injuries = injury_fetcher.get_injuries(match.get('away_team', ''))
+            for inj in home_injuries:
+                inj['team'] = 'home'
+            for inj in away_injuries:
+                inj['team'] = 'away'
+            injuries = home_injuries + away_injuries
+            if injuries:
+                ext_db.insert_injuries(match_id, injuries)
+        match['injuries'] = injuries
+        
+        # 场地
+        venue = ext_db.get_venue(match_id)
+        if not venue:
+            venue_fetcher = get_venue_fetcher()
+            venue = venue_fetcher.get_venue(match.get('home_team', ''))
+            if venue:
+                ext_db.insert_venue(match_id, venue)
+        match['venue'] = venue
         
         self._send_json(match)
     
