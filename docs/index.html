@@ -7,21 +7,15 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1117; color: #e1e4e8; }
-        .header { background: linear-gradient(135deg, #1a1f36, #0d1117); padding: 14px 20px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+        .header { background: linear-gradient(135deg, #1a1f36, #0d1117); padding: 14px 20px; border-bottom: 1px solid #30363d; }
         .header h1 { font-size: 18px; color: #58a6ff; }
         .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
-        
-        /* 主Tab */
         .main-tabs { display: flex; gap: 0; border-bottom: 2px solid #30363d; margin-bottom: 20px; }
         .main-tab { padding: 12px 28px; font-size: 15px; font-weight: 600; color: #8b949e; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
         .main-tab.active { color: #58a6ff; border-bottom-color: #58a6ff; }
-        
-        /* 子Tab */
         .sub-tabs { display: flex; gap: 0; border-bottom: 1px solid #21262d; margin-bottom: 16px; overflow-x: auto; }
         .sub-tab { padding: 10px 18px; font-size: 13px; color: #8b949e; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
         .sub-tab.active { color: #58a6ff; border-bottom-color: #58a6ff; }
-        
-        /* 统计卡片 */
         .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px; }
         .stat { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 14px; }
         .stat .label { font-size: 11px; color: #8b949e; margin-bottom: 4px; }
@@ -29,20 +23,15 @@
         .green { color: #3fb950; }
         .blue { color: #58a6ff; }
         .yellow { color: #d29922; }
-        
-        /* 区块 */
         .section { background: #161b22; border: 1px solid #30363d; border-radius: 12px; margin-bottom: 16px; }
         .section-header { padding: 12px 16px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
         .section-header h2 { font-size: 14px; }
         .badge { background: #1f6feb33; color: #58a6ff; padding: 3px 10px; border-radius: 20px; font-size: 11px; }
-        
-        /* 比赛卡片 */
         .match { padding: 12px 16px; border-bottom: 1px solid #21262d; cursor: pointer; }
         .match:hover { background: #1c2128; }
         .match:last-child { border-bottom: none; }
         .match-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
         .match-time { font-size: 11px; color: #8b949e; }
-        .match-league { font-size: 10px; color: #58a6ff; background: #1f6feb22; padding: 2px 6px; border-radius: 3px; }
         .match-group { font-size: 10px; color: #d29922; background: #d2992233; padding: 2px 6px; border-radius: 3px; }
         .match-teams { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
         .vs { color: #484f58; margin: 0 8px; font-size: 12px; }
@@ -54,52 +43,92 @@
         .match-rec { font-size: 11px; padding: 4px 10px; border-radius: 5px; }
         .match-rec.bet { background: #238636; color: #fff; }
         .match-rec.skip { background: #30363d; color: #8b949e; }
-        
-        /* 日期分组 */
         .date-group { padding: 8px 16px; background: #0d1117; font-size: 12px; font-weight: 600; color: #58a6ff; border-bottom: 1px solid #21262d; }
-        
-        /* 积分榜 */
-        .standings { padding: 0; }
-        .standings table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        .standings th { background: #0d1117; padding: 8px 12px; text-align: left; font-weight: 600; color: #8b949e; border-bottom: 1px solid #30363d; }
-        .standings td { padding: 8px 12px; border-bottom: 1px solid #21262d; }
-        .standings tr:hover { background: #1c2128; }
-        .standings .pos { width: 30px; }
-        .standings .team { font-weight: 500; }
-        .standings .pts { font-weight: 700; color: #58a6ff; }
-        
-        /* 比赛详情 */
-        .detail { display: none; }
-        .detail.show { display: block; }
-        .detail-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #30363d; }
-        .detail-header .back { color: #58a6ff; cursor: pointer; font-size: 14px; }
-        .detail-teams { text-align: center; padding: 20px; }
-        .detail-teams .score { font-size: 32px; font-weight: 700; margin: 8px 0; }
-        .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; padding: 16px; }
-        .detail-card { background: #0d1117; border: 1px solid #21262d; border-radius: 8px; padding: 12px; }
-        .detail-card .title { font-size: 11px; color: #8b949e; margin-bottom: 8px; }
-        .detail-card .content { font-size: 13px; }
-        
         .hidden { display: none; }
-        
-        @media (max-width: 768px) {
-            .stats { grid-template-columns: repeat(2, 1fr); }
-            .detail-grid { grid-template-columns: 1fr; }
-        }
+
+        /* 比赛详情页 */
+        .detail-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 100; display: none; }
+        .detail-overlay.show { display: block; }
+        .detail-page { position: fixed; top: 0; right: 0; width: 100%; max-width: 600px; height: 100%; background: #0f1117; z-index: 101; overflow-y: auto; border-left: 1px solid #30363d; }
+        .detail-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #30363d; position: sticky; top: 0; background: #0f1117; z-index: 10; }
+        .detail-header .back { color: #58a6ff; cursor: pointer; font-size: 14px; }
+        .detail-header .close { color: #8b949e; cursor: pointer; font-size: 18px; }
+
+        /* 比赛信息 */
+        .match-info { padding: 16px; border-bottom: 1px solid #21262d; }
+        .match-info .teams { text-align: center; margin-bottom: 12px; }
+        .match-info .teams .score { font-size: 28px; font-weight: 700; margin: 8px 0; }
+        .match-info .meta { display: flex; justify-content: center; gap: 16px; font-size: 12px; color: #8b949e; }
+        .match-info .meta span { display: flex; align-items: center; gap: 4px; }
+
+        /* 概率面板 */
+        .prob-panel { padding: 16px; border-bottom: 1px solid #21262d; }
+        .prob-panel .title { font-size: 12px; color: #8b949e; margin-bottom: 12px; }
+        .prob-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+        .prob-item { text-align: center; padding: 12px; background: #0d1117; border-radius: 8px; }
+        .prob-item .label { font-size: 11px; color: #8b949e; margin-bottom: 4px; }
+        .prob-item .value { font-size: 20px; font-weight: 700; }
+        .prob-item.home .value { color: #3fb950; }
+        .prob-item.draw .value { color: #d29922; }
+        .prob-item.away .value { color: #f85149; }
+        .prob-bar-big { display: flex; height: 8px; border-radius: 4px; overflow: hidden; }
+        .prob-bar-big .h { background: #3fb950; }
+        .prob-bar-big .d { background: #d29922; }
+        .prob-bar-big .a { background: #f85149; }
+
+        /* 推荐 */
+        .recommendation { padding: 16px; border-bottom: 1px solid #21262d; }
+        .recommendation .title { font-size: 12px; color: #8b949e; margin-bottom: 12px; }
+        .rec-card { background: linear-gradient(135deg, #1a2332, #0d1117); border: 1px solid #30363d; border-radius: 12px; padding: 16px; }
+        .rec-card .direction { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+        .rec-card .direction.home { color: #3fb950; }
+        .rec-card .direction.draw { color: #d29922; }
+        .rec-card .direction.away { color: #f85149; }
+        .rec-card .details { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 12px; }
+        .rec-card .details .item { display: flex; justify-content: space-between; }
+        .rec-card .details .label { color: #8b949e; }
+
+        /* 因子分析 */
+        .factors { padding: 16px; border-bottom: 1px solid #21262d; }
+        .factors .title { font-size: 12px; color: #8b949e; margin-bottom: 12px; }
+        .factor-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid #21262d; }
+        .factor-item:last-child { border-bottom: none; }
+        .factor-item .name { font-size: 12px; color: #8b949e; width: 120px; }
+        .factor-item .bar { flex: 1; height: 4px; background: #21262d; border-radius: 2px; position: relative; }
+        .factor-item .bar .fill { position: absolute; top: 0; height: 100%; border-radius: 2px; }
+        .factor-item .bar .fill.pos { background: #3fb950; left: 50%; }
+        .factor-item .bar .fill.neg { background: #f85149; right: 50%; }
+        .factor-item .value { font-size: 12px; font-weight: 600; width: 60px; text-align: right; }
+
+        /* 比分矩阵 */
+        .score-matrix { padding: 16px; border-bottom: 1px solid #21262d; }
+        .score-matrix .title { font-size: 12px; color: #8b949e; margin-bottom: 12px; }
+        .score-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+        .score-cell { text-align: center; padding: 8px 4px; background: #0d1117; border-radius: 4px; font-size: 11px; }
+        .score-cell .score { font-weight: 600; margin-bottom: 2px; }
+        .score-cell .prob { color: #8b949e; font-size: 10px; }
+        .score-cell.top { background: #1a2332; border: 1px solid #30363d; }
+
+        /* 天气/伤停 */
+        .extra-info { padding: 16px; }
+        .extra-info .title { font-size: 12px; color: #8b949e; margin-bottom: 12px; }
+        .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .info-card { background: #0d1117; border: 1px solid #21262d; border-radius: 8px; padding: 12px; }
+        .info-card .label { font-size: 11px; color: #8b949e; margin-bottom: 4px; }
+        .info-card .value { font-size: 14px; font-weight: 500; }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>⚽ GTO v6.0 足球预测</h1>
     </div>
-    
+
     <div class="container">
-        <!-- 主Tab -->
         <div class="main-tabs">
             <div class="main-tab active" onclick="showMain('leagues')">⚽ 五大联赛</div>
             <div class="main-tab" onclick="showMain('wc')">🏆 世界杯</div>
         </div>
-        
+
         <!-- 五大联赛 -->
         <div id="main-leagues">
             <div class="sub-tabs">
@@ -111,61 +140,25 @@
                 <div class="sub-tab" onclick="showLeague('serie_a')">🇮🇹 意甲</div>
                 <div class="sub-tab" onclick="showLeague('ligue_1')">🇫🇷 法甲</div>
             </div>
-            
-            <!-- 今日全部 -->
             <div id="league-all">
-                <div class="stats">
-                    <div class="stat"><div class="label">今日比赛</div><div class="val blue">12</div></div>
-                    <div class="stat"><div class="label">推荐投注</div><div class="val green">5</div></div>
-                    <div class="stat"><div class="label">本周ROI</div><div class="val green">+3.2%</div></div>
-                </div>
                 <div class="section">
                     <div class="section-header"><h2>📋 今日比赛</h2><span class="badge">赛季未开始</span></div>
-                    <div style="padding:40px;text-align:center;color:#484f58;">五大联赛尚未开始，赛季开始后显示比赛</div>
+                    <div style="padding:40px;text-align:center;color:#484f58;">五大联赛尚未开始</div>
                 </div>
             </div>
-            
-            <!-- 串关 -->
             <div id="league-parlay" class="hidden">
                 <div class="section">
                     <div class="section-header"><h2>💰 串关推荐</h2></div>
-                    <div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示串关推荐</div>
+                    <div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示</div>
                 </div>
             </div>
-            
-            <!-- 各联赛 -->
-            <div id="league-premier_league" class="hidden">
-                <div class="section">
-                    <div class="section-header"><h2>🏴󠁧󠁢󠁥󠁮󠁧󠁿 英超</h2><span class="badge">赛季未开始</span></div>
-                    <div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示比赛</div>
-                </div>
-            </div>
-            <div id="league-la_liga" class="hidden">
-                <div class="section">
-                    <div class="section-header"><h2>🇪🇸 西甲</h2><span class="badge">赛季未开始</span></div>
-                    <div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示比赛</div>
-                </div>
-            </div>
-            <div id="league-bundesliga" class="hidden">
-                <div class="section">
-                    <div class="section-header"><h2>🇩🇪 德甲</h2><span class="badge">赛季未开始</span></div>
-                    <div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示比赛</div>
-                </div>
-            </div>
-            <div id="league-serie_a" class="hidden">
-                <div class="section">
-                    <div class="section-header"><h2>🇮🇹 意甲</h2><span class="badge">赛季未开始</span></div>
-                    <div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示比赛</div>
-                </div>
-            </div>
-            <div id="league-ligue_1" class="hidden">
-                <div class="section">
-                    <div class="section-header"><h2>🇫🇷 法甲</h2><span class="badge">赛季未开始</span></div>
-                    <div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示比赛</div>
-                </div>
-            </div>
+            <div id="league-premier_league" class="hidden"><div class="section"><div class="section-header"><h2>🏴󠁧󠁢󠁥󠁮󠁧󠁿 英超</h2><span class="badge">赛季未开始</span></div><div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示</div></div></div>
+            <div id="league-la_liga" class="hidden"><div class="section"><div class="section-header"><h2>🇪🇸 西甲</h2><span class="badge">赛季未开始</span></div><div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示</div></div></div>
+            <div id="league-bundesliga" class="hidden"><div class="section"><div class="section-header"><h2>🇩🇪 德甲</h2><span class="badge">赛季未开始</span></div><div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示</div></div></div>
+            <div id="league-serie_a" class="hidden"><div class="section"><div class="section-header"><h2>🇮🇹 意甲</h2><span class="badge">赛季未开始</span></div><div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示</div></div></div>
+            <div id="league-ligue_1" class="hidden"><div class="section"><div class="section-header"><h2>🇫🇷 法甲</h2><span class="badge">赛季未开始</span></div><div style="padding:40px;text-align:center;color:#484f58;">赛季开始后显示</div></div></div>
         </div>
-        
+
         <!-- 世界杯 -->
         <div id="main-wc" class="hidden">
             <div class="sub-tabs">
@@ -174,33 +167,23 @@
                 <div class="sub-tab" onclick="showWc('standings')">📊 积分榜</div>
                 <div class="sub-tab" onclick="showWc('finished')">✅ 已结束</div>
             </div>
-            
-            <!-- 今日比赛 -->
             <div id="wc-today">
                 <div class="stats">
                     <div class="stat"><div class="label">今日比赛</div><div class="val blue" id="wc-today-count">4</div></div>
-                    <div class="stat"><div class="label">推荐投注</div><div class="val green" id="wc-today-rec">3</div></div>
+                    <div class="stat"><div class="label">推荐投注</div><div class="val green" id="wc-today-rec">-</div></div>
                 </div>
                 <div class="section">
                     <div class="section-header"><h2>📋 今日世界杯比赛</h2></div>
                     <div id="wc-today-matches"></div>
                 </div>
             </div>
-            
-            <!-- 未来比赛 -->
             <div id="wc-upcoming" class="hidden">
                 <div class="section">
-                    <div class="section-header"><h2>📅 未来比赛</h2><span class="badge" id="wc-upcoming-count">32场</span></div>
+                    <div class="section-header"><h2>📅 未来比赛</h2><span class="badge" id="wc-upcoming-count">-</span></div>
                     <div id="wc-upcoming-matches"></div>
                 </div>
             </div>
-            
-            <!-- 积分榜 -->
-            <div id="wc-standings" class="hidden">
-                <div id="wc-standings-content"></div>
-            </div>
-            
-            <!-- 已结束 -->
+            <div id="wc-standings" class="hidden"><div id="wc-standings-content"></div></div>
             <div id="wc-finished" class="hidden">
                 <div class="section">
                     <div class="section-header"><h2>✅ 已结束比赛</h2></div>
@@ -208,39 +191,97 @@
                 </div>
             </div>
         </div>
-        
-        <!-- 比赛详情 -->
-        <div id="match-detail" class="detail">
-            <div class="detail-header">
-                <span class="back" onclick="closeDetail()">← 返回</span>
-                <span id="detail-title"></span>
-            </div>
-            <div class="detail-teams">
+    </div>
+
+    <!-- 比赛详情侧边栏 -->
+    <div class="detail-overlay" id="detailOverlay" onclick="closeDetail()"></div>
+    <div class="detail-page" id="detailPage">
+        <div class="detail-header">
+            <span class="back" onclick="closeDetail()">← 返回</span>
+            <span id="detail-group"></span>
+            <span class="close" onclick="closeDetail()">✕</span>
+        </div>
+
+        <!-- 比赛信息 -->
+        <div class="match-info">
+            <div class="teams">
                 <div id="detail-teams-text"></div>
                 <div id="detail-score" class="score"></div>
-                <div id="detail-probs"></div>
             </div>
-            <div class="detail-grid">
-                <div class="detail-card">
-                    <div class="title">📊 概率预测</div>
-                    <div class="content" id="detail-prob-content"></div>
+            <div class="meta">
+                <span id="detail-date">📅</span>
+                <span id="detail-venue">🏟️</span>
+                <span id="detail-weather">🌤️</span>
+            </div>
+        </div>
+
+        <!-- 概率预测 -->
+        <div class="prob-panel">
+            <div class="title">📊 概率预测</div>
+            <div class="prob-grid">
+                <div class="prob-item home"><div class="label">主胜</div><div class="value" id="prob-home">-</div></div>
+                <div class="prob-item draw"><div class="label">平局</div><div class="value" id="prob-draw">-</div></div>
+                <div class="prob-item away"><div class="label">客胜</div><div class="value" id="prob-away">-</div></div>
+            </div>
+            <div class="prob-bar-big">
+                <div class="h" id="bar-home" style="width:33%"></div>
+                <div class="d" id="bar-draw" style="width:34%"></div>
+                <div class="a" id="bar-away" style="width:33%"></div>
+            </div>
+        </div>
+
+        <!-- 投注建议 -->
+        <div class="recommendation">
+            <div class="title">🎯 投注建议</div>
+            <div class="rec-card">
+                <div class="direction" id="rec-direction">-</div>
+                <div class="details">
+                    <div class="item"><span class="label">模型概率</span><span id="rec-model-prob">-</span></div>
+                    <div class="item"><span class="label">市场赔率</span><span id="rec-odds">-</span></div>
+                    <div class="item"><span class="label">价值优势</span><span id="rec-value">-</span></div>
+                    <div class="item"><span class="label">置信度</span><span id="rec-confidence">-</span></div>
+                    <div class="item"><span class="label">建议金额</span><span id="rec-stake">-</span></div>
+                    <div class="item"><span class="label">预期进球</span><span id="rec-xg">-</span></div>
                 </div>
-                <div class="detail-card">
-                    <div class="title">🎯 投注建议</div>
-                    <div class="content" id="detail-rec-content"></div>
+            </div>
+        </div>
+
+        <!-- 因子分析 -->
+        <div class="factors">
+            <div class="title">🔧 因子分析</div>
+            <div id="factor-list"></div>
+        </div>
+
+        <!-- 比分矩阵 -->
+        <div class="score-matrix">
+            <div class="title">⚽ 最可能比分 (Top 10)</div>
+            <div class="score-grid" id="score-grid"></div>
+        </div>
+
+        <!-- 天气/伤停 -->
+        <div class="extra-info">
+            <div class="title">📋 比赛环境</div>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="label">🌡️ 温度</div>
+                    <div class="value" id="info-temp">-</div>
                 </div>
-                <div class="detail-card">
-                    <div class="title">🔧 因子分析</div>
-                    <div class="content" id="detail-factors"></div>
+                <div class="info-card">
+                    <div class="label">💨 风速</div>
+                    <div class="value" id="info-wind">-</div>
                 </div>
-                <div class="detail-card">
-                    <div class="title">⚽ 比分预测</div>
-                    <div class="content" id="detail-scores"></div>
+                <div class="info-card">
+                    <div class="label">🌧️ 降水</div>
+                    <div class="value" id="info-precip">-</div>
+                </div>
+                <div class="info-card">
+                    <div class="label">🏥 伤停</div>
+                    <div class="value" id="info-injuries">-</div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <script>
         // 世界杯数据
         const wcGroups = {
@@ -257,7 +298,6 @@
             K: ['Portugal','DR Congo','Uzbekistan','Colombia'],
             L: ['England','Croatia','Ghana','Panama'],
         };
-        
         const wcCn = {
             'Mexico':'墨西哥','South Africa':'南非','South Korea':'韩国','Czechia':'捷克',
             'Canada':'加拿大','Bosnia Herzegovina':'波黑','Qatar':'卡塔尔','Switzerland':'瑞士',
@@ -272,7 +312,6 @@
             'Portugal':'葡萄牙','DR Congo':'刚果','Uzbekistan':'乌兹别克斯坦','Colombia':'哥伦比亚',
             'England':'英格兰','Croatia':'克罗地亚','Ghana':'加纳','Panama':'巴拿马',
         };
-        
         const wcElo = {
             'Argentina':1860,'France':1850,'Brazil':1835,'England':1810,'Belgium':1790,'Portugal':1780,
             'Spain':1775,'Netherlands':1770,'Germany':1760,'Croatia':1750,'Uruguay':1740,'Colombia':1730,
@@ -283,7 +322,6 @@
             'Algeria':1520,'Austria':1580,'DR Congo':1480,'Uzbekistan':1450,'New Zealand':1420,'Panama':1500,
             'Ghana':1530,'Sweden':1600,'Tunisia':1540,
         };
-        
         const wcResults = {
             '2026-06-11': [{h:'Mexico',a:'South Africa',hs:2,as:0,g:'A'},{h:'South Korea',a:'Czechia',hs:2,as:1,g:'A'}],
             '2026-06-12': [{h:'Canada',a:'Bosnia Herzegovina',hs:1,as:1,g:'B'},{h:'USMNT',a:'Paraguay',hs:4,as:1,g:'D'}],
@@ -304,38 +342,106 @@
             '2026-06-27': [{h:'Spain',a:'Uruguay',g:'H'},{h:'Cape Verde',a:'Saudi Arabia',g:'H'},{h:'Belgium',a:'New Zealand',g:'G'},{h:'Egypt',a:'Iran',g:'G'}],
             '2026-06-28': [{h:'France',a:'Norway',g:'I'},{h:'Senegal',a:'Iraq',g:'I'},{h:'Argentina',a:'Jordan',g:'J'},{h:'Algeria',a:'Austria',g:'J'},{h:'Portugal',a:'Colombia',g:'K'},{h:'DR Congo',a:'Uzbekistan',g:'K'},{h:'England',a:'Panama',g:'L'},{h:'Ghana',a:'Croatia',g:'L'}],
         };
-        
-        function predict(home, away) {
+
+        // 泊松PMF
+        function poissonPmf(k, lam) {
+            if (lam <= 0) return k === 0 ? 1 : 0;
+            return Math.exp(-lam) * Math.pow(lam, k) / factorial(k);
+        }
+        function factorial(n) {
+            if (n <= 1) return 1;
+            let r = 1;
+            for (let i = 2; i <= n; i++) r *= i;
+            return r;
+        }
+
+        // 完整预测
+        function fullPredict(home, away, oddsH, oddsD, oddsA) {
             const hElo = wcElo[home] || 1500;
             const aElo = wcElo[away] || 1500;
             const diff = hElo - aElo;
             const expected = 1 / (1 + Math.pow(10, -diff/400));
             const draw = 0.25 * (1 - Math.abs(expected - 0.5) * 2);
             const hp = expected * (1 - draw);
-            const ap = (1 - expected) * (1 - draw);
-            return { home: Math.round(hp*100), draw: Math.round(draw*100), away: Math.round(ap*100) };
+            const dp = draw;
+            const ap = 1 - hp - dp;
+
+            // 比分矩阵
+            const hLambda = 1.25 * (1 + diff/800);
+            const aLambda = 1.25 * (1 - diff/800);
+            const scoreMatrix = [];
+            for (let h = 0; h <= 4; h++) {
+                for (let a = 0; a <= 4; a++) {
+                    const p = poissonPmf(h, hLambda) * poissonPmf(a, aLambda);
+                    scoreMatrix.push({score: `${h}-${a}`, prob: p, h, a});
+                }
+            }
+            scoreMatrix.sort((a, b) => b.prob - a.prob);
+
+            // 因子
+            const factors = [
+                {name: 'Elo差值', value: diff/400 * 0.5},
+                {name: '大赛基因', value: (getTitles(home) - getTitles(away)) * 0.03},
+                {name: '经验因子', value: (getSemis(home) - getSemis(away)) * 0.05},
+            ];
+
+            // 推荐
+            let rec = '';
+            let recProb = 0;
+            let recOdds = 0;
+            let value = 0;
+            if (oddsH > 1 && oddsD > 1 && oddsA > 1) {
+                const probs = {home: hp, draw: dp, away: ap};
+                const odds = {home: oddsH, draw: oddsD, away: oddsA};
+                let bestVal = 0;
+                for (const d of ['home','draw','away']) {
+                    const v = probs[d] - 1/odds[d];
+                    if (v > bestVal) { bestVal = v; rec = d; }
+                }
+                if (rec) {
+                    recProb = probs[rec];
+                    recOdds = odds[rec];
+                    value = bestVal;
+                }
+            }
+
+            return {
+                home: Math.round(hp*1000)/10,
+                draw: Math.round(dp*1000)/10,
+                away: Math.round(ap*1000)/10,
+                hLambda: Math.round(hLambda*100)/100,
+                aLambda: Math.round(aLambda*100)/100,
+                totalLambda: Math.round((hLambda+aLambda)*100)/100,
+                scoreMatrix: scoreMatrix.slice(0, 10),
+                factors,
+                rec, recProb, recOdds, value,
+            };
         }
-        
-        function renderMatch(m, showResult) {
+
+        function getTitles(team) {
+            const t = {'Brazil':5,'Germany':4,'Argentina':3,'France':2,'Uruguay':2,'England':1,'Spain':1};
+            return t[team] || 0;
+        }
+        function getSemis(team) {
+            const s = {'Germany':13,'Brazil':11,'Argentina':5,'France':6,'Netherlands':5,'Uruguay':5,'England':3,'Croatia':3};
+            return s[team] || 0;
+        }
+
+        // 渲染比赛列表
+        function renderMatch(m) {
             const hCn = wcCn[m.h] || m.h;
             const aCn = wcCn[m.a] || m.a;
-            const p = predict(m.h, m.a);
             const hasResult = m.hs !== undefined && m.hs !== null;
-            
-            let scoreHtml = '';
-            if (hasResult) {
-                scoreHtml = `<span style="font-weight:700;margin-left:12px;">${m.hs} - ${m.as}</span>`;
-            }
-            
-            let rec = 'skip';
-            let recText = '观望';
+            const p = fullPredict(m.h, m.a);
+            let scoreHtml = hasResult ? `<span style="font-weight:700;margin-left:12px;">${m.hs} - ${m.as}</span>` : '';
+            let rec = 'skip', recText = '观望';
             if (p.home > 45) { rec = 'bet'; recText = hCn; }
             else if (p.away > 45) { rec = 'bet'; recText = aCn; }
-            
-            return `<div class="match" onclick="showDetail('${m.h}','${m.a}','${m.g}','${hasResult?m.hs+'-'+m.as:''}')">
+
+            return `<div class="match" onclick="showDetail('${m.h}','${m.a}','${m.g}','${m.date||''}',${hasResult?m.hs:'null'},${hasResult?m.as:'null'})">
                 <div class="match-top">
-                    <span class="match-time">${m.g}组</span>
-                    ${hasResult ? `<span class="match-league">已结束</span>` : ''}
+                    <span class="match-time">${m.date || ''}</span>
+                    <span class="match-group">${m.g}组</span>
                 </div>
                 <div class="match-teams">${hCn} <span class="vs">VS</span> ${aCn}${scoreHtml}</div>
                 <div class="match-bottom">
@@ -344,13 +450,113 @@
                 </div>
             </div>`;
         }
-        
+
+        // 显示比赛详情
+        function showDetail(home, away, group, date, hs, as_) {
+            const hCn = wcCn[home] || home;
+            const aCn = wcCn[away] || away;
+            const p = fullPredict(home, away, 2.5, 3.2, 2.8);
+
+            // 基础信息
+            document.getElementById('detail-group').textContent = group + '组';
+            document.getElementById('detail-teams-text').textContent = hCn + ' vs ' + aCn;
+            document.getElementById('detail-score').textContent = (hs !== null && hs !== undefined) ? `${hs} - ${as_}` : '未开始';
+            document.getElementById('detail-date').textContent = '📅 ' + (date || '-');
+            document.getElementById('detail-venue').textContent = '🏟️ 中立场';
+            document.getElementById('detail-weather').textContent = '🌤️ 待获取';
+
+            // 概率
+            document.getElementById('prob-home').textContent = p.home + '%';
+            document.getElementById('prob-draw').textContent = p.draw + '%';
+            document.getElementById('prob-away').textContent = p.away + '%';
+            document.getElementById('bar-home').style.width = p.home + '%';
+            document.getElementById('bar-draw').style.width = p.draw + '%';
+            document.getElementById('bar-away').style.width = p.away + '%';
+
+            // 推荐
+            const dirMap = {home: '主胜', draw: '平局', away: '客胜'};
+            const recDir = document.getElementById('rec-direction');
+            recDir.textContent = p.rec ? dirMap[p.rec] : '观望';
+            recDir.className = 'direction ' + (p.rec || '');
+            document.getElementById('rec-model-prob').textContent = p.rec ? (p.recProb*100).toFixed(1)+'%' : '-';
+            document.getElementById('rec-odds').textContent = p.recOdds ? p.recOdds.toFixed(2) : '-';
+            document.getElementById('rec-value').textContent = p.value > 0 ? '+' + (p.value*100).toFixed(1) + '%' : '-';
+            document.getElementById('rec-confidence').textContent = p.value > 0.05 ? '高' : (p.value > 0.03 ? '中' : '低');
+            document.getElementById('rec-stake').textContent = p.value > 0.03 ? '¥' + Math.round(p.value * 200) : '-';
+            document.getElementById('rec-xg').textContent = p.hLambda + ' / ' + p.aLambda + ' (总' + p.totalLambda + ')';
+
+            // 因子
+            let factorHtml = '';
+            p.factors.forEach(f => {
+                const pct = Math.min(100, Math.abs(f.value) * 200);
+                const cls = f.value >= 0 ? 'pos' : 'neg';
+                factorHtml += `<div class="factor-item">
+                    <span class="name">${f.name}</span>
+                    <div class="bar"><div class="fill ${cls}" style="width:${pct}%"></div></div>
+                    <span class="value" style="color:${f.value>=0?'#3fb950':'#f85149'}">${f.value>=0?'+':''}${f.value.toFixed(3)}</span>
+                </div>`;
+            });
+            document.getElementById('factor-list').innerHTML = factorHtml;
+
+            // 比分矩阵
+            let scoreHtml = '';
+            p.scoreMatrix.forEach((s, i) => {
+                const cls = i < 3 ? 'top' : '';
+                scoreHtml += `<div class="score-cell ${cls}"><div class="score">${s.score}</div><div class="prob">${(s.prob*100).toFixed(1)}%</div></div>`;
+            });
+            document.getElementById('score-grid').innerHTML = scoreHtml;
+
+            // 天气/伤停
+            document.getElementById('info-temp').textContent = '待获取';
+            document.getElementById('info-wind').textContent = '待获取';
+            document.getElementById('info-precip').textContent = '待获取';
+            document.getElementById('info-injuries').textContent = '待获取';
+
+            // 显示详情页
+            document.getElementById('detailOverlay').classList.add('show');
+            document.getElementById('detailPage').classList.add('show');
+        }
+
+        function closeDetail() {
+            document.getElementById('detailOverlay').classList.remove('show');
+            document.getElementById('detailPage').classList.remove('show');
+        }
+
+        // 初始化世界杯
+        function initWc() {
+            const today = [], upcoming = [], finished = [];
+            for (const [date, games] of Object.entries(wcResults)) {
+                for (const g of games) {
+                    const m = {...g, date};
+                    if (date === '2026-06-21') today.push(m);
+                    else if (m.hs !== undefined && m.hs !== null) finished.push(m);
+                    else upcoming.push(m);
+                }
+            }
+            renderWcMatches('wc-today-matches', today);
+            renderWcMatches('wc-upcoming-matches', upcoming);
+            renderWcMatches('wc-finished-matches', finished);
+            renderStandings();
+            document.getElementById('wc-today-count').textContent = today.length;
+            const recCount = today.filter(m => { const p = fullPredict(m.h, m.a); return p.home > 45 || p.away > 45; }).length;
+            document.getElementById('wc-today-rec').textContent = recCount;
+            document.getElementById('wc-upcoming-count').textContent = upcoming.length + '场';
+        }
+
+        function renderWcMatches(containerId, matches) {
+            let html = '', lastDate = '';
+            for (const m of matches) {
+                if (m.date && m.date !== lastDate) { html += `<div class="date-group">${m.date}</div>`; lastDate = m.date; }
+                html += renderMatch(m);
+            }
+            document.getElementById(containerId).innerHTML = html || '<div style="padding:40px;text-align:center;color:#484f58;">暂无比赛</div>';
+        }
+
         function renderStandings() {
             let html = '';
             for (const [group, teams] of Object.entries(wcGroups)) {
                 const stats = {};
-                teams.forEach(t => stats[t] = { team: t, teamCn: wcCn[t], p:0, w:0, d:0, l:0, gf:0, ga:0, gd:0, pts:0 });
-                
+                teams.forEach(t => stats[t] = {team:t,teamCn:wcCn[t],p:0,w:0,d:0,l:0,gf:0,ga:0,gd:0,pts:0});
                 for (const [date, games] of Object.entries(wcResults)) {
                     for (const g of games) {
                         if (g.g !== group || g.hs === undefined) continue;
@@ -361,12 +567,9 @@
                         else { if(stats[g.h]){stats[g.h].d++;stats[g.h].pts++;} if(stats[g.a]){stats[g.a].d++;stats[g.a].pts++;} }
                     }
                 }
-                
                 const sorted = Object.values(stats).sort((a,b) => b.pts-a.pts || b.gd-a.gd || b.gf-a.gf);
-                
-                html += `<div class="section"><div class="section-header"><h2>${group}组</h2></div>
-                    <div class="standings"><table>
-                    <tr><th class="pos">#</th><th>球队</th><th>场</th><th>胜</th><th>平</th><th>负</th><th>进</th><th>失</th><th>净</th><th>分</th></tr>`;
+                html += `<div class="section"><div class="section-header"><h2>${group}组</h2></div><div class="standings"><table>
+                <tr><th>#</th><th>球队</th><th>场</th><th>胜</th><th>平</th><th>负</th><th>进</th><th>失</th><th>净</th><th>分</th></tr>`;
                 sorted.forEach((t,i) => {
                     html += `<tr><td>${i+1}</td><td class="team">${t.teamCn}</td><td>${t.p}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gd>0?'+':''}${t.gd}</td><td class="pts">${t.pts}</td></tr>`;
                 });
@@ -374,46 +577,7 @@
             }
             document.getElementById('wc-standings-content').innerHTML = html;
         }
-        
-        function renderWcMatches(containerId, matches) {
-            let html = '';
-            let lastDate = '';
-            for (const m of matches) {
-                if (m.date && m.date !== lastDate) {
-                    html += `<div class="date-group">${m.date}</div>`;
-                    lastDate = m.date;
-                }
-                html += renderMatch(m);
-            }
-            document.getElementById(containerId).innerHTML = html || '<div style="padding:40px;text-align:center;color:#484f58;">暂无比赛</div>';
-        }
-        
-        function initWc() {
-            const today = [];
-            const upcoming = [];
-            const finished = [];
-            
-            for (const [date, games] of Object.entries(wcResults)) {
-                for (const g of games) {
-                    const m = { ...g, date };
-                    const hasResult = m.hs !== undefined && m.hs !== null;
-                    if (date === '2026-06-21') today.push(m);
-                    else if (hasResult) finished.push(m);
-                    else upcoming.push(m);
-                }
-            }
-            
-            renderWcMatches('wc-today-matches', today);
-            renderWcMatches('wc-upcoming-matches', upcoming);
-            renderWcMatches('wc-finished-matches', finished);
-            renderStandings();
-            
-            document.getElementById('wc-today-count').textContent = today.length;
-            const recCount = today.filter(m => { const p = predict(m.h, m.a); return p.home > 45 || p.away > 45; }).length;
-            document.getElementById('wc-today-rec').textContent = recCount;
-            document.getElementById('wc-upcoming-count').textContent = upcoming.length + '场';
-        }
-        
+
         // Tab切换
         function showMain(id) {
             document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
@@ -421,42 +585,19 @@
             event.target.classList.add('active');
             document.getElementById('main-' + id).classList.remove('hidden');
         }
-        
         function showLeague(id) {
             document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('[id^="league-"]').forEach(el => el.classList.add('hidden'));
             event.target.classList.add('active');
             document.getElementById('league-' + id).classList.remove('hidden');
         }
-        
         function showWc(id) {
             document.querySelectorAll('#main-wc .sub-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('[id^="wc-"]').forEach(el => { if(el.id.startsWith('wc-') && !el.id.includes('content')) el.classList.add('hidden'); });
             event.target.classList.add('active');
             document.getElementById('wc-' + id).classList.remove('hidden');
         }
-        
-        function showDetail(home, away, group, score) {
-            const hCn = wcCn[home] || home;
-            const aCn = wcCn[away] || away;
-            const p = predict(home, away);
-            
-            document.getElementById('detail-title').textContent = group + '组';
-            document.getElementById('detail-teams-text').textContent = hCn + ' vs ' + aCn;
-            document.getElementById('detail-score').textContent = score || '未开始';
-            document.getElementById('detail-prob-content').innerHTML = `主胜: ${p.home}%<br>平局: ${p.draw}%<br>客胜: ${p.away}%`;
-            document.getElementById('detail-rec-content').innerHTML = p.home > 45 ? `推荐: ${hCn}` : (p.away > 45 ? `推荐: ${aCn}` : '观望');
-            document.getElementById('detail-factors').innerHTML = 'Elo差: ' + ((wcElo[home]||1500) - (wcElo[away]||1500));
-            document.getElementById('detail-scores').innerHTML = '计算中...';
-            
-            document.getElementById('match-detail').classList.add('show');
-        }
-        
-        function closeDetail() {
-            document.getElementById('match-detail').classList.remove('show');
-        }
-        
-        // 初始化
+
         initWc();
     </script>
 </body>
