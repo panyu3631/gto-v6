@@ -7,8 +7,11 @@
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f1117;color:#e1e4e8}
-        .header{background:linear-gradient(135deg,#1a1f36,#0d1117);padding:14px 20px;border-bottom:1px solid #30363d}
+        .header{background:linear-gradient(135deg,#1a1f36,#0d1117);padding:14px 20px;border-bottom:1px solid #30363d;display:flex;justify-content:space-between;align-items:center}
         .header h1{font-size:18px;color:#58a6ff}
+        .header .api-status{font-size:12px;padding:4px 12px;border-radius:20px}
+        .header .api-status.ok{background:#23863633;color:#3fb950}
+        .header .api-status.err{background:#f8514933;color:#f85149}
         .container{max-width:1200px;margin:0 auto;padding:16px}
         .main-tabs{display:flex;gap:0;border-bottom:2px solid #30363d;margin-bottom:20px}
         .main-tab{padding:12px 28px;font-size:15px;font-weight:600;color:#8b949e;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
@@ -39,12 +42,12 @@
         .match-rec.bet{background:#238636;color:#fff}.match-rec.skip{background:#30363d;color:#8b949e}
         .date-group{padding:8px 16px;background:#0d1117;font-size:12px;font-weight:600;color:#58a6ff;border-bottom:1px solid #21262d}
         .hidden{display:none}
+        .loading{text-align:center;padding:40px;color:#8b949e}
+        .error{text-align:center;padding:40px;color:#f85149}
 
         /* 详情侧边栏 */
         .detail-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:100;display:none;cursor:pointer}
-        .detail-overlay.show{display:block}
         .detail-page{position:fixed;top:0;right:0;width:100%;max-width:600px;height:100%;background:#0f1117;z-index:101;overflow-y:auto;border-left:1px solid #30363d;display:none}
-        .detail-page.show{display:block}
         .detail-header{display:flex;justify-content:space-between;align-items:center;padding:16px;border-bottom:1px solid #30363d;position:sticky;top:0;background:#0f1117;z-index:10}
         .detail-header .back{color:#58a6ff;cursor:pointer;font-size:14px}
         .detail-header .close{color:#8b949e;cursor:pointer;font-size:18px}
@@ -64,17 +67,13 @@
         .prob-bar-big{display:flex;height:8px;border-radius:4px;overflow:hidden}
         .prob-bar-big .h{background:#3fb950}.prob-bar-big .d{background:#d29922}.prob-bar-big .a{background:#f85149}
 
-        /* 投注建议 */
         .rec-section{padding:16px;border-bottom:1px solid #21262d}
         .rec-section .title{font-size:12px;color:#8b949e;margin-bottom:12px}
         .rec-card{background:#0d1117;border:1px solid #21262d;border-radius:12px;padding:16px;margin-bottom:12px}
         .rec-card.best{border-color:#3fb950;background:#23863622}
-        .rec-card .rec-title{font-size:13px;font-weight:600;color:#58a6ff;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
-        .rec-card .rec-title .tag{font-size:10px;padding:2px 8px;border-radius:4px;background:#30363d;color:#8b949e}
-        .rec-card .rec-title .tag.best{background:#238636;color:#fff}
+        .rec-card .rec-title{font-size:13px;font-weight:600;color:#58a6ff;margin-bottom:12px}
         .rec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-        .rec-option{background:#161b22;border:1px solid #21262d;border-radius:8px;padding:10px;text-align:center;cursor:pointer;transition:all 0.2s}
-        .rec-option:hover{border-color:#58a6ff}
+        .rec-option{background:#161b22;border:1px solid #21262d;border-radius:8px;padding:10px;text-align:center}
         .rec-option.best{border-color:#3fb950;background:#23863622}
         .rec-option .opt-label{font-size:11px;color:#8b949e;margin-bottom:4px}
         .rec-option .opt-odds{font-size:18px;font-weight:700}
@@ -110,15 +109,35 @@
         .info-card{background:#0d1117;border:1px solid #21262d;border-radius:8px;padding:12px}
         .info-card .label{font-size:11px;color:#8b949e;margin-bottom:4px}
         .info-card .value{font-size:14px;font-weight:500}
+
+        .api-config{padding:16px;background:#161b22;border:1px solid #30363d;border-radius:12px;margin-bottom:16px}
+        .api-config input{background:#0d1117;border:1px solid #30363d;padding:8px 12px;border-radius:6px;color:#e1e4e8;width:300px;margin-right:8px}
+        .api-config button{padding:8px 16px;border-radius:6px;border:none;cursor:pointer;font-size:13px}
+        .api-config .btn-primary{background:#238636;color:#fff}
+        .api-config .btn-secondary{background:#21262d;color:#e1e4e8;border:1px solid #30363d}
     </style>
 </head>
 <body>
-    <div class="header"><h1>⚽ GTO v6.0 足球预测</h1></div>
+    <div class="header">
+        <h1>⚽ GTO v6.0 足球预测</h1>
+        <span class="api-status" id="apiStatus">未连接</span>
+    </div>
     <div class="container">
+        <!-- API配置 -->
+        <div class="api-config" id="apiConfig">
+            <span style="font-size:13px;color:#8b949e;margin-right:8px;">API地址:</span>
+            <input type="text" id="apiUrl" value="http://localhost:8080" placeholder="输入后端API地址">
+            <button class="btn-primary" onclick="connectApi()">连接</button>
+            <button class="btn-secondary" onclick="saveApiUrl()">保存</button>
+            <span style="font-size:12px;color:#8b949e;margin-left:12px;">需要先启动后端: python3 -m src.api.server</span>
+        </div>
+
         <div class="main-tabs">
             <div class="main-tab active" onclick="showMain('leagues')">⚽ 五大联赛</div>
             <div class="main-tab" onclick="showMain('wc')">🏆 世界杯</div>
         </div>
+
+        <!-- 五大联赛 -->
         <div id="main-leagues">
             <div class="sub-tabs">
                 <div class="sub-tab active">📋 赛季未开始</div>
@@ -126,6 +145,8 @@
             <div class="section"><div class="section-header"><h2>📋 五大联赛</h2><span class="badge">赛季未开始</span></div>
             <div style="padding:40px;text-align:center;color:#484f58;">五大联赛尚未开始，赛季开始后显示比赛</div></div>
         </div>
+
+        <!-- 世界杯 -->
         <div id="main-wc" class="hidden">
             <div class="sub-tabs">
                 <div class="sub-tab active" onclick="showWc('today')">📋 今日比赛</div>
@@ -156,16 +177,9 @@
         </div>
         <div class="match-info">
             <div class="teams"><div id="detail-teams-text"></div><div id="detail-score" class="score"></div></div>
-            <div class="meta">
-                <span id="detail-date">📅</span>
-                <span id="detail-venue">🏟️</span>
-                <span id="detail-weather">🌤️</span>
-            </div>
+            <div class="meta"><span id="detail-date">📅</span><span id="detail-venue">🏟️</span><span id="detail-weather">🌤️</span></div>
         </div>
-
-        <!-- 1X2概率 -->
-        <div class="prob-panel">
-            <div class="title">📊 1X2 概率预测</div>
+        <div class="prob-panel"><div class="title">📊 1X2 概率预测</div>
             <div class="prob-grid">
                 <div class="prob-item home"><div class="label">主胜</div><div class="value" id="prob-home">-</div></div>
                 <div class="prob-item draw"><div class="label">平局</div><div class="value" id="prob-draw">-</div></div>
@@ -173,40 +187,12 @@
             </div>
             <div class="prob-bar-big"><div class="h" id="bar-home"></div><div class="d" id="bar-draw"></div><div class="a" id="bar-away"></div></div>
         </div>
-
-        <!-- 1X2投注建议 -->
-        <div class="rec-section" id="rec-1x2">
-            <div class="title">🎯 1X2 投注建议</div>
-            <div class="rec-card" id="rec-1x2-card"></div>
-        </div>
-
-        <!-- 大小球投注建议 -->
-        <div class="rec-section" id="rec-ou">
-            <div class="title">⚽ 大小球投注建议</div>
-            <div class="rec-card" id="rec-ou-card"></div>
-        </div>
-
-        <!-- 比分推荐 -->
-        <div class="rec-section" id="rec-score">
-            <div class="title">🏆 比分推荐</div>
-            <div class="rec-card" id="rec-score-card"></div>
-        </div>
-
-        <!-- 因子分析 -->
-        <div class="factors">
-            <div class="title">🔧 因子分析</div>
-            <div id="factor-list"></div>
-        </div>
-
-        <!-- 比分矩阵 -->
-        <div class="score-matrix">
-            <div class="title">⚽ 最可能比分 (Top 10)</div>
-            <div class="score-grid" id="score-grid"></div>
-        </div>
-
-        <!-- 环境信息 -->
-        <div class="extra-info">
-            <div class="title">📋 比赛环境</div>
+        <div class="rec-section" id="rec-1x2"><div class="title">🎯 1X2 投注建议</div><div class="rec-card" id="rec-1x2-card"><div class="loading">加载中...</div></div></div>
+        <div class="rec-section" id="rec-ou"><div class="title">⚽ 大小球投注建议</div><div class="rec-card" id="rec-ou-card"><div class="loading">加载中...</div></div></div>
+        <div class="rec-section" id="rec-score"><div class="title">🏆 比分推荐</div><div class="rec-card" id="rec-score-card"><div class="loading">加载中...</div></div></div>
+        <div class="factors"><div class="title">🔧 因子分析</div><div id="factor-list"><div class="loading">加载中...</div></div></div>
+        <div class="score-matrix"><div class="title">⚽ 最可能比分 (Top 10)</div><div class="score-grid" id="score-grid"><div class="loading">加载中...</div></div></div>
+        <div class="extra-info"><div class="title">📋 比赛环境</div>
             <div class="info-grid">
                 <div class="info-card"><div class="label">🌡️ 温度</div><div class="value" id="info-temp">-</div></div>
                 <div class="info-card"><div class="label">💨 风速</div><div class="value" id="info-wind">-</div></div>
@@ -217,253 +203,261 @@
     </div>
 
     <script>
-        // 数据（同前，省略重复部分）
+        // API配置
+        let API_URL = localStorage.getItem('gto_api_url') || 'http://localhost:8080';
+        let apiConnected = false;
+
+        // 世界杯赛程数据（用于列表显示）
         const wcGroups={A:['Mexico','South Africa','South Korea','Czechia'],B:['Canada','Bosnia Herzegovina','Qatar','Switzerland'],C:['Brazil','Morocco','Haiti','Scotland'],D:['USMNT','Paraguay','Australia','Turkey'],E:['Germany','Curaçao','Ivory Coast','Ecuador'],F:['Netherlands','Japan','Sweden','Tunisia'],G:['Belgium','Egypt','Iran','New Zealand'],H:['Spain','Cape Verde','Saudi Arabia','Uruguay'],I:['France','Senegal','Iraq','Norway'],J:['Argentina','Algeria','Austria','Jordan'],K:['Portugal','DR Congo','Uzbekistan','Colombia'],L:['England','Croatia','Ghana','Panama']};
         const wcCn={'Mexico':'墨西哥','South Africa':'南非','South Korea':'韩国','Czechia':'捷克','Canada':'加拿大','Bosnia Herzegovina':'波黑','Qatar':'卡塔尔','Switzerland':'瑞士','Brazil':'巴西','Morocco':'摩洛哥','Haiti':'海地','Scotland':'苏格兰','USMNT':'美国','Paraguay':'巴拉圭','Australia':'澳大利亚','Turkey':'土耳其','Germany':'德国','Curaçao':'库拉索','Ivory Coast':'科特迪瓦','Ecuador':'厄瓜多尔','Netherlands':'荷兰','Japan':'日本','Sweden':'瑞典','Tunisia':'突尼斯','Belgium':'比利时','Egypt':'埃及','Iran':'伊朗','New Zealand':'新西兰','Spain':'西班牙','Cape Verde':'佛得角','Saudi Arabia':'沙特阿拉伯','Uruguay':'乌拉圭','France':'法国','Senegal':'塞内加尔','Iraq':'伊拉克','Norway':'挪威','Argentina':'阿根廷','Algeria':'阿尔及利亚','Austria':'奥地利','Jordan':'约旦','Portugal':'葡萄牙','DR Congo':'刚果','Uzbekistan':'乌兹别克斯坦','Colombia':'哥伦比亚','England':'英格兰','Croatia':'克罗地亚','Ghana':'加纳','Panama':'巴拿马'};
-        const wcElo={'Argentina':1860,'France':1850,'Brazil':1835,'England':1810,'Belgium':1790,'Portugal':1780,'Spain':1775,'Netherlands':1770,'Germany':1760,'Croatia':1750,'Uruguay':1740,'Colombia':1730,'Mexico':1720,'USMNT':1710,'Senegal':1700,'Japan':1690,'Morocco':1680,'Switzerland':1670,'Norway':1620,'Australia':1650,'South Korea':1640,'Iran':1630,'Saudi Arabia':1620,'Ecuador':1610,'Turkey':1600,'Scotland':1580,'Egypt':1550,'Ivory Coast':1570,'Paraguay':1550,'Cape Verde':1450,'Bosnia Herzegovina':1520,'Qatar':1500,'Haiti':1400,'Curaçao':1350,'Iraq':1480,'Jordan':1460,'Algeria':1520,'Austria':1580,'DR Congo':1480,'Uzbekistan':1450,'New Zealand':1420,'Panama':1500,'Ghana':1530,'Sweden':1600,'Tunisia':1540};
         const wcResults={'2026-06-11':[{h:'Mexico',a:'South Africa',hs:2,as:0,g:'A'},{h:'South Korea',a:'Czechia',hs:2,as:1,g:'A'}],'2026-06-12':[{h:'Canada',a:'Bosnia Herzegovina',hs:1,as:1,g:'B'},{h:'USMNT',a:'Paraguay',hs:4,as:1,g:'D'}],'2026-06-13':[{h:'Qatar',a:'Switzerland',hs:1,as:1,g:'B'},{h:'Brazil',a:'Morocco',hs:1,as:1,g:'C'},{h:'Haiti',a:'Scotland',hs:0,as:1,g:'C'},{h:'Australia',a:'Turkey',hs:2,as:0,g:'D'}],'2026-06-14':[{h:'Germany',a:'Curaçao',hs:7,as:1,g:'E'},{h:'Netherlands',a:'Japan',hs:2,as:2,g:'F'},{h:'Ivory Coast',a:'Ecuador',hs:1,as:0,g:'E'},{h:'Sweden',a:'Tunisia',hs:5,as:1,g:'F'}],'2026-06-15':[{h:'Spain',a:'Cape Verde',hs:0,as:0,g:'H'},{h:'Belgium',a:'Egypt',hs:1,as:1,g:'G'},{h:'Saudi Arabia',a:'Uruguay',hs:1,as:1,g:'H'},{h:'Iran',a:'New Zealand',hs:2,as:2,g:'G'}],'2026-06-16':[{h:'France',a:'Senegal',hs:3,as:1,g:'I'},{h:'Iraq',a:'Norway',hs:1,as:4,g:'I'},{h:'Argentina',a:'Algeria',hs:3,as:0,g:'J'},{h:'Austria',a:'Jordan',hs:3,as:1,g:'J'}],'2026-06-17':[{h:'Portugal',a:'DR Congo',hs:1,as:1,g:'K'},{h:'England',a:'Croatia',hs:4,as:2,g:'L'},{h:'Ghana',a:'Panama',hs:1,as:0,g:'L'},{h:'Uzbekistan',a:'Colombia',hs:1,as:3,g:'K'}],'2026-06-18':[{h:'South Africa',a:'Czechia',g:'A'},{h:'Switzerland',a:'Bosnia Herzegovina',g:'B'},{h:'Canada',a:'Qatar',g:'B'},{h:'Mexico',a:'South Korea',g:'A'}],'2026-06-19':[{h:'USMNT',a:'Australia',g:'D'},{h:'Scotland',a:'Morocco',g:'C'},{h:'Brazil',a:'Haiti',g:'C'},{h:'Paraguay',a:'Turkey',g:'D'}],'2026-06-20':[{h:'Netherlands',a:'Sweden',g:'F'},{h:'Germany',a:'Ivory Coast',g:'E'},{h:'Ecuador',a:'Curaçao',g:'E'},{h:'Tunisia',a:'Japan',g:'F'}],'2026-06-21':[{h:'Spain',a:'Saudi Arabia',g:'H'},{h:'Belgium',a:'Iran',g:'G'},{h:'Uruguay',a:'Cape Verde',g:'H'},{h:'New Zealand',a:'Egypt',g:'G'}],'2026-06-22':[{h:'Argentina',a:'Austria',g:'J'},{h:'France',a:'Iraq',g:'I'},{h:'Norway',a:'Senegal',g:'I'},{h:'Jordan',a:'Algeria',g:'J'}],'2026-06-23':[{h:'Portugal',a:'Uzbekistan',g:'K'},{h:'Colombia',a:'DR Congo',g:'K'},{h:'England',a:'Ghana',g:'L'},{h:'Croatia',a:'Panama',g:'L'}],'2026-06-24':[{h:'Mexico',a:'Czechia',g:'A'},{h:'South Korea',a:'South Africa',g:'A'},{h:'Canada',a:'Switzerland',g:'B'},{h:'Qatar',a:'Bosnia Herzegovina',g:'B'}],'2026-06-25':[{h:'Brazil',a:'Scotland',g:'C'},{h:'Morocco',a:'Haiti',g:'C'},{h:'USMNT',a:'Turkey',g:'D'},{h:'Paraguay',a:'Australia',g:'D'}],'2026-06-26':[{h:'Germany',a:'Ecuador',g:'E'},{h:'Curaçao',a:'Ivory Coast',g:'E'},{h:'Netherlands',a:'Tunisia',g:'F'},{h:'Japan',a:'Sweden',g:'F'}],'2026-06-27':[{h:'Spain',a:'Uruguay',g:'H'},{h:'Cape Verde',a:'Saudi Arabia',g:'H'},{h:'Belgium',a:'New Zealand',g:'G'},{h:'Egypt',a:'Iran',g:'G'}],'2026-06-28':[{h:'France',a:'Norway',g:'I'},{h:'Senegal',a:'Iraq',g:'I'},{h:'Argentina',a:'Jordan',g:'J'},{h:'Algeria',a:'Austria',g:'J'},{h:'Portugal',a:'Colombia',g:'K'},{h:'DR Congo',a:'Uzbekistan',g:'K'},{h:'England',a:'Panama',g:'L'},{h:'Ghana',a:'Croatia',g:'L'}]};
 
-        // 泊松
-        function poissonPmf(k,lam){if(lam<=0)return k===0?1:0;let r=Math.exp(-lam);for(let i=1;i<=k;i++)r*=lam/i;return r}
-        function factorial(n){if(n<=1)return 1;let r=1;for(let i=2;i<=n;i++)r*=i;return r}
-
-        // 真实赔率（从搜索获取）
-        const realOdds={
-            'Spain_vs_SaudiArabia':{h:1.08,d:9.00,a:22.00},
-            'Belgium_vs_Iran':{h:1.35,d:4.80,a:9.00},
-            'Uruguay_vs_CapeVerde':{h:1.15,d:7.00,a:15.00},
-            'NewZealand_vs_Egypt':{h:4.50,d:3.60,a:1.75},
-        };
-
-        // 完整预测
-        function fullPredict(home,away){
-            const hElo=wcElo[home]||1500;const aElo=wcElo[away]||1500;
-            const diff=hElo-aElo;
-            const expected=1/(1+Math.pow(10,-diff/400));
-            const draw=0.25*(1-Math.abs(expected-0.5)*2);
-            const hp=expected*(1-draw);const dp=draw;const ap=1-hp-dp;
-
-            // 比分矩阵
-            const hLam=1.25*(1+diff/800);const aLam=1.25*(1-diff/800);
-            const sm=[];
-            for(let h=0;h<=4;h++)for(let a=0;a<=4;a++){sm.push({score:`${h}-${a}`,prob:poissonPmf(h,hLam)*poissonPmf(a,aLam),h,a})}
-            sm.sort((a,b)=>b.prob-a.prob);
-
-            // 大小球概率
-            let over25=0,under25=0;
-            for(let h=0;h<=6;h++)for(let a=0;a<=6;a++){const p=poissonPmf(h,hLam)*poissonPmf(a,aLam);if(h+a>2.5)over25+=p;else under25+=p}
-
-            // 因子
-            const factors=[
-                {name:'F1 Elo差值',value:diff/400*0.5},
-                {name:'F3 近期状态',value:(getForm(home)-getForm(away))*0.15},
-                {name:'F7 排名差',value:(getRank(away)-getRank(home))/20*0.1},
-                {name:'F20 连胜动量',value:getStreak(home)*0.08},
-                {name:'F33 保级动力',value:getMotivation(home,away)*0.05},
-                {name:'F56 战术平局',value:diff<50&&diff>-50?0.03:-0.02},
-                {name:'F57 进球预期',value:(hLam+aLam)>2&&(hLam+aLam)<2.8?0.02:-0.01},
-                {name:'F58 平局倾向',value:getDrawRate(home)*0.06},
-            ];
-
-            // 获取真实赔率
-            const matchKey=home.replace(/ /g,'')+'_vs_'+away.replace(/ /g,'');
-            const odds=realOdds[matchKey]||{h:1/(hp*1.05),d:1/(dp*1.05),a:1/(ap*1.05)};
-
-            // 1X2推荐
-            let rec1x2={};const probs={home:hp,draw:dp,away:ap};const oddsMap={home:odds.h,draw:odds.d,away:odds.a};
-            for(const d of['home','draw','away']){
-                const v=probs[d]-1/oddsMap[d];
-                rec1x2[d]={prob:probs[d],odds:oddsMap[d],value:v,rec:v>0.03};
+        // API调用
+        async function apiCall(path) {
+            try {
+                const resp = await fetch(API_URL + path, {signal: AbortSignal.timeout(10000)});
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                return await resp.json();
+            } catch(e) {
+                console.error('API错误:', e);
+                return null;
             }
-
-            // 大小球推荐
-            const ouOdds={over:1/(over25*1.05),under:1/(under25*1.05)};
-            const ouRec={over:{prob:over25,odds:ouOdds.over,value:over25-1/ouOdds.over},under:{prob:under25,odds:ouOdds.under,value:under25-1/ouOdds.under}};
-
-            // 比分推荐
-            const topScores=sm.slice(0,3).map(s=>({score:s.score,prob:s.prob,odds:1/(s.prob*1.05)}));
-
-            return{home:Math.round(hp*1000)/10,draw:Math.round(dp*1000)/10,away:Math.round(ap*1000)/10,
-                hLam:Math.round(hLam*100)/100,aLam:Math.round(aLam*100)/100,totalLam:Math.round((hLam+aLam)*100)/100,
-                scoreMatrix:sm.slice(0,10),factors,rec1x2,ouRec,topScores,
-                over25:Math.round(over25*1000)/10,under25:Math.round(under25*1000)/10};
         }
 
-        function getForm(t){return{'Argentina':2.5,'France':2.4,'Brazil':2.3,'England':2.2,'Germany':2.4,'Spain':2.0}[t]||1.5}
-        function getRank(t){return{'Argentina':1,'France':2,'Brazil':3,'England':4,'Spain':5,'Germany':6}[t]||20}
-        function getStreak(t){return{'Argentina':0.6,'France':0.4,'Brazil':0.2,'England':0.8,'Germany':1.0,'Spain':-0.2}[t]||0}
-        function getMotivation(h,a){const hr=getRank(h);if(hr<=3)return 0.5;if(getRank(a)<=3)return-0.3;return 0}
-        function getDrawRate(t){return{'Spain':0.28,'Belgium':0.25,'Brazil':0.22,'Argentina':0.20,'France':0.23}[t]||0.25}
+        // 连接API
+        async function connectApi() {
+            API_URL = document.getElementById('apiUrl').value;
+            const status = document.getElementById('apiStatus');
+            status.textContent = '连接中...';
+            status.className = 'api-status';
 
-        // 渲染比赛卡片
-        function renderMatch(m){
-            const hCn=wcCn[m.h]||m.h;const aCn=wcCn[m.a]||m.a;
-            const hasResult=m.hs!==undefined&&m.hs!==null;
-            const p=fullPredict(m.h,m.a);
-            let scoreHtml=hasResult?`<span style="font-weight:700;margin-left:12px;">${m.hs}-${m.as}</span>`:'';
-            let rec='skip',recText='观望';
-            if(p.home>45){rec='bet';recText=hCn}else if(p.away>45){rec='bet';recText=aCn}
-            return`<div class="match" onclick="showDetail('${m.h}','${m.a}','${m.g}','${m.date||''}',${hasResult?m.hs:'null'},${hasResult?m.as:'null'})">
+            const data = await apiCall('/api/status');
+            if (data && data.status === 'running') {
+                apiConnected = true;
+                status.textContent = '✅ 已连接';
+                status.className = 'api-status ok';
+                document.getElementById('apiConfig').style.display = 'none';
+            } else {
+                apiConnected = false;
+                status.textContent = '❌ 连接失败';
+                status.className = 'api-status err';
+            }
+        }
+
+        function saveApiUrl() {
+            API_URL = document.getElementById('apiUrl').value;
+            localStorage.setItem('gto_api_url', API_URL);
+        }
+
+        // 渲染比赛卡片（列表用简单概率，详情从API获取）
+        function renderMatch(m) {
+            const hCn = wcCn[m.h] || m.h;
+            const aCn = wcCn[m.a] || m.a;
+            const hasResult = m.hs !== undefined && m.hs !== null;
+            let scoreHtml = hasResult ? `<span style="font-weight:700;margin-left:12px;">${m.hs}-${m.as}</span>` : '';
+
+            return `<div class="match" onclick="showDetail('${m.h}','${m.a}','${m.g}','${m.date||''}',${hasResult?m.hs:'null'},${hasResult?m.as:'null'})">
                 <div class="match-top"><span class="match-time">${m.date||''}</span><span class="match-group">${m.g}组</span></div>
                 <div class="match-teams">${hCn} <span class="vs">VS</span> ${aCn}${scoreHtml}</div>
-                <div class="match-bottom"><div class="prob-bar"><div class="h" style="width:${p.home}%"></div><div class="d" style="width:${p.draw}%"></div><div class="a" style="width:${p.away}%"></div></div><div class="match-rec ${rec}">${recText}</div></div></div>`;
+                <div class="match-bottom">
+                    <div class="prob-bar"><div class="h" style="width:33%"></div><div class="d" style="width:34%"></div><div class="a" style="width:33%"></div></div>
+                    <div class="match-rec skip">点击查看详情</div>
+                </div></div>`;
         }
 
-        // 显示详情
-        function showDetail(home,away,group,date,hs,as_){
-            const hCn=wcCn[home]||home;const aCn=wcCn[away]||away;
-            const p=fullPredict(home,away);
+        // 显示详情（从API获取预测数据）
+        async function showDetail(home, away, group, date, hs, as_) {
+            const hCn = wcCn[home] || home;
+            const aCn = wcCn[away] || away;
 
             // 基础信息
-            document.getElementById('detail-group').textContent=group+'组';
-            document.getElementById('detail-teams-text').textContent=hCn+' vs '+aCn;
-            document.getElementById('detail-score').textContent=(hs!==null&&hs!==undefined)?`${hs} - ${as_}`:'未开始';
-            document.getElementById('detail-date').textContent='📅 '+(date||'-');
-            document.getElementById('detail-venue').textContent='🏟️ 中立场';
+            document.getElementById('detail-group').textContent = group + '组';
+            document.getElementById('detail-teams-text').textContent = hCn + ' vs ' + aCn;
+            document.getElementById('detail-score').textContent = (hs !== null && hs !== undefined) ? `${hs} - ${as_}` : '未开始';
+            document.getElementById('detail-date').textContent = '📅 ' + (date || '-');
+            document.getElementById('detail-venue').textContent = '🏟️ 中立场';
 
-            // 1X2概率
-            document.getElementById('prob-home').textContent=p.home+'%';
-            document.getElementById('prob-draw').textContent=p.draw+'%';
-            document.getElementById('prob-away').textContent=p.away+'%';
-            document.getElementById('bar-home').style.width=p.home+'%';
-            document.getElementById('bar-draw').style.width=p.draw+'%';
-            document.getElementById('bar-away').style.width=p.away+'%';
+            // 显示加载中
+            document.getElementById('prob-home').textContent = '...';
+            document.getElementById('prob-draw').textContent = '...';
+            document.getElementById('prob-away').textContent = '...';
+            document.getElementById('rec-1x2-card').innerHTML = '<div class="loading">从后台获取数据...</div>';
+            document.getElementById('rec-ou-card').innerHTML = '<div class="loading">从后台获取数据...</div>';
+            document.getElementById('rec-score-card').innerHTML = '<div class="loading">从后台获取数据...</div>';
+            document.getElementById('factor-list').innerHTML = '<div class="loading">从后台获取数据...</div>';
+            document.getElementById('score-grid').innerHTML = '<div class="loading">从后台获取数据...</div>';
 
-            // 1X2投注建议
-            let card1x2='<div class="rec-title">1X2 胜平负</div><div class="rec-grid">';
-            const dirMap={home:'主胜',draw:'平局',away:'客胜'};
-            const dirColor={home:'#3fb950',draw:'#d29922',away:'#f85149'};
-            let best1x2='';let bestVal1x2=-999;
-            for(const d of['home','draw','away']){
-                const r=p.rec1x2[d];if(r.value>bestVal1x2){bestVal1x2=r.value;best1x2=d}
+            // 显示侧边栏
+            document.getElementById('detailOverlay').style.display = 'block';
+            document.getElementById('detailPage').style.display = 'block';
+
+            // 从API获取预测
+            if (apiConnected) {
+                const pred = await apiCall(`/api/predict?home=${encodeURIComponent(home)}&away=${encodeURIComponent(away)}&stage=group&group=${group}`);
+                if (pred) {
+                    renderPrediction(pred, hCn, aCn);
+                } else {
+                    showError('预测获取失败，请检查后台');
+                }
+            } else {
+                showError('未连接后台，请先连接API');
             }
-            for(const d of['home','draw','away']){
-                const r=p.rec1x2[d];const isBest=d===best1x2&&r.value>0;
-                card1x2+=`<div class="rec-option${isBest?' best':''}"><div class="opt-label">${dirMap[d]}</div><div class="opt-odds" style="color:${dirColor[d]}">${r.odds.toFixed(2)}</div><div class="opt-prob">${(r.prob*100).toFixed(1)}%</div><div class="opt-value ${r.value>0?'pos':'neg'}">${r.value>0?'+':''}${(r.value*100).toFixed(1)}%</div></div>`;
-            }
-            card1x2+='</div>';
-            const bestRec1x2=p.rec1x2[best1x2];
-            if(bestRec1x2.value>0){
-                const kelly=((bestRec1x2.odds-1)*bestRec1x2.prob-(1-bestRec1x2.prob))/(bestRec1x2.odds-1);
-                card1x2+=`<div class="rec-details"><div class="item"><span class="label">推荐方向</span><span style="color:${dirColor[best1x2]};font-weight:700">${dirMap[best1x2]}</span></div><div class="item"><span class="label">价值优势</span><span style="color:#3fb950">+${(bestRec1x2.value*100).toFixed(1)}%</span></div><div class="item"><span class="label">Kelly比例</span><span>${(kelly*100).toFixed(1)}%</span></div><div class="item"><span class="label">建议金额</span><span>¥${Math.round(kelly*200)}</span></div></div>`;
-            }
-            document.getElementById('rec-1x2-card').innerHTML=card1x2;
-
-            // 大小球投注建议
-            let cardOu='<div class="rec-title">大小球 2.5</div><div class="rec-grid">';
-            let bestOu='';let bestValOu=-999;
-            for(const d of['over','under']){
-                const r=p.ouRec[d];if(r.value>bestValOu){bestValOu=r.value;bestOu=d}
-            }
-            for(const d of['over','under']){
-                const r=p.ouRec[d];const isBest=d===bestOu&&r.value>0;
-                const label=d==='over'?'大球(>2.5)':'小球(<2.5)';const color=d==='over'?'#3fb950':'#f85149';
-                cardOu+=`<div class="rec-option${isBest?' best':''}"><div class="opt-label">${label}</div><div class="opt-odds" style="color:${color}">${r.odds.toFixed(2)}</div><div class="opt-prob">${(r.prob*100).toFixed(1)}%</div><div class="opt-value ${r.value>0?'pos':'neg'}">${r.value>0?'+':''}${(r.value*100).toFixed(1)}%</div></div>`;
-            }
-            cardOu+='</div>';
-            const bestRecOu=p.ouRec[bestOu];
-            if(bestRecOu.value>0){
-                cardOu+=`<div class="rec-details"><div class="item"><span class="label">推荐方向</span><span style="color:${bestOu==='over'?'#3fb950':'#f85149'};font-weight:700">${bestOu==='over'?'大球':'小球'}</span></div><div class="item"><span class="label">预期进球</span><span>${p.totalLam}</span></div><div class="item"><span class="label">价值优势</span><span style="color:#3fb950">+${(bestRecOu.value*100).toFixed(1)}%</span></div></div>`;
-            }
-            document.getElementById('rec-ou-card').innerHTML=cardOu;
-
-            // 比分推荐
-            let cardScore='<div class="rec-title">比分推荐 (Top 3)</div><div class="rec-grid">';
-            p.topScores.forEach((s,i)=>{
-                const isBest=i===0;
-                cardScore+=`<div class="rec-option${isBest?' best':''}"><div class="opt-label">${s.score}</div><div class="opt-odds" style="color:#58a6ff">${s.odds.toFixed(1)}</div><div class="opt-prob">${(s.prob*100).toFixed(1)}%</div></div>`;
-            });
-            cardScore+='</div>';
-            document.getElementById('rec-score-card').innerHTML=cardScore;
-
-            // 因子
-            let fHtml='';
-            p.factors.forEach(f=>{
-                const pct=Math.min(100,Math.abs(f.value)*200);const cls=f.value>=0?'pos':'neg';
-                fHtml+=`<div class="factor-item"><span class="name">${f.name}</span><div class="bar"><div class="fill ${cls}" style="width:${pct}%"></div></div><span class="value" style="color:${f.value>=0?'#3fb950':'#f85149'}">${f.value>=0?'+':''}${f.value.toFixed(3)}</span></div>`;
-            });
-            document.getElementById('factor-list').innerHTML=fHtml;
-
-            // 比分矩阵
-            let sHtml='';
-            p.scoreMatrix.forEach((s,i)=>{
-                sHtml+=`<div class="score-cell${i<3?' top':''}"><div class="score">${s.score}</div><div class="prob">${(s.prob*100).toFixed(1)}%</div></div>`;
-            });
-            document.getElementById('score-grid').innerHTML=sHtml;
-
-            // 天气/伤停
-            const weatherData={'Madrid':{temp:38,wind:12,precip:0,desc:'晴天'},'Paris':{temp:28,wind:8,precip:0,desc:'多云'},'Munich':{temp:22,wind:15,precip:2,desc:'小雨'},'New York':{temp:30,wind:10,precip:0,desc:'晴天'},'Atlanta':{temp:35,wind:8,precip:0,desc:'晴天'}};
-            const cityMap={'Spain':'Madrid','France':'Paris','Germany':'Munich','Brazil':'São Paulo','Argentina':'Buenos Aires','England':'London'};
-            const w=weatherData[cityMap[home]]||{temp:25,wind:10,precip:0,desc:'未知'};
-            document.getElementById('info-temp').textContent=w.temp+'°C';
-            document.getElementById('info-wind').textContent=w.wind+' km/h';
-            document.getElementById('info-precip').textContent=w.precip+' mm';
-            document.getElementById('detail-weather').textContent='🌤️ '+w.desc+' '+w.temp+'°C';
-            const injuryData={'Spain':'加维(膝盖) 佩德里(肌肉)','France':'姆巴佩(脚踝)','Germany':'穆西亚拉(肌肉)','Brazil':'内马尔(膝盖)','Argentina':'迪马利亚(肌肉)','England':'福登(脚踝)'};
-            document.getElementById('info-injuries').textContent=injuryData[home]||'无数据';
-
-            // 显示
-            document.getElementById('detailOverlay').style.display='block';
-            document.getElementById('detailPage').style.display='block';
         }
 
-        function closeDetail(){
-            document.getElementById('detailOverlay').style.display='none';
-            document.getElementById('detailPage').style.display='none';
+        // 渲染预测结果（来自后台API）
+        function renderPrediction(pred, hCn, aCn) {
+            // 概率
+            document.getElementById('prob-home').textContent = (pred.home_prob * 100).toFixed(1) + '%';
+            document.getElementById('prob-draw').textContent = (pred.draw_prob * 100).toFixed(1) + '%';
+            document.getElementById('prob-away').textContent = (pred.away_prob * 100).toFixed(1) + '%';
+            document.getElementById('bar-home').style.width = (pred.home_prob * 100) + '%';
+            document.getElementById('bar-draw').style.width = (pred.draw_prob * 100) + '%';
+            document.getElementById('bar-away').style.width = (pred.away_prob * 100) + '%';
+
+            // 1X2投注建议
+            if (pred.recommendation_1x2) {
+                const rec = pred.recommendation_1x2;
+                let card = '<div class="rec-title">1X2 胜平负</div><div class="rec-grid>';
+                const dirMap = {home: '主胜', draw: '平局', away: '客胜'};
+                const dirColor = {home: '#3fb950', draw: '#d29922', away: '#f85149'};
+                for (const d of ['home', 'draw', 'away']) {
+                    const r = rec[d] || {};
+                    const isBest = d === rec.best_direction;
+                    card += `<div class="rec-option${isBest ? ' best' : ''}"><div class="opt-label">${dirMap[d]}</div><div class="opt-odds" style="color:${dirColor[d]}">${(r.odds || 0).toFixed(2)}</div><div class="opt-prob">${((r.prob || 0) * 100).toFixed(1)}%</div><div class="opt-value ${(r.value || 0) > 0 ? 'pos' : 'neg'}">${(r.value || 0) > 0 ? '+' : ''}${((r.value || 0) * 100).toFixed(1)}%</div></div>`;
+                }
+                card += '</div>';
+                if (rec.best_direction && rec.details) {
+                    card += `<div class="rec-details"><div class="item"><span class="label">推荐方向</span><span style="color:${dirColor[rec.best_direction]};font-weight:700">${dirMap[rec.best_direction]}</span></div><div class="item"><span class="label">价值优势</span><span style="color:#3fb950">+${((rec.details.value || 0) * 100).toFixed(1)}%</span></div><div class="item"><span class="label">Kelly比例</span><span>${((rec.details.kelly || 0) * 100).toFixed(1)}%</span></div><div class="item"><span class="label">建议金额</span><span>¥${rec.details.stake || 0}</span></div></div>`;
+                }
+                document.getElementById('rec-1x2-card').innerHTML = card;
+            }
+
+            // 大小球
+            if (pred.recommendation_ou) {
+                const ou = pred.recommendation_ou;
+                let card = `<div class="rec-title">大小球 ${ou.line || 2.5}</div><div class="rec-grid>`;
+                for (const d of ['over', 'under']) {
+                    const r = ou[d] || {};
+                    const isBest = d === ou.best_direction;
+                    const label = d === 'over' ? '大球' : '小球';
+                    const color = d === 'over' ? '#3fb950' : '#f85149';
+                    card += `<div class="rec-option${isBest ? ' best' : ''}"><div class="opt-label">${label}</div><div class="opt-odds" style="color:${color}">${(r.odds || 0).toFixed(2)}</div><div class="opt-prob">${((r.prob || 0) * 100).toFixed(1)}%</div><div class="opt-value ${(r.value || 0) > 0 ? 'pos' : 'neg'}">${(r.value || 0) > 0 ? '+' : ''}${((r.value || 0) * 100).toFixed(1)}%</div></div>`;
+                }
+                card += '</div>';
+                document.getElementById('rec-ou-card').innerHTML = card;
+            }
+
+            // 比分推荐
+            if (pred.top_scores) {
+                let card = '<div class="rec-title">比分推荐 (Top 3)</div><div class="rec-grid">';
+                pred.top_scores.slice(0, 3).forEach((s, i) => {
+                    card += `<div class="rec-option${i === 0 ? ' best' : ''}"><div class="opt-label">${s.score}</div><div class="opt-odds" style="color:#58a6ff">${(s.odds || 0).toFixed(1)}</div><div class="opt-prob">${((s.prob || 0) * 100).toFixed(1)}%</div></div>`;
+                });
+                card += '</div>';
+                document.getElementById('rec-score-card').innerHTML = card;
+            }
+
+            // 因子分析
+            if (pred.factors) {
+                let fHtml = '';
+                pred.factors.forEach(f => {
+                    const pct = Math.min(100, Math.abs(f.value || 0) * 200);
+                    const cls = (f.value || 0) >= 0 ? 'pos' : 'neg';
+                    fHtml += `<div class="factor-item"><span class="name">${f.name || f.id}</span><div class="bar"><div class="fill ${cls}" style="width:${pct}%"></div></div><span class="value" style="color:${(f.value || 0) >= 0 ? '#3fb950' : '#f85149'}">${(f.value || 0) >= 0 ? '+' : ''}${(f.value || 0).toFixed(3)}</span></div>`;
+                });
+                document.getElementById('factor-list').innerHTML = fHtml;
+            }
+
+            // 比分矩阵
+            if (pred.score_matrix) {
+                let sHtml = '';
+                const sorted = Object.entries(pred.score_matrix).sort((a, b) => b[1] - a[1]).slice(0, 10);
+                sorted.forEach(([score, prob], i) => {
+                    sHtml += `<div class="score-cell${i < 3 ? ' top' : ''}"><div class="score">${score}</div><div class="prob">${(prob * 100).toFixed(1)}%</div></div>`;
+                });
+                document.getElementById('score-grid').innerHTML = sHtml;
+            }
+
+            // 天气/伤停
+            if (pred.weather) {
+                document.getElementById('info-temp').textContent = (pred.weather.temperature || '-') + '°C';
+                document.getElementById('info-wind').textContent = (pred.weather.wind_speed || '-') + ' km/h';
+                document.getElementById('info-precip').textContent = (pred.weather.precipitation || '-') + ' mm';
+                document.getElementById('detail-weather').textContent = '🌤️ ' + (pred.weather.weather_desc || '-');
+            }
+            if (pred.injuries) {
+                const inj = pred.injuries.map(i => `${i.player_name}(${i.injury_type})`).join(' ');
+                document.getElementById('info-injuries').textContent = inj || '无数据';
+            }
+        }
+
+        function showError(msg) {
+            document.getElementById('rec-1x2-card').innerHTML = `<div class="error">${msg}</div>`;
+            document.getElementById('rec-ou-card').innerHTML = `<div class="error">${msg}</div>`;
+            document.getElementById('rec-score-card').innerHTML = `<div class="error">${msg}</div>`;
+            document.getElementById('factor-list').innerHTML = `<div class="error">${msg}</div>`;
+            document.getElementById('score-grid').innerHTML = `<div class="error">${msg}</div>`;
+        }
+
+        function closeDetail() {
+            document.getElementById('detailOverlay').style.display = 'none';
+            document.getElementById('detailPage').style.display = 'none';
         }
 
         // 初始化
-        function initWc(){
-            const today=[],upcoming=[],finished=[];
-            for(const[date,games]of Object.entries(wcResults)){
-                for(const g of games){
-                    const m={...g,date};
-                    if(date==='2026-06-21')today.push(m);
-                    else if(m.hs!==undefined&&m.hs!==null)finished.push(m);
+        function initWc() {
+            const today = [], upcoming = [], finished = [];
+            for (const [date, games] of Object.entries(wcResults)) {
+                for (const g of games) {
+                    const m = {...g, date};
+                    if (date === '2026-06-21') today.push(m);
+                    else if (m.hs !== undefined && m.hs !== null) finished.push(m);
                     else upcoming.push(m);
                 }
             }
-            renderWcMatches('wc-today-matches',today);
-            renderWcMatches('wc-upcoming-matches',upcoming);
-            renderWcMatches('wc-finished-matches',finished);
+            renderWcMatches('wc-today-matches', today);
+            renderWcMatches('wc-upcoming-matches', upcoming);
+            renderWcMatches('wc-finished-matches', finished);
             renderStandings();
-            document.getElementById('wc-today-count').textContent=today.length;
-            const recCount=today.filter(m=>{const p=fullPredict(m.h,m.a);return p.home>45||p.away>45}).length;
-            document.getElementById('wc-today-rec').textContent=recCount;
-            document.getElementById('wc-upcoming-count').textContent=upcoming.length+'场';
+            document.getElementById('wc-today-count').textContent = today.length;
+            document.getElementById('wc-upcoming-count').textContent = upcoming.length + '场';
         }
 
-        function renderWcMatches(id,matches){
-            let html='',last='';
-            for(const m of matches){if(m.date&&m.date!==last){html+=`<div class="date-group">${m.date}</div>`;last=m.date}html+=renderMatch(m)}
-            document.getElementById(id).innerHTML=html||'<div style="padding:40px;text-align:center;color:#484f58;">暂无比赛</div>';
+        function renderWcMatches(id, matches) {
+            let html = '', last = '';
+            for (const m of matches) { if (m.date && m.date !== last) { html += `<div class="date-group">${m.date}</div>`; last = m.date } html += renderMatch(m) }
+            document.getElementById(id).innerHTML = html || '<div style="padding:40px;text-align:center;color:#484f58;">暂无比赛</div>';
         }
 
-        function renderStandings(){
-            let html='';
-            for(const[group,teams]of Object.entries(wcGroups)){
-                const stats={};teams.forEach(t=>stats[t]={team:t,teamCn:wcCn[t],p:0,w:0,d:0,l:0,gf:0,ga:0,gd:0,pts:0});
-                for(const[date,games]of Object.entries(wcResults)){
-                    for(const g of games){if(g.g!==group||g.hs===undefined)continue;
-                        if(stats[g.h]){stats[g.h].p++;stats[g.h].gf+=g.hs;stats[g.h].ga+=g.as;stats[g.h].gd=stats[g.h].gf-stats[g.h].ga}
-                        if(stats[g.a]){stats[g.a].p++;stats[g.a].gf+=g.as;stats[g.a].ga+=g.hs;stats[g.a].gd=stats[g.a].gf-stats[g.a].ga}
-                        if(g.hs>g.as){if(stats[g.h]){stats[g.h].w++;stats[g.h].pts+=3}if(stats[g.a])stats[g.a].l++}
-                        else if(g.hs<g.as){if(stats[g.a]){stats[g.a].w++;stats[g.a].pts+=3}if(stats[g.h])stats[g.h].l++}
-                        else{if(stats[g.h]){stats[g.h].d++;stats[g.h].pts++}if(stats[g.a]){stats[g.a].d++;stats[g.a].pts++}}
+        function renderStandings() {
+            let html = '';
+            for (const [group, teams] of Object.entries(wcGroups)) {
+                const stats = {}; teams.forEach(t => stats[t] = {team: t, teamCn: wcCn[t], p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0});
+                for (const [date, games] of Object.entries(wcResults)) {
+                    for (const g of games) { if (g.g !== group || g.hs === undefined) continue;
+                        if (stats[g.h]) { stats[g.h].p++; stats[g.h].gf += g.hs; stats[g.h].ga += g.as; stats[g.h].gd = stats[g.h].gf - stats[g.h].ga }
+                        if (stats[g.a]) { stats[g.a].p++; stats[g.a].gf += g.as; stats[g.a].ga += g.hs; stats[g.a].gd = stats[g.a].gf - stats[g.a].ga }
+                        if (g.hs > g.as) { if (stats[g.h]) { stats[g.h].w++; stats[g.h].pts += 3 } if (stats[g.a]) stats[g.a].l++ }
+                        else if (g.hs < g.as) { if (stats[g.a]) { stats[g.a].w++; stats[g.a].pts += 3 } if (stats[g.h]) stats[g.h].l++ }
+                        else { if (stats[g.h]) { stats[g.h].d++; stats[g.h].pts++ } if (stats[g.a]) { stats[g.a].d++; stats[g.a].pts++ } }
                     }
                 }
-                const sorted=Object.values(stats).sort((a,b)=>b.pts-a.pts||b.gd-a.gd||b.gf-a.gf);
-                html+=`<div class="section"><div class="section-header"><h2>${group}组</h2></div><div class="standings"><table><tr><th>#</th><th>球队</th><th>场</th><th>胜</th><th>平</th><th>负</th><th>进</th><th>失</th><th>净</th><th>分</th></tr>`;
-                sorted.forEach((t,i)=>{html+=`<tr><td>${i+1}</td><td class="team">${t.teamCn}</td><td>${t.p}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gd>0?'+':''}${t.gd}</td><td class="pts">${t.pts}</td></tr>`});
-                html+=`</table></div></div>`;
+                const sorted = Object.values(stats).sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf);
+                html += `<div class="section"><div class="section-header"><h2>${group}组</h2></div><div class="standings"><table><tr><th>#</th><th>球队</th><th>场</th><th>胜</th><th>平</th><th>负</th><th>进</th><th>失</th><th>净</th><th>分</th></tr>`;
+                sorted.forEach((t, i) => { html += `<tr><td>${i + 1}</td><td class="team">${t.teamCn}</td><td>${t.p}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gd > 0 ? '+' : ''}${t.gd}</td><td class="pts">${t.pts}</td></tr>` });
+                html += `</table></div></div>`;
             }
-            document.getElementById('wc-standings-content').innerHTML=html;
+            document.getElementById('wc-standings-content').innerHTML = html;
         }
 
-        function showMain(id){document.querySelectorAll('.main-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('[id^="main-"]').forEach(el=>el.classList.add('hidden'));event.target.classList.add('active');document.getElementById('main-'+id).classList.remove('hidden')}
-        function showWc(id){document.querySelectorAll('#main-wc .sub-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('[id^="wc-"]').forEach(el=>{if(el.id.startsWith('wc-')&&!el.id.includes('content'))el.classList.add('hidden')});event.target.classList.add('active');document.getElementById('wc-'+id).classList.remove('hidden')}
+        function showMain(id) { document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('[id^="main-"]').forEach(el => el.classList.add('hidden')); event.target.classList.add('active'); document.getElementById('main-' + id).classList.remove('hidden') }
+        function showWc(id) { document.querySelectorAll('#main-wc .sub-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('[id^="wc-"]').forEach(el => { if (el.id.startsWith('wc-') && !el.id.includes('content')) el.classList.add('hidden') }); event.target.classList.add('active'); document.getElementById('wc-' + id).classList.remove('hidden') }
 
+        // 启动
+        document.getElementById('apiUrl').value = API_URL;
         initWc();
+        // 自动尝试连接
+        connectApi();
     </script>
 </body>
 </html>
